@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_activated="true">
+        <shape>
+            <corners android:radius="@dimen/keyboard_key_radius"/>
+            <solid android:color="#7B7C7F"/>
+        </shape>
+    </item>
+
+</selector>

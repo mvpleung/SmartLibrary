@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/layout_widthMatch_heightMatch_fillWindow"
+    android:background="@color/body_gray_shadow"
+    android:orientation="vertical" >
+
+    <com.exiaobai.library.widget.PagerSlidingTabStrip
+        android:id="@+id/pager_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_minimum"
+        android:textSize="@dimen/font_size_30" />
+
+    <com.exiaobai.library.widget.pullRefresh.PullToRefreshListView
+        android:id="@+id/pull_refreshView"
+        style="@style/listview_widthHeightMatch"
+        android:layout_below="@id/pager_tabs"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:descendantFocusability="blocksDescendants"
+        android:scrollbars="none" />
+
+</RelativeLayout>

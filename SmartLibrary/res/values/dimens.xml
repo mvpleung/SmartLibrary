@@ -1,0 +1,81 @@
+<resources>
+
+    <!-- app -->
+    <dimen name="tool_bar_height">48dp</dimen>
+    <dimen name="toolbar_back_width">24dp</dimen>
+    <dimen name="toolbar_back_height">24dp</dimen>
+
+    <!-- margin or padding -->
+    <dimen name="dimen_10">10dp</dimen>
+    <dimen name="dimen_15">15dp</dimen>
+    <dimen name="dimen_24">24dp</dimen>
+    <dimen name="dimen_minimum">50dp</dimen>
+    <dimen name="small_padding">12dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
+    <dimen name="padding_5">5dp</dimen>
+
+    <!-- fontsize -->
+    <dimen name="font_size_16">8sp</dimen>
+    <dimen name="font_size_18">9sp</dimen>
+    <dimen name="font_size_20">10sp</dimen>
+    <dimen name="font_size_22">11sp</dimen>
+    <dimen name="font_size_24">12sp</dimen>
+    <dimen name="font_size_26">13sp</dimen>
+    <dimen name="font_size_28">14sp</dimen>
+    <dimen name="font_size_30">15sp</dimen>
+    <dimen name="font_size_32">16sp</dimen>
+    <dimen name="font_size_36">18sp</dimen>
+    <dimen name="font_size_54">27sp</dimen>
+
+    <!-- index -->
+    <dimen name="index_bar_tab_iconWidth">22dp</dimen>
+    <dimen name="index_bar_tab_iconHeight">22.5dp</dimen>
+
+    <!-- img -->
+    <dimen name="icon_arrow_width">16dp</dimen>
+    <dimen name="icon_arrow_height">16dp</dimen>
+    <dimen name="small_arrow_img_width">12dp</dimen>
+    <dimen name="small_arrow_img_height">12dp</dimen>
+    <dimen name="image_common_width">24dp</dimen>
+    <dimen name="image_common_height">24dp</dimen>
+
+    <!-- slide_blue -->
+    <dimen name="slide_blue_imgBg_width">40dp</dimen>
+    <dimen name="slide_blue_imgBg_height">22.09dp</dimen>
+
+    <!-- checked -->
+    <dimen name="check_img_width">23.5dp</dimen>
+    <dimen name="check_img_height">23.5dp</dimen>
+    <!-- pull -->
+    <dimen name="picture_pull_to_refresh_loading_text_size">14dp</dimen>
+    <dimen name="picture_pull_to_refresh_last_update_time_text_size">10sp</dimen>
+    <dimen name="picture_pull_to_refresh_last_update_time_top_margin">6dp</dimen>
+    <dimen name="picture_pull_to_refresh_footer_height">40dp</dimen>
+    <dimen name="title_bar_height">48dp</dimen>
+
+    <!-- Calender -->
+    <dimen name="next_img_width">9dp</dimen>
+    <dimen name="next_img_height">15dp</dimen>
+
+    <!-- Album相关 -->
+    <dimen name="albumitem_height">100dp</dimen>
+    <dimen name="albumitem_content_height">80dp</dimen>
+    <dimen name="albumitem_image_height">20dp</dimen>
+
+    <!-- 图片选择界面Item相关 -->
+    <dimen name="sticky_item_horizontalSpacing">2dp</dimen>
+    <dimen name="sticky_item_verticalSpacing">2dp</dimen>
+    <dimen name="collection_photo_toolbar_height">45dp</dimen>
+
+    <!-- 密码输入框 -->
+    <dimen name="default_ev_border_width">1dp</dimen>
+    <dimen name="default_ev_border_radius">3dp</dimen>
+    <dimen name="default_ev_password_width">10dp</dimen>
+    <dimen name="default_ev_password_radius">3dp</dimen>
+    <dimen name="custom_ev_border_width">10dp</dimen>
+    <dimen name="custom_ev_border_radius">10dp</dimen>
+    <dimen name="custom_ev_password_width">10dp</dimen>
+    <integer name="default_ev_password_length">6</integer></resources>

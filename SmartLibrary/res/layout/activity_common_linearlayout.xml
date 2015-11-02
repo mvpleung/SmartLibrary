@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/layout_widthMatch_heightMatch_fillWindow"
+    android:background="@color/body_gray_shadow"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <com.exiaobai.library.widget.pullRefresh.PullToRefreshLinearLayout
+        android:id="@+id/pull_refreshView"
+        style="@style/listview_widthHeightMatch"
+        android:layout_centerInParent="true"
+        android:descendantFocusability="blocksDescendants"
+        android:scrollbars="none" />
+
+</RelativeLayout>

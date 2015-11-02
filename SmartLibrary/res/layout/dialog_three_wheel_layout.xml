@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dip"
+    android:layout_height="wrap_content"
+    android:background="@drawable/radius_border_pop_gray"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dialog_ensure_text_title"
+        style="@style/TextItem_MatchMinHeight_Size30"
+        android:gravity="center"
+        android:text="@string/calendar_choice_date"
+        android:textColor="#333333" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#4f8bb5" />
+
+    <LinearLayout
+        android:id="@+id/view_content"
+        style="@style/layout_widthMatch_heightWrap"
+        android:background="#dfffffff"
+        android:gravity="center"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#4f8bb5" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        style="@style/layout_widthMatch_heightWrap"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/dialog_ensure_button_cancel"
+            style="@style/TextItem_MatchMinHeight_Size30"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/app_cancel"
+            android:textColor="@color/negative_textcolor_selector" />
+
+        <TextView
+            android:layout_width="0.1dip"
+            android:layout_height="match_parent"
+            android:background="@color/body_gray_bold" />
+
+        <Button
+            android:id="@+id/dialog_ensure_button_sure"
+            style="@style/TextItem_MatchMinHeight_Size30"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/app_ok"
+            android:textColor="@color/positive_textcolor_selector" />
+    </LinearLayout>
+
+</LinearLayout>

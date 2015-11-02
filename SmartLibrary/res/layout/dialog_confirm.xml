@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_dialog"
+    style="@style/layout_widthMatch_heightWrap"
+    android:background="@drawable/shape_corner_dialog_gray"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dimen_10"
+    android:paddingRight="@dimen/dimen_10" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/layout_widthMatch_minHeight"
+        android:gravity="center"
+        android:text="@string/app_warm_tip"
+        android:textColor="@color/body_font_gray" />
+
+    <TextView
+        style="@style/layout_widthMatch_heightWrap"
+        android:layout_height="0.5dp"
+        android:background="@color/dialog_title_divider" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        style="@style/layout_widthMatch_heightWrap"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="3"
+        android:paddingLeft="@dimen/dimen_10"
+        android:paddingRight="@dimen/dimen_10"
+        android:singleLine="false"
+        android:text=""
+        android:textColor="@color/body_font_gray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dip"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@color/body_gray_bold" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        style="@style/layout_widthMatch_heightWrap"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_left"
+            style="@style/TextItem_MatchMinHeight_Size30"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/app_cancel"
+            android:textColor="@color/negative_textcolor_selector" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="0.1dip"
+            android:layout_height="match_parent"
+            android:background="@color/body_gray_bold" />
+
+        <Button
+            android:id="@+id/btn_right"
+            style="@style/TextItem_MatchMinHeight_Size30"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/app_ok"
+            android:textColor="@color/positive_textcolor_selector" />
+    </LinearLayout>
+
+</LinearLayout>

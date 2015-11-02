@@ -1,0 +1,12 @@
+<com.exiaobai.library.widget.PagerSlidingTabStrip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pager_tabs"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_minimum"
+    android:background="@color/pstsBackgroundColor"
+    android:textColor="@color/pstsTextColor"
+    android:textSize="@dimen/font_size_30"
+    app:pstsDividerColor="@color/pstsDividerColor"
+    app:pstsIndicatorColor="@color/pstsIndicatorColor"
+    app:pstsSelectedTabTextColor="@color/pstsSelectedTabTextColor"
+    app:pstsShouldExpand="true" />

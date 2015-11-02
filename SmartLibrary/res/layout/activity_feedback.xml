@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/layout_widthMatch_heightMatch_fillWindow"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        style="@style/layout_widthMatch_heightWrap"
+        android:background="@color/body_gray"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_15" >
+
+        <EditText
+            android:id="@+id/et_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_gray_line"
+            android:gravity="left|top"
+            android:hint="@string/feedback_hint"
+            android:inputType="textMultiLine"
+            android:maxLength="300"
+            android:minLines="6"
+            android:padding="@dimen/dimen_10" />
+
+        <TextView
+            android:id="@+id/tv_surplus"
+            style="@style/layout_widthWrap_heightWrap"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:text="@string/feedback_input_limit"
+            android:textColor="@color/body_yellow"
+            android:textSize="@dimen/font_size_24" />
+
+        <Button
+            android:id="@+id/feedback_send"
+            style="@style/YellowMatchButtonStyle"
+            android:layout_margin="@dimen/dimen_15"
+            android:text="@string/feedback_send" />
+    </LinearLayout>
+
+</ScrollView>

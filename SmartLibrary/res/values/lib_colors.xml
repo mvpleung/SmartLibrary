@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- app -->
+    <color name="background_tab_pressed">#000000</color>
+    <color name="statusbar_textcolor">#ffffff</color>
+    <color name="body_yellow">#efd57a</color>
+    <color name="body_gray_light">#F0F0F0</color>
+    <color name="background_line_gray">#E7E7E7</color>
+    <color name="body_font_gray">#777777</color>
+    <color name="body_gray_bold">#BBB9B7</color>
+    <color name="yellow">#f49735</color>
+    <color name="yellow_dark">#F77B00</color>
+    <color name="body_blue_dark">#6262FF</color>
+    <color name="body_gray_shadow">#F4F4F4</color>
+    <color name="body_gray">#F0F0F0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="button_gray">#EAEAEA</color>
+    <color name="orange">#EA5300</color>
+
+    <!-- index -->
+    <color name="index_bar_bg">#2d2d2d</color>
+    <color name="index_bar_tab_press">#e6ce62</color>
+    <color name="index_bar_tab_normal">#AAAAAA</color>
+
+    <!-- tab_indicator -->
+    <color name="tab_indicator_text_selected">#4876FF</color>
+    <color name="tab_indicator_text_unselected">#000000</color>
+
+    <!-- black drawable -->
+    <drawable name="black_drawable">#000000</drawable>
+    <drawable name="white_drawable">#ffffff</drawable>
+
+	<!-- dialog -->
+    <color name="dialog_background">#F2F3F7</color>
+
+    <!-- download_progress -->
+    <color name="download_progress_bg_centerColor">#ff5a5d5a</color>
+    <color name="download_progress_bg_startColor">#ff9d9e9d</color>
+    <color name="download_progress_bg_endColor">#ff747674</color>
+    <color name="download_progress_secondary_centerColor">#80ffb600</color>
+    <color name="download_progress_secondary_startColor">#80ffd300</color>
+    <color name="download_progress_secondary_endColor">#a0ffcb00</color>
+    <color name="download_progress_startColor">#207594</color>
+    <color name="download_progress_endColor">#207594</color>
+    
+    
+    <!-- webview_progress -->
+    <color name="web_progress_bg_centerColor">#ff5a5d5a</color>
+    <color name="web_progress_bg_startColor">#ff9d9e9d</color>
+    <color name="web_progress_bg_endColor">#ff747674</color>
+    <color name="web_progress_secondary_centerColor">#80ffb600</color>
+    <color name="web_progress_secondary_startColor">#80ffd300</color>
+    <color name="web_progress_secondary_endColor">#a0ffcb00</color>
+    <color name="web_progress_startColor">#EA5300</color>
+    <color name="web_progress_endColor">#EA5300</color>
+    
+    <!-- dialog -->
+    <color name="dialog_title_divider">#efd57a</color>
+    <color name="dialog_positive_dark">#f49735</color>
+    <color name="dialog_positive">#F77B00</color>
+    <color name="dialog_negative_dark">#BBB9B7</color>
+    <color name="dialog_negative">#aaa</color>
+    
+    <!-- pagerTabStrip -->
+    <color name="pstsSelectedTabTextColor">#EFA60B</color>
+    <color name="pstsBackgroundColor">#ffffff</color>
+    <color name="pstsIndicatorColor">#EFA60B</color>
+    <color name="pstsDividerColor">#F0F0F0</color>
+    <color name="pstsTextColor">#000000</color>
+    
+    <!-- secureInputView -->
+    <color name="default_ev_border_color_normal">#DBDBDB</color>
+    <color name="default_ev_border_color_focus">#B7B7B7</color>
+    <color name="default_divider_line_color_focus">#CCCCCC</color>
+    <color name="default_divider_line_color_normal">#E5E5E5</color>
+    <color name="default_ev_password_color">#333333</color>
+</resources>
