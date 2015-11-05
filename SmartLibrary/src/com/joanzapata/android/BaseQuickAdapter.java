@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Joan Zapata
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ import java.util.List;
  * Abstraction class of a BaseAdapter in which you only need to provide the
  * convert() implementation.<br/>
  * Using the provided BaseAdapterHelper, your code is minimalist.
- * 
+ *
  * @param <T>
  *            The type of the items in the list.
  */
@@ -38,25 +38,17 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 
 	protected final Context context;
 
-	protected int layoutResId;
+	protected final int layoutResId;
 
 	protected final List<T> data;
 
 	protected boolean displayIndeterminateProgress = false;
 
-	/**
-	 * Create a QuickAdapter.
-	 * 
-	 * @param context
-	 *            The context.
-	 */
-	public BaseQuickAdapter(Context context) {
-		this(context, 0, null);
-	}
+	protected ItemTypeSupport<T> mItemTypeSupport;
 
 	/**
 	 * Create a QuickAdapter.
-	 * 
+	 *
 	 * @param context
 	 *            The context.
 	 * @param layoutResId
@@ -69,7 +61,7 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 	/**
 	 * Same as QuickAdapter#QuickAdapter(Context,int) but with some
 	 * initialization data.
-	 * 
+	 *
 	 * @param context
 	 *            The context.
 	 * @param layoutResId
@@ -81,6 +73,32 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 		this.data = data == null ? new ArrayList<T>() : new ArrayList<T>(data);
 		this.context = context;
 		this.layoutResId = layoutResId;
+	}
+
+	/**
+	 * Create a QuickAdapter.
+	 *
+	 * @param context
+	 *            The context.
+	 * @param mItemTypeSupport
+	 */
+	public BaseQuickAdapter(Context context, ItemTypeSupport<T> mItemTypeSupport) {
+		this(context, null, mItemTypeSupport);
+	}
+
+	/**
+	 * Create a QuickAdapter.
+	 *
+	 * @param context
+	 *            The context.
+	 * @param data
+	 * @param mItemTypeSupport
+	 */
+	public BaseQuickAdapter(Context context, List<T> data, ItemTypeSupport<T> mItemTypeSupport) {
+		this.data = data == null ? new ArrayList<T>() : new ArrayList<T>(data);
+		this.context = context;
+		this.layoutResId = -1;
+		this.mItemTypeSupport = mItemTypeSupport;
 	}
 
 	@Override
@@ -103,17 +121,27 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 
 	@Override
 	public int getViewTypeCount() {
+		if (mItemTypeSupport != null)
+			return mItemTypeSupport.getViewTypeCount() + 1;
 		return 2;
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		return showIndeterminateProgress() ? position >= data.size() ? 1 : 0 : 0;
+		if (showIndeterminateProgress()) {
+			if (mItemTypeSupport != null)
+				return position >= data.size() ? 0 : mItemTypeSupport.getItemViewType(position, getItem(position));
+		} else {
+			if (mItemTypeSupport != null)
+				return mItemTypeSupport.getItemViewType(position, getItem(position));
+		}
+
+		return position >= data.size() ? 0 : 1;
 	}
 
 	/**
 	 * 是否显示加载更多进度条
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean showIndeterminateProgress() {
@@ -123,17 +151,17 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (getItemViewType(position) == 0) {
-			return createConvertView(position, convertView, parent);
+			return createIndeterminateProgressView(convertView, parent);
 		}
 
-		return createIndeterminateProgressView(convertView, parent);
+		return createConvertView(position, convertView, parent);
 	}
 
 	public View createConvertView(int position, View convertView, ViewGroup parent) {
 		final H helper = getAdapterHelper(position, convertView, parent);
 		T item = getItem(position);
-		helper.setAssociatedObject(item);
 		convert(helper, item);
+		helper.setAssociatedObject(item);
 		return helper.getView();
 	}
 
@@ -150,7 +178,8 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 
 	@Override
 	public boolean isEnabled(int position) {
-		return position < data.size();
+		int size = data.size();
+		return size == 0 ? true : position < size;
 	}
 
 	public List<T> getData() {
@@ -241,7 +270,7 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 	/**
 	 * Implement this method and use the helper to adapt the view to the given
 	 * item.
-	 * 
+	 *
 	 * @param helper
 	 *            A fully initialized helper.
 	 * @param item
@@ -252,7 +281,7 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 	/**
 	 * You can override this method to use a custom BaseAdapterHelper in order
 	 * to fit your needs
-	 * 
+	 *
 	 * @param position
 	 *            The position of the item within the adapter's data set of the
 	 *            item whose view we want.

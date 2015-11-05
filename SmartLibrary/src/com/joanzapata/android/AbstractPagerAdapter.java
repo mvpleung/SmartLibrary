@@ -15,19 +15,19 @@
  */
 package com.joanzapata.android;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import static com.joanzapata.android.BaseAdapterHelper.get;
 
 /**
- * PagerAdapter简易填充
+ * PagerAdapter
  * 
  * @author LiangZiChao
- * @Data 2015年9月2日
+ * @Data 2015-9-2日
  * @Package com.joanzapata.android
  */
 public abstract class AbstractPagerAdapter<T> extends BasePagerAdapter<T, BaseAdapterHelper> {
