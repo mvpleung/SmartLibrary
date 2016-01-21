@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/layout_widthMatch_heightMatch_fillWindow"
+    android:orientation="vertical" >
+
+    <include layout="@layout/activity_toolbar" />
+
+    <include layout="@layout/view_tab_trip" />
+
+    <FrameLayout
+        android:id="@+id/content"
+        style="@style/layout_widthMatch_heightMatch" />
+
+</LinearLayout>

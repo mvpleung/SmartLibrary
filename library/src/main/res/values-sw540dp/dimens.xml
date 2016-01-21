@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- app -->
+    <dimen name="tool_bar_height">54dp</dimen>
+    <dimen name="toolbar_back_width">27dp</dimen>
+    <dimen name="toolbar_back_height">27dp</dimen>
+
+    <!-- margin or padding -->
+    <dimen name="dimen_10">11.25dp</dimen>
+    <dimen name="dimen_15">16.875dp</dimen>
+    <dimen name="dimen_24">27dp</dimen>
+    <dimen name="dimen_minimum">56.25dp</dimen>
+    <dimen name="small_padding">13.5dp</dimen>
+    <dimen name="margin_10">11.25dp</dimen>
+    <dimen name="margin_15">16.875dp</dimen>
+
+    <!-- fontsize -->
+    <dimen name="font_size_16">12sp</dimen>
+    <dimen name="font_size_18">13.5sp</dimen>
+    <dimen name="font_size_20">15sp</dimen>
+    <dimen name="font_size_22">16.5sp</dimen>
+    <dimen name="font_size_24">18sp</dimen>
+    <dimen name="font_size_26">19.5sp</dimen>
+    <dimen name="font_size_28">21sp</dimen>
+    <dimen name="font_size_30">22.5sp</dimen>
+    <dimen name="font_size_32">24sp</dimen>
+    <dimen name="font_size_36">27sp</dimen>
+    <dimen name="font_size_54">40.5sp</dimen>
+
+    <!-- img -->
+    <dimen name="icon_arrow_width">18dp</dimen>
+    <dimen name="icon_arrow_height">18dp</dimen>
+    <dimen name="small_arrow_img_width">13.5dp</dimen>
+    <dimen name="small_arrow_img_height">13.5dp</dimen>
+    <dimen name="image_common_width">24dp</dimen>
+    <dimen name="image_common_height">24dp</dimen>
+
+    <!-- checked -->
+    <dimen name="check_img_width">26.4375dp</dimen>
+    <dimen name="check_img_height">26.4375dp</dimen>
+
+    <!-- Album相关 -->
+    <dimen name="albumitem_height">112.5dp</dimen>
+    <dimen name="albumitem_content_height">90dp</dimen>
+    <dimen name="albumitem_image_height">22.5dp</dimen>
+
+    <!-- 图片选择界面Item相关 -->
+    <dimen name="sticky_item_horizontalSpacing">2.25dp</dimen>
+    <dimen name="sticky_item_verticalSpacing">2.25dp</dimen>
+    <dimen name="collection_photo_toolbar_height">50.625dp</dimen>
+
+</resources>

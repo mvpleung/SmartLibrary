@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <drawable name="gray_drawable">#eeeeee</drawable>
-    <drawable name="transparent">#00000000</drawable>
-
-    <drawable name="gray_shadow_drawable">#F4F4F4</drawable>
-    
-</resources>

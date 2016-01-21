@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/layout_widthMatch_heightMatch_fillWindow" >
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary" >
+
+        <org.smart.library.widget.CustomTextView
+            android:id="@+id/tv_title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/tool_bar_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/tool_bar_selector"
+            android:drawableLeft="@drawable/arrow"
+            android:gravity="center"
+            android:padding="@dimen/small_padding"
+            android:scaleType="center"
+            app:ctv_boundHeight="@dimen/toolbar_back_height"
+            app:ctv_boundWidth="@dimen/toolbar_back_width" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/tool_bar_height"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/statusbar_textcolor"
+            android:textSize="@dimen/font_size_36" />
+    </RelativeLayout>
+
+    <org.smart.library.widget.FastWebView
+        android:id="@+id/wv_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_layout" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/title_layout"
+        android:progressDrawable="@drawable/web_progress_style" />
+
+</RelativeLayout>
