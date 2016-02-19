@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.smart.library:smartlibrary:0.0.1'
+    compile 'org.smart.library:smartlibrary:0.0.2'
 }
 ```
 

@@ -2,10 +2,7 @@ package org.smart.library.ui.update;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Parcelable;
 import android.text.TextUtils;
-
-import com.baoyz.pg.PG;
 
 import org.smart.library.R;
 import org.smart.library.control.AppException;
@@ -23,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author LiangZiChao
- * 版本更新
+ *         版本更新
  *         created on 2014-9-4下午1:54:56
  *         In the com.xiaobai.xbtrip.update
  */
@@ -177,9 +174,26 @@ public class UpdateVersion {
         boolean isNeedUpdate = isNeedUpdate();
         if (isNeedUpdate) {
             if (mVersionBean != null && context != null) {
-                Parcelable mPar = PG.convertParcelable(mVersionBean);
-                if (mPar != null)
-                    UITools.startToNextActivity(context, UpdateActivity.class, UpdateActivity.VERSION_BEAN, PG.convertParcelable(mVersionBean));
+                UITools.startToNextActivity(context, UpdateActivity.class, UpdateActivity.VERSION_BEAN, mVersionBean);
+            }
+        } else {
+            if (isShowToast)
+                UITools.showToastShortDuration(context, R.string.version_isNew);
+        }
+        return isNeedUpdate;
+    }
+
+    /**
+     * 提示版本更新
+     *
+     * @param isShowToast
+     */
+    public boolean updateVersion(AppVersionBean mVersionBean, boolean isShowToast) {
+        this.mVersionBean = mVersionBean;
+        boolean isNeedUpdate = isNeedUpdate();
+        if (isNeedUpdate) {
+            if (mVersionBean != null && context != null) {
+                UITools.startToNextActivity(context, UpdateActivity.class, UpdateActivity.VERSION_BEAN, mVersionBean);
             }
         } else {
             if (isShowToast)

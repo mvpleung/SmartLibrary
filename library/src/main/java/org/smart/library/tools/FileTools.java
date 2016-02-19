@@ -38,8 +38,6 @@ public class FileTools {
 
     private final static int BUFFER_SIZE = 1024;
 
-    public Context context;
-
     public static String APP_FILES;
 
     public static String SD_PATH;
@@ -53,11 +51,11 @@ public class FileTools {
      */
     public static void init(Context context) {
         APP_FILES = context.getFilesDir().getAbsolutePath();
-        SD_PATH = hasSDCard() ? (Environment.getExternalStorageDirectory().getPath()) : "";
+        if (TextUtils.isEmpty(SD_PATH))
+            getExtPath();
         SD_FILES = SD_PATH + File.separator + AppConfig.APP_NAME;
-        AppConfig.Boot_File = hasSDCard() ? (SD_FILES + File.separator) : context.getCacheDir().getPath();
         if (TextUtils.isEmpty(AppConfig.Cache_Dir))
-            AppConfig.Cache_Dir = AppConfig.Boot_File;
+            AppConfig.Cache_Dir = hasSDCard() ? (SD_FILES + File.separator) : context.getCacheDir().getPath();
     }
 
     /**
@@ -79,11 +77,9 @@ public class FileTools {
      * @return
      */
     public static String getExtPath() {
-        String path = "";
-        if (hasSDCard()) {
-            path = Environment.getExternalStorageDirectory().getPath();
-        }
-        return path;
+        if (TextUtils.isEmpty(SD_PATH) && hasSDCard())
+            SD_PATH = Environment.getExternalStorageDirectory().getPath();
+        return SD_PATH;
     }
 
     /**
@@ -923,7 +919,9 @@ public class FileTools {
      * @return
      */
     public static String getCacheDir() {
-        return AppConfig.Cache_Dir;
+        if (TextUtils.isEmpty(AppConfig.Cache_Dir))
+            throw new IllegalArgumentException("The AppConfig.Cache_Dir is empty. Execute FileTools.init ? ");
+        return !AppConfig.Cache_Dir.endsWith(File.separator) ? AppConfig.Cache_Dir += File.separator : AppConfig.Cache_Dir;
     }
 
     /**

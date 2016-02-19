@@ -1,7 +1,7 @@
 package org.smart.library.model;
 
-import java.io.Serializable;
-import com.baoyz.pg.Parcelable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * 版本升级Bean
@@ -10,13 +10,7 @@ import com.baoyz.pg.Parcelable;
  *         created on 2015年7月27日
  *         In the net.gemeite.smartcommunity.model
  */
-@Parcelable
-public class AppVersionBean implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6152060076955379824L;
+public class AppVersionBean implements Parcelable {
 
 	/**
 	 * 版本ID
@@ -63,4 +57,47 @@ public class AppVersionBean implements Serializable {
 	 * 
 	 */
 	public String versionName;
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeValue(this.versionId);
+		dest.writeString(this.versionCode);
+		dest.writeString(this.versionDate);
+		dest.writeString(this.forceUpdateFlag);
+		dest.writeString(this.versionUpdateContent);
+		dest.writeString(this.versionDownloadUrl);
+		dest.writeString(this.versionDesc);
+		dest.writeString(this.memo);
+		dest.writeString(this.versionName);
+	}
+
+	public AppVersionBean() {
+	}
+
+	protected AppVersionBean(Parcel in) {
+		this.versionId = (Long) in.readValue(Long.class.getClassLoader());
+		this.versionCode = in.readString();
+		this.versionDate = in.readString();
+		this.forceUpdateFlag = in.readString();
+		this.versionUpdateContent = in.readString();
+		this.versionDownloadUrl = in.readString();
+		this.versionDesc = in.readString();
+		this.memo = in.readString();
+		this.versionName = in.readString();
+	}
+
+	public static final Parcelable.Creator<AppVersionBean> CREATOR = new Parcelable.Creator<AppVersionBean>() {
+		public AppVersionBean createFromParcel(Parcel source) {
+			return new AppVersionBean(source);
+		}
+
+		public AppVersionBean[] newArray(int size) {
+			return new AppVersionBean[size];
+		}
+	};
 }

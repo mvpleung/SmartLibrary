@@ -11,11 +11,6 @@ public class AppConfig {
     public static boolean DEBUG_MODEL;
 
     /**
-     * BOOT
-     */
-    public static String Boot_File;
-
-    /**
      * APP_NAME
      */
     public static String APP_NAME = "smartLibrary";

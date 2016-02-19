@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.smart.library"
-    android:versionCode="1"
-    android:versionName="1.0">
+    android:versionCode="2"
+    android:versionName="0.0.2">
 
-    <application></application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application>
+
+        <activity android:name=".ui.PagerActivity" />
+        <activity android:name=".ui.PageMenuActivity" />
+        <activity android:name=".ui.photo.PhotoPreviewActivity" />
+        <activity android:name=".ui.photo.PhotoSelectorActivity" />
+        <activity android:name=".ui.WebActivity" />
+        <activity
+            android:name=".ui.update.UpdateActivity"
+            android:theme="@style/DialogStyle" />
+    </application>
 
 </manifest>
