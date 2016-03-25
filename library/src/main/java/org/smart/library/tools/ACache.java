@@ -534,10 +534,16 @@ public class ACache {
     }
 
     /**
+<<<<<<< HEAD
      * 缓存管理器
      *
      * @author 杨福海（michael） www.yangfuhai.com
      * @version 1.0
+=======
+     * @author 杨福海（michael） www.yangfuhai.com
+     * @version 1.0
+     * @title 缓存管理器
+>>>>>>> origin/master
      */
     public class ACacheManager {
         private final AtomicLong cacheSize;
