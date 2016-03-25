@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.smart.library:smartlibrary:0.0.2'
+    compile 'org.smart.library:smartlibrary:0.0.3'
 }
 ```
 
@@ -26,7 +26,7 @@ Link
 License
 -------
 
-    Copyright 2014 mvpleung
+    Copyright 2016 mvpleung
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

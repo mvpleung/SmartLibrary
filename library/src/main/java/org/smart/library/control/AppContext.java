@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.DisplayMetrics;
 
 import org.smart.library.tools.FileTools;
+import org.smart.library.tools.PxUtil;
 import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class AppContext extends Application {
 
+    private int mStatuBarHeight;
     /**
      * 屏幕宽度
      */
@@ -40,7 +42,7 @@ public class AppContext extends Application {
     /**
      * Init AppContext
      *
-     * @param context
+     * @param context context
      */
     public static void initApplication(Application context) {
         FileTools.init(context);
@@ -62,8 +64,8 @@ public class AppContext extends Application {
     /**
      * 应用是否运行到后台
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return true or false
      */
     public static boolean isBackground(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -84,5 +86,9 @@ public class AppContext extends Application {
             LogUtil.e(e.getMessage(), e);
         }
         return false;
+    }
+
+    public int getStatuBarHeight() {
+        return mStatuBarHeight != 0 ? mStatuBarHeight : (mStatuBarHeight = PxUtil.getStatusBarHeight(this));
     }
 }

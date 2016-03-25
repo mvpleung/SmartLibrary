@@ -117,7 +117,7 @@ public class AppException extends Exception implements UncaughtExceptionHandler 
      */
     public static String convertExceptionDesc(byte code, String defaultMsg) {
         String outputString = defaultMsg;
-        Activity activity = AppManager.getAppManager().getActivityReference();
+        Activity activity = AppManager.getAppManager().getCurrentActivity();
         if (activity == null)
             return outputString;
         switch (code) {
@@ -128,13 +128,12 @@ public class AppException extends Exception implements UncaughtExceptionHandler 
             case EXCEPTION_XMLPULL:
             case EXCEPTION_JSON:
             case EXCEPTION_FAIL:
-                if (TextUtils.isEmpty(outputString) && activity != null)
+                if (TextUtils.isEmpty(outputString))
                     outputString = activity.getString(R.string.app_handle_fail);
                 break;
             case EXCEPTION_NETWORK:
             case EXCEPTION_TIMEOUT:
-                if (activity != null)
-                    outputString = activity.getString(R.string.app_socket_timeout);
+                outputString = activity.getString(R.string.app_socket_timeout);
                 break;
         }
         return outputString;
@@ -181,7 +180,8 @@ public class AppException extends Exception implements UncaughtExceptionHandler 
             exType = EXCEPTION_JSON;
 
         }
-        LogUtil.e(throwable != null ? throwable.getMessage() : throwable + "", throwable);
+        if (throwable != null)
+            LogUtil.e(throwable.getMessage(), throwable);
         return exType;
     }
 
@@ -256,7 +256,7 @@ public class AppException extends Exception implements UncaughtExceptionHandler 
             return false;
         }
         // final String message = ex.getMessage();
-        final Context context = AppManager.getAppManager().getActivityReference();
+        final Context context = AppManager.getAppManager().getCurrentActivity();
         if (context == null) {
             return false;
         }

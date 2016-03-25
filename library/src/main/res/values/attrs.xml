@@ -80,26 +80,29 @@
         <attr name="pstsMatrix" format="boolean" />
     </declare-styleable>
     <declare-styleable name="TitleIndicator">
-        <attr name="titlePadding" format="dimension" />
+        <attr name="tid_TitlePadding" format="dimension" />
         <!-- Left/right padding of not active view titles. -->
-        <attr name="clipPadding" format="dimension" />
-        <attr name="textColor" format="color|reference" />
-        <attr name="textSizeNormal" format="dimension" />
-        <attr name="textSizeSelected" format="dimension" />
-        <attr name="flagLineHeight" format="dimension" />
-        <attr name="flagLineColor" format="color" />
-        <attr name="flagLineTriangleHeight" format="dimension" />
-        <attr name="flagOrientation">
+        <attr name="tid_clipPadding" format="dimension" />
+        <attr name="tid_textColor" format="color|reference" />
+        <attr name="tid_textSizeNormal" format="dimension" />
+        <attr name="tid_textSizeSelected" format="dimension" />
+        <attr name="tid_flagLineHeight" format="dimension" />
+        <attr name="tid_flagLineColor" format="color" />
+        <attr name="tid_flagLineTriangleHeight" format="dimension" />
+        <attr name="tid_flagOrientation">
             <flag name="top" value="0" />
             <flag name="bottom" value="1" />
         </attr>
-        <attr name="compoundOrientation">
+        <attr name="tid_compoundOrientation">
             <flag name="top" value="0" />
             <flag name="bottom" value="1" />
             <flag name="left" value="2" />
             <flag name="right" value="3" />
         </attr>
-        <attr name="compundBound" format="dimension" />
+        <attr name="tid_compundBound" format="dimension" />
+        <attr name="tid_focusDrawable" format="reference"/>
+        <attr name="tid_unfocusDrawable" format="reference"/>
+        <attr name="tid_textArray" format="string" />
     </declare-styleable>
     <declare-styleable name="EcoGallery">
         <attr name="gravity" format="integer" />

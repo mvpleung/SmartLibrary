@@ -151,8 +151,16 @@ public class FragmentPoolProxy {
 		FragmentTransaction ft = mFragmentManager.beginTransaction();
 		if (isNeedAnimation)
 			// 设置切换动画
-			ft.setCustomAnimations(R.anim.push_fade_in, R.anim.push_fade_out);
+			ft.setCustomAnimations(getEnterAnimation(), getExitAnimation());
 		return ft;
+	}
+
+	public int getEnterAnimation(){
+		return R.anim.push_fade_in;
+	}
+
+	public int getExitAnimation(){
+		return R.anim.push_fade_out;
 	}
 
 	public Fragment getPreFragment() {

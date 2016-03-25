@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- app -->
-    <string name="app_name"></string>
+    <string name="app_name">SmartLibrary</string>
     <string name="app_run_code_error">哎呀，我好像出错了</string>
     <string name="app_loading">努力加载中&#8230;</string>
     <string name="app_comminting">正在提交&#8230;</string>
@@ -45,7 +45,7 @@
     <!-- app tips -->
     <string name="app_warm_tip">温馨提示</string>
     <string name="app_verify_code_null">验证码不能为空</string>
-    <string name="app_login_timeout_re">登录超时，请重新登录</string>
+    <string name="app_login_timeout_re">登录失效，请重新登录</string>
     <string name="app_no_data_tips">暂无记录</string>
 
     <!-- pull down -->
