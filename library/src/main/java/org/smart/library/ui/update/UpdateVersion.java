@@ -49,7 +49,7 @@ public class UpdateVersion {
             LOCK.lock();
             UpdateVersion updateVersion = UpdateVersionHolder.updateVersion;
             if (updateVersion == null) {
-                throw new IllegalStateException("AnyVersion NOT init !");
+                throw new IllegalStateException("UpdateVersion NOT init !");
             }
             if (mContext == null) {
                 throw new NullPointerException("Application Context CANNOT be null !");
@@ -220,7 +220,7 @@ public class UpdateVersion {
     public boolean isNeedUpdate(String versionCode) {
         int localVersionCode = Version.getAppVersionCode(context);
         int webVersionCode = JudgmentLegal.isNumeric(versionCode) ? Integer.parseInt(versionCode) : 0;
-        return !TextUtils.isEmpty(versionCode) ? localVersionCode < webVersionCode : false;
+        return !TextUtils.isEmpty(versionCode) && localVersionCode < webVersionCode;
     }
 
     public AppVersionBean getVersionBean() {

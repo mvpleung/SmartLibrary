@@ -10,7 +10,7 @@ import android.widget.Button;
  * 
  * @author LiangZiChao
  *         created on 2015年6月24日
- *         In the net.gemeite.smartcommunity.widget
+ *         In the org.smart.library.widget
  */
 public class VerifyCodeButton extends Button {
 
@@ -31,25 +31,21 @@ public class VerifyCodeButton extends Button {
 
 	public VerifyCodeButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 		mText = getText();
 	}
 
 	@Override
 	public void setOnClickListener(OnClickListener l) {
-		// TODO Auto-generated method stub
 		if (countDownTimer == null)
 			countDownTimer = new CountDownTimer(millisInFuture, countDownInterval) {
 
 				@Override
 				public void onTick(long arg0) {
-					// TODO Auto-generated method stub
 					setText(String.format(limitformat, arg0 / 1000));
 				}
 
 				@Override
 				public void onFinish() {
-					// TODO Auto-generated method stub
 					setClickable(true);
 					setText(mText);
 				}

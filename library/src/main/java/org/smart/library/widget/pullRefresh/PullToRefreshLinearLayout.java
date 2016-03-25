@@ -12,7 +12,6 @@ public class PullToRefreshLinearLayout extends PullToRefreshBase<LinearLayout> {
 
 	public PullToRefreshLinearLayout(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PullToRefreshLinearLayout(Context context, AttributeSet attrs) {

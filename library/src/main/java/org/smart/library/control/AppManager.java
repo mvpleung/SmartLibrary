@@ -12,7 +12,6 @@ import org.smart.library.R;
 import org.smart.library.tools.UITools;
 import org.xutils.common.util.LogUtil;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,8 +26,6 @@ import java.util.Stack;
 public class AppManager {
 
     private Stack<Activity> activityStack;
-
-    private WeakReference<Activity> mActivityReference;
 
     private Application mApplication;
 
@@ -52,10 +49,9 @@ public class AppManager {
      */
     public void addActivity(Activity activity) {
         if (activityStack == null) {
-            activityStack = new Stack<Activity>();
+            activityStack = new Stack<>();
         }
-        activityStack.add(activity);
-        mActivityReference = new WeakReference<Activity>(activity);
+        activityStack.push(activity);
     }
 
     /**
@@ -77,29 +73,11 @@ public class AppManager {
      */
     public Activity getCurrentActivity() {
         if (activityStack == null)
-            activityStack = new Stack<Activity>();
-        if (activityStack.size() > 0)
-            return activityStack.get(activityStack.size() - 1);
+            activityStack = new Stack<>();
+        if (!activityStack.isEmpty())
+            return activityStack.peek();
         else
             return null;
-    }
-
-    /**
-     * 当前Activity的引用
-     *
-     * @return
-     */
-    public Activity getActivityReference() {
-        return mActivityReference != null ? mActivityReference.get() : getCurrentActivity();
-    }
-
-    /**
-     * 获取当前正在运行的
-     *
-     * @return
-     */
-    public Activity getRunningActivity() {
-        return mActivityReference != null ? mActivityReference.get() : null;
     }
 
     /**
@@ -140,7 +118,7 @@ public class AppManager {
                 if (!mActivity.isFinishing())
                     mActivity.finish();
                 if (activities == null)
-                    activities = new ArrayList<Activity>();
+                    activities = new ArrayList<>();
                 activities.add(mActivity);
             }
         }
@@ -164,7 +142,7 @@ public class AppManager {
                 if (!mActivity.isFinishing())
                     mActivity.finish();
                 if (activities == null)
-                    activities = new ArrayList<Activity>();
+                    activities = new ArrayList<>();
                 activities.add(mActivity);
             }
         }
@@ -182,7 +160,6 @@ public class AppManager {
             }
             if (!activity.isFinishing())
                 activity.finish();
-            activity = null;
         }
     }
 

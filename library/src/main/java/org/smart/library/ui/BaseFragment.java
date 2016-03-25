@@ -25,8 +25,9 @@ public class BaseFragment extends Fragment implements Serializable {
 		return mTitle;
 	}
 
-	public void setTitle(String mTitle) {
+	public BaseFragment setTitle(String mTitle) {
 		this.mTitle = mTitle;
+		return this;
 	}
 
 	public <T> void onEvent(T t) {

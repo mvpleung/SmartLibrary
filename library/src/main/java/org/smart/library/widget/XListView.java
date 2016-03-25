@@ -41,6 +41,8 @@ public class XListView extends ListView {
     private OnTouchListener onTouchListener;
     private TextView mTextEmptyView;
 
+    private boolean enableScroll = true;
+
     public XListView(Context context) {
         super(context);
     }
@@ -68,6 +70,10 @@ public class XListView extends ListView {
         } catch (Exception e) {
         }
         return true;
+    }
+
+    public void enableScroll(boolean enableScroll) {
+        this.enableScroll = enableScroll;
     }
 
     private void initEmptyView() {
@@ -121,13 +127,15 @@ public class XListView extends ListView {
             mTextEmptyView.setText(mEmptyText);
             if (resId > 0) {
                 Drawable mDrawable = getResources().getDrawable(resId);
-                int height = mDrawable.getIntrinsicHeight();
-                mDrawable.setBounds(0, 0, mDrawable.getIntrinsicWidth(), height);
-                mTextEmptyView.setCompoundDrawables(null, mDrawable, null, null);
-                mTextEmptyView.setCompoundDrawablePadding(PxUtil.dip2px(getContext(), 5));
-                mTextEmptyView.setPadding(0, 0, 0, height * 2);
+                if (mDrawable != null) {
+                    int height = mDrawable.getIntrinsicHeight();
+                    mDrawable.setBounds(0, 0, mDrawable.getIntrinsicWidth(), height);
+                    mTextEmptyView.setCompoundDrawables(null, mDrawable, null, null);
+                    mTextEmptyView.setCompoundDrawablePadding(PxUtil.dip2px(getContext(), 5));
+                    mTextEmptyView.setPadding(0, 0, 0, height * 2);
+                }
             } else {
-                mTextEmptyView.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.dimen_24));
+                mTextEmptyView.setPadding(0, getResources().getDimensionPixelSize(R.dimen.dimen_15), 0, getResources().getDimensionPixelSize(R.dimen.dimen_24));
             }
             setEmptyView(mTextEmptyView);
         }
@@ -136,9 +144,9 @@ public class XListView extends ListView {
     @Override
     public void setEmptyView(View emptyView) {
         ViewGroup mViewGroup = ((ViewGroup) getParent());
-        FrameLayout.LayoutParams params = null;
+        FrameLayout.LayoutParams params;
         if (isDrawableTop()) {
-            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
         } else
             params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         emptyView.setLayoutParams(params);
@@ -157,5 +165,15 @@ public class XListView extends ListView {
     private boolean isDrawableTop() {
         Drawable[] mDrawables = mTextEmptyView != null ? mTextEmptyView.getCompoundDrawables() : null;
         return mDrawables != null && mDrawables[1] != null;
+    }
+
+    @Override
+    /**
+     * 重写该方法，达到使ListView适应ScrollView的效果
+     */
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int expandSpec = enableScroll ? heightMeasureSpec : MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
+                MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, expandSpec);
     }
 }
