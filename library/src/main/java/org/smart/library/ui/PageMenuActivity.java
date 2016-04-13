@@ -46,7 +46,6 @@ import java.util.List;
  * 
  * @author LiangZiChao
  *         created on 2015年7月13日
- *         In the net.gemeite.smartcommunity.ui
  */
 public class PageMenuActivity extends FragmentActivity implements OnPageChangeListener, OnClickListener {
 

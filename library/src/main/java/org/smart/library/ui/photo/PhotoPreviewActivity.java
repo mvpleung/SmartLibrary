@@ -34,7 +34,6 @@ import java.util.ArrayList;
  *
  * @author LiangZiChao
  *         created on 2015年7月9日
- *         In the net.gemeite.merchant.ui.photo
  */
 public class PhotoPreviewActivity extends Activity implements OnClickListener, OnPageChangeListener {
 

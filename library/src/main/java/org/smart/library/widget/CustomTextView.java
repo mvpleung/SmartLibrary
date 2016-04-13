@@ -21,7 +21,6 @@ import org.smart.library.R;
  *
  * @author LiangZiChao
  *         created on 2015年6月12日
- *         In the net.gemeite.smartcommunity.widget
  */
 public class CustomTextView extends CheckedTextView {
 

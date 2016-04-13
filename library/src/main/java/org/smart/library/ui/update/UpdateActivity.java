@@ -50,7 +50,6 @@ import java.text.DecimalFormat;
  * APP更新界面
  * @author LiangZiChao
  *         created on 2014-9-8下午09:26:28
- *         In the com.xiaobai.xbtrip.update
  */
 @SuppressLint({ "DefaultLocale", "InflateParams" })
 public class UpdateActivity extends Activity {

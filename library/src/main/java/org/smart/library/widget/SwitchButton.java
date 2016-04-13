@@ -14,18 +14,21 @@
  */
 package org.smart.library.widget;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -34,28 +37,30 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import org.smart.library.R;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * 选项卡
- * @author LiangZiChao
- *         created on 2014-8-28下午3:19:45
- *         In the com.xiaobai.xbtrip.view
+ * 
+ * @author LiangZiChao created on 2014-8-28下午3:19:45
  */
 @SuppressLint("Recycle")
 public class SwitchButton extends RadioGroup implements OnCheckedChangeListener {
 
-	private static final int[] ATTRS = new int[] { android.R.attr.orientation, android.R.attr.layout_height };
+	private final int[] CHECKED_STATE = { android.R.attr.state_checked }, UNCHECKED_STATE = { -android.R.attr.state_checked };
 
 	/** 默认选项卡数量 */
 	private final static int DEFAULT_SWITCH_COUNT = 2;
-
-	// 选择器
-	private int mShapeCenter, mShapeLeft, mShapeRight;
 
 	private ColorStateList mTextColor;
 
 	private int mParentWidth, mParentHeight;
 
 	private int mRadioStyle;
+
+	private float cornerRadius;
+
+	private int checkedColor, unCheckedColor, strokeColor, strokeWidth;
 
 	private CharSequence[] mTexts;
 
@@ -68,6 +73,7 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	private SparseArray<RadioButton> mRadioArrays;
 	private SparseArray<Drawable> mButtonDrawables;
+	private SparseArray<StateListDrawable> mStateDrawables;
 	private SparseIntArray mSparseIds;
 
 	private int mCurrentPosition;
@@ -83,19 +89,20 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	public SwitchButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
-		TypedArray a = context.obtainStyledAttributes(attrs, ATTRS);
+		TypedArray a = context.obtainStyledAttributes(attrs, new int[] { android.R.attr.orientation, android.R.attr.layout_height });
 		setOrientation(a.getInt(0, LinearLayout.HORIZONTAL));
 		mParentHeight = a.getDimensionPixelSize(1, 0);
 		a.recycle();
 		a = context.obtainStyledAttributes(attrs, R.styleable.switchButton);
 		setTextColor(a.getColorStateList(R.styleable.switchButton_android_textColor));
 		setTextArray(a.getTextArray(R.styleable.switchButton_sw_textArray));
-		setShapeLeft(a.getResourceId(R.styleable.switchButton_sw_shapeLeft, 0));
-		setShapeRight(a.getResourceId(R.styleable.switchButton_sw_shapeRight, 0));
-		setShapeCenter(a.getResourceId(R.styleable.switchButton_sw_shapeCenter, 0));
 		setSwitchCount(a.getInteger(R.styleable.switchButton_sw_switchCount, DEFAULT_SWITCH_COUNT));
-		setSwitchStyle(a.getResourceId(R.styleable.switchButton_sw_ThemeStyle, 0));
+		setSwitchStyle(a.getResourceId(R.styleable.switchButton_sw_themeStyle, 0));
+		setCornerRadius(a.getDimension(R.styleable.switchButton_sw_cornerRadius, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, getResources().getDisplayMetrics())));
+		setCheckedColor(a.getColor(R.styleable.switchButton_sw_checkedColor, Color.GREEN));
+		setUnCheckedColor(a.getColor(R.styleable.switchButton_sw_unCheckedColor, Color.WHITE));
+		setStrokeColor(a.getColor(R.styleable.switchButton_sw_strokeColor, Color.GREEN));
+		setStrokeWidth((int) a.getDimension(R.styleable.switchButton_sw_strokeWidth, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, getResources().getDisplayMetrics())));
 		a.recycle();
 		setOnCheckedChangeListener(this);
 	}
@@ -105,6 +112,8 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 	 * 
 	 * @param context
 	 */
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
 	private void initUI(Context context) {
 		if (mTexts != null && mTexts.length != switchCount) {
 			throw new IllegalArgumentException("The textArray's length must equal to the switchCount");
@@ -131,15 +140,13 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 			Drawable mButtonDrawable = mButtonDrawables != null ? mButtonDrawables.get(i) : null;
 			mRadioButton.setButtonDrawable(mButtonDrawable != null ? mButtonDrawable : new ColorDrawable());
 			mRadioButton.setButtonDrawable(new ColorDrawable());
+			if (Build.VERSION.SDK_INT >= 16) {
+				mRadioButton.setBackground(getStateDrawable(i));
+			} else {
+				mRadioButton.setBackgroundDrawable(getStateDrawable(i));
+			}
 			if (mTextColor != null)
 				mRadioButton.setTextColor(mTextColor);
-			if (i == 0) {
-				mRadioButton.setBackgroundResource(mShapeLeft);
-			} else if (i == switchCount - 1) {
-				mRadioButton.setBackgroundResource(mShapeRight);
-			} else {
-				mRadioButton.setBackgroundResource(mShapeCenter);
-			}
 			if (mTexts != null)
 				mRadioButton.setText(mTexts[i]);
 			if (!isExists) {
@@ -157,6 +164,29 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 		}
 		isStyleChanged = false;
 		isMeasureChanged = false;
+	}
+
+	private Drawable getStateDrawable(int i) {
+		if (mStateDrawables == null)
+			mStateDrawables = new SparseArray<StateListDrawable>();
+		StateListDrawable mStateListDrawable = mStateDrawables.size() >= i + 1 && (i != switchCount - 1 || i == switchCount - 1) ? null : mStateDrawables.get(i);
+		if (mStateListDrawable == null) {
+			float leftRadius = i == 0 ? cornerRadius : 0;
+			float rightRadius = i == 0 ? 0 : i == switchCount - 1 ? cornerRadius : 0;
+			float[] cRadius = { leftRadius, leftRadius, rightRadius, rightRadius, rightRadius, rightRadius, leftRadius, leftRadius };
+			mStateListDrawable = new StateListDrawable();
+			GradientDrawable cornerDrawable = new GradientDrawable();
+			cornerDrawable.setColor(checkedColor);
+			cornerDrawable.setCornerRadii(cRadius);
+			mStateListDrawable.addState(CHECKED_STATE, cornerDrawable);
+			cornerDrawable = new GradientDrawable();
+			cornerDrawable.setColor(unCheckedColor);
+			cornerDrawable.setStroke(strokeWidth, strokeColor);
+			cornerDrawable.setCornerRadii(cRadius);
+			mStateListDrawable.addState(UNCHECKED_STATE, cornerDrawable);
+			mStateDrawables.put(i, mStateListDrawable);
+		}
+		return mStateListDrawable;
 	}
 
 	@Deprecated
@@ -191,7 +221,6 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		// TODO Auto-generated method stub
 		if (changeListener != null)
 			changeListener.onChange(mSparseIds.indexOfValue(checkedId));
 	}
@@ -220,37 +249,13 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 		}
 	}
 
-	public void setShapeCenter(int mShapeCenter) {
-		this.mShapeCenter = mShapeCenter;
-	}
-
-	public void setShapeLeft(int mShapeLeft) {
-		this.mShapeLeft = mShapeLeft;
-	}
-
-	public void setShapeRight(int mShapeRight) {
-		this.mShapeRight = mShapeRight;
-	}
-
-	public ColorStateList getTextColor() {
-		return mTextColor;
-	}
-
 	public void setTextColor(ColorStateList mTextColor) {
 		this.mTextColor = mTextColor;
-	}
-
-	public int getSwitchStyle() {
-		return mRadioStyle;
 	}
 
 	public void setSwitchStyle(int mSwitchStyle) {
 		isStyleChanged = true;
 		this.mRadioStyle = mSwitchStyle;
-	}
-
-	public CharSequence[] getTexts() {
-		return mTexts;
 	}
 
 	public void setTextArray(CharSequence[] mTexts) {
@@ -261,17 +266,9 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 		return switchCount;
 	}
 
-	public int getParentWidth() {
-		return mParentWidth;
-	}
-
 	public void setParentWidth(int mParentWidth) {
 		this.mParentWidth = mParentWidth;
 		isMeasureChanged = true;
-	}
-
-	public int getParentHeight() {
-		return mParentHeight;
 	}
 
 	public void setParentHeight(int mParentHeight) {
@@ -283,6 +280,26 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 		this.switchCount = switchCount < 2 ? DEFAULT_SWITCH_COUNT : switchCount;
 		if (mButtonDrawables == null)
 			mButtonDrawables = new SparseArray<Drawable>();
+	}
+
+	public void setCornerRadius(float cornerRadius) {
+		this.cornerRadius = cornerRadius;
+	}
+
+	public void setCheckedColor(int checkedColor) {
+		this.checkedColor = checkedColor;
+	}
+
+	public void setUnCheckedColor(int unCheckedColor) {
+		this.unCheckedColor = unCheckedColor;
+	}
+
+	public void setStrokeColor(int strokeColor) {
+		this.strokeColor = strokeColor;
+	}
+
+	public void setStrokeWidth(int strokeWidth) {
+		this.strokeWidth = strokeWidth;
 	}
 
 	public void setSwitchButton(int position, int mDrawableResId) {

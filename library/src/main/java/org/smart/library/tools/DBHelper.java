@@ -27,7 +27,6 @@ import java.util.ArrayList;
  *
  * @author LiangZiChao
  *         created on 2014-8-11下午2:40:18
- *         In the com.xiaobai.xbtrip.utils
  */
 @SuppressLint("UseSparseArrays")
 public class DBHelper {

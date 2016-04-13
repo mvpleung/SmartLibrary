@@ -18,7 +18,6 @@ import java.lang.reflect.Field;
  * Tab ViewPager
  * 
  *         created on LiangZC Updated by 2014-8-3下午11:01:26
- *         In the com.xiaobai.xbtrip.view.tabs
  */
 @SuppressLint("ClickableViewAccessibility")
 public class ViewPagerCompat extends ViewPager {

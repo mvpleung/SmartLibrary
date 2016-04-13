@@ -131,7 +131,7 @@ public class KCalendar extends ViewFlipper implements GestureDetector.OnGestureL
 		this.currentDate = date == null ? new Date() : date;
 		this.intervalMonth = intervalMonth;
 		this.localCalendarEnd = localCalendarEnd;
-		this.todyString = DateTimeUtils.dateToString(currentDate);
+		this.todyString = DateTimeUtils.Date2String(currentDate);
 		this.weekday = getResources().getStringArray(R.array.weekday);
 
 		// 设置日历上的日子(1号)

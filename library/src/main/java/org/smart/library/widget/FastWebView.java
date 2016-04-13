@@ -14,7 +14,6 @@ import android.webkit.WebSettings.RenderPriority;
  * 
  * @author LiangZiChao
  *         created on 2014-9-5下午3:28:41
- *         In the com.xiaobai.xbtrip.view
  */
 @SuppressLint({ "SetJavaScriptEnabled", "MissingSuperCall" })
 public class FastWebView extends WebView {

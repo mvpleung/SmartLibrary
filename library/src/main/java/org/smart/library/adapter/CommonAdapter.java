@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * 公共Adapter
  * created on 2015年7月25日
- * In the org.smart.library.adapter
  */
 public abstract class CommonAdapter<T> extends BaseAdapter {
     protected LayoutInflater mInflater;

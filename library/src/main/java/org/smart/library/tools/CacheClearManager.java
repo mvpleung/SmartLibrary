@@ -1,15 +1,14 @@
 package org.smart.library.tools;
 
-import java.io.File;
-
 import android.content.Context;
 import android.os.Environment;
+
+import java.io.File;
 
 /**
  * 清除缓存类
  * @author ZhaoJiSHen
  *         created on 2014-8-18下午7:02:18
- *         In the com.xiaobai.xbtrip.utils
  */
 public class CacheClearManager {
 	/** * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * * @param context */

@@ -26,7 +26,6 @@ import java.util.List;
 
 /**
  * 自定义PopupWindow，选择图片
- * In the com.sanweidu.TddPay.view
  *
  * @author LiangZiChao
  *         created on 2013-7-29 下午08:53:18

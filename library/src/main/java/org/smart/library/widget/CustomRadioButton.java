@@ -23,7 +23,6 @@ import org.smart.library.R;
  * 
  * @author LiangZiChao
  *         created on 2015年6月15日
- *         In the net.gemeite.smartcommunity.widget
  */
 public class CustomRadioButton extends CompoundButton {
 

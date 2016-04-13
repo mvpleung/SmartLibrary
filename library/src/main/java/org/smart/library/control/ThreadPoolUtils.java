@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 
  * @author LiangZiChao
  *         created on 2014-7-24下午2:00:09
- *         In the com.xiaobai.xbtrip.network
  */
 public class ThreadPoolUtils {
 

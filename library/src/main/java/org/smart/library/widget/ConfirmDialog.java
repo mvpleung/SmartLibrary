@@ -21,7 +21,6 @@ import org.smart.library.tools.PxUtil;
  * 
  * @author LiangZiChao
  *         created on 2014-8-21下午5:48:52
- *         In the com.xiaobai.xbtrip.view
  */
 public class ConfirmDialog extends Dialog {
 

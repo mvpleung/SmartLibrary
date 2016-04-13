@@ -20,22 +20,23 @@ import java.util.regex.Pattern;
 /**
  * 日期工具类
  *
- * @author LiangZiChao
- *         created on 2015年2月4日上午9:31:16
+ * @author LiangZiChao created on 2015年2月4日上午9:31:16
  */
 @SuppressLint("SimpleDateFormat")
 public class DateTimeUtils {
-    public static final int DATETIME_FIELD_REFERSH = 20;
     public static final String HH_00 = "HH:00";
     public static final String HH_mm = "HH:mm";
     public static final String HH_mm_ss = "HH:mm:ss";
     public static final String MM_Yue_dd_Ri = "MM月dd日";
     public static final String MM_yy = "MM/yy";
     public static final String M_Yue_d_Ri = "M月d日";
-    public static final long ONE_DAY = 86400000L;
-    public static final long ONE_HOUR = 3600000L;
-    public static final long ONE_MINUTE = 60000L;
-    public static final long ONE_SECOND = 1000L;
+    public static final long ONE_DAY = 86400L;
+    public static final long ONE_HOUR = 3600L;
+    public static final long ONE_MINUTE = 60L;
+    public static final long ONE_DAY_MILIS = 86400000L;
+    public static final long ONE_HOUR_MILIS = 3600000L;
+    public static final long ONE_MINUTE_MILIS = 60000L;
+    public static final long ONE_SECOND_MILIS = 1000L;
     private static final String[] PATTERNS = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM-dd", "yyyyMMdd"};
     public static final String dd_MM = "dd/MM";
     public static boolean hasServerTime = false;
@@ -58,8 +59,6 @@ public class DateTimeUtils {
     public static final String LAST = "last";
 
     public static final String SPLIT = "-";
-
-    public static Date today = new Date();
 
     // public static HashMap<String, String> HOLIDAYS = new HashMap<String,
     // String>();
@@ -91,8 +90,10 @@ public class DateTimeUtils {
     }
 
     private static String fixDateString(String paramString) {
-        if (TextUtils.isEmpty(paramString))
+        if (TextUtils.isEmpty(paramString)) {
+            LogUtil.i("paramString is null");
             return paramString;
+        }
         String[] arrayOfString = paramString.split("[年月日]");
         if (arrayOfString.length == 1)
             arrayOfString = paramString.split("-");
@@ -107,8 +108,10 @@ public class DateTimeUtils {
     public static <T> Calendar getCalendar(T paramT) {
         Calendar localCalendar1 = Calendar.getInstance();
         localCalendar1.setLenient(false);
-        if (paramT == null)
+        if (paramT == null) {
+            LogUtil.i("The paramT is null");
             return null;
+        }
         if ((paramT instanceof Calendar)) {
             localCalendar1.setTimeInMillis(((Calendar) paramT).getTimeInMillis());
             return localCalendar1;
@@ -147,7 +150,8 @@ public class DateTimeUtils {
             try {
                 Calendar localCalendar = getCalendar(paramT);
                 return localCalendar;
-            } catch (Exception localException) {
+            } catch (Exception e) {
+                LogUtil.e(e.getMessage(), e);
             }
         return (Calendar) paramCalendar.clone();
     }
@@ -161,8 +165,9 @@ public class DateTimeUtils {
             localCalendar.setLenient(false);
             localCalendar.setTimeInMillis(localDate.getTime());
             return localCalendar;
-        } catch (Exception localException) {
-            throw new IllegalArgumentException(localException);
+        } catch (Exception e) {
+            LogUtil.e(e.getMessage(), e);
+            return null;
         }
 
     }
@@ -191,8 +196,10 @@ public class DateTimeUtils {
     }
 
     public static Calendar getDateAdd(Calendar paramCalendar, int paramInt) {
-        if (paramCalendar == null)
+        if (paramCalendar == null) {
+            LogUtil.i("The paramCalendar is null");
             return null;
+        }
         Calendar localCalendar = (Calendar) paramCalendar.clone();
         localCalendar.add(Calendar.DAY_OF_MONTH, paramInt);
         return localCalendar;
@@ -205,7 +212,7 @@ public class DateTimeUtils {
         Calendar localCalendar2 = getCalendar(paramT2);
         cleanCalendarTime(localCalendar1);
         cleanCalendarTime(localCalendar2);
-        return (int) getIntervalTimes(localCalendar1, localCalendar2, ONE_DAY);
+        return (int) getIntervalTimes(localCalendar1, localCalendar2, ONE_DAY_MILIS);
     }
 
     public static int getIntervalDays(String paramString1, String paramString2, String paramString3) {
@@ -248,16 +255,6 @@ public class DateTimeUtils {
     /**
      * 是否需要刷新
      *
-     * @param paramLong 上次请求时间
-     * @return
-     */
-    public static boolean isRefersh(long paramLong) {
-        return isRefersh(120000L, paramLong);
-    }
-
-    /**
-     * 是否需要刷新
-     *
      * @param paramLong1 限制刷新时间
      * @param paramLong2 上次请求时间
      * @return
@@ -266,17 +263,19 @@ public class DateTimeUtils {
         return System.currentTimeMillis() - paramLong2 >= paramLong1;
     }
 
+    /**
+     * 格式化日期（参数非空）
+     *
+     * @param paramCalendar
+     * @param paramString
+     * @return null(paramCalendar or paramString is null)
+     */
     public static String printCalendarByPattern(Calendar paramCalendar, String paramString) {
         if ((paramCalendar == null) || TextUtils.isEmpty(paramString))
             return null;
-        try {
-            SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(paramString, Locale.US);
-            localSimpleDateFormat.setLenient(false);
-            return localSimpleDateFormat.format(paramCalendar.getTime());
-        } catch (Exception e) {
-            // TODO: handle exception
-            return null;
-        }
+        SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(paramString, Locale.US);
+        localSimpleDateFormat.setLenient(false);
+        return localSimpleDateFormat.format(paramCalendar.getTime());
     }
 
     /**
@@ -300,7 +299,7 @@ public class DateTimeUtils {
      * @param oDate
      * @return
      */
-    public static int compareCal(Date fDate, Date oDate) {
+    public static int compareDate(Date fDate, Date oDate) {
         if (fDate == null && oDate == null)
             return 0;
         if (fDate == null && oDate != null)
@@ -315,20 +314,14 @@ public class DateTimeUtils {
      */
     @SuppressWarnings("static-access")
     public static String daysOfDate(int time) {
-        try {
-            Date date = new Date();// 取时间
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(date);
-            calendar.add(calendar.DATE, time);// 把日期往后增加一天.整数往后推,负数往前移动
-            date = calendar.getTime(); // 这个时间就是日期往后推一天的结果
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
-            String dateString = formatter.format(date);
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
-            return null;
-        }
-
+        Date date = new Date();// 取时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE, time);// 把日期往后增加一天.整数往后推,负数往前移动
+        date = calendar.getTime(); // 这个时间就是日期往后推一天的结果
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
+        String dateString = formatter.format(date);
+        return dateString;
     }
 
     /**
@@ -338,16 +331,15 @@ public class DateTimeUtils {
      * @return
      */
     public static String secondToDate(String timestr) {
-        try {
-            timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
-            long tm = Long.parseLong(timestr);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd\u0020HH:mm:ss");
-            String endTime = sdf.format(new Date(tm * 1000));
-            return endTime;
-        } catch (Exception e) {
-            // TODO: handle exception
-            return "";
+        if (TextUtils.isEmpty(timestr)) {
+            LogUtil.i("The timestr is empty");
+            return null;
         }
+        timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
+        long tm = Long.parseLong(timestr);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd\u0020HH:mm:ss");
+        String endTime = sdf.format(new Date(tm * 1000));
+        return endTime;
     }
 
     /**
@@ -357,16 +349,15 @@ public class DateTimeUtils {
      * @return
      */
     public static String endDate(String timestr) {
-        try {
-            timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
-            long tm = Long.parseLong(timestr);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd\u0020HH:mm");
-            String endTime = sdf.format(new Date(tm * 1000));
-            return endTime;
-        } catch (Exception e) {
-            // TODO: handle exception
+        if (TextUtils.isEmpty(timestr)) {
+            LogUtil.i("The timestr is empty");
             return null;
         }
+        timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
+        long tm = Long.parseLong(timestr);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd\u0020HH:mm");
+        String endTime = sdf.format(new Date(tm * 1000));
+        return endTime;
     }
 
     /**
@@ -376,16 +367,15 @@ public class DateTimeUtils {
      * @return
      */
     public static String convertToTime(String timestr) {
-        try {
-            timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
-            long tm = Long.parseLong(timestr);
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-            String endTime = sdf.format(new Date(tm * 1000));
-            return endTime;
-        } catch (Exception e) {
-            // TODO: handle exception
+        if (TextUtils.isEmpty(timestr)) {
+            LogUtil.i("The timestr is empty");
             return null;
         }
+        timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
+        long tm = Long.parseLong(timestr);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String endTime = sdf.format(new Date(tm * 1000));
+        return endTime;
     }
 
     /**
@@ -399,7 +389,7 @@ public class DateTimeUtils {
         try {
             return sdf.parse(timestr);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
+            LogUtil.e(e.getMessage(), e);
             return null;
         }
     }
@@ -411,14 +401,13 @@ public class DateTimeUtils {
      * @return
      */
     public static String dateToStrLong(Date dateDate) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
-            String dateString = formatter.format(dateDate);
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
+        if (dateDate == null) {
+            LogUtil.i("The dateDate is null");
             return null;
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
+        String dateString = formatter.format(dateDate);
+        return dateString;
     }
 
     /**
@@ -428,14 +417,13 @@ public class DateTimeUtils {
      * @return
      */
     public static String dateToStrYear(Date dateDate) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yy");
-            String dateString = formatter.format(dateDate);
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
+        if (dateDate == null) {
+            LogUtil.i("The dateDate is null");
             return null;
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("yy");
+        String dateString = formatter.format(dateDate);
+        return dateString;
     }
 
     /**
@@ -445,31 +433,13 @@ public class DateTimeUtils {
      * @return
      */
     public static String dateToStrLongWeek(Date dateDate) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd EEEE");
-            String dateString = formatter.format(dateDate);
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
+        if (dateDate == null) {
+            LogUtil.i("The dateDate is null");
             return null;
         }
-    }
-
-    /**
-     * 时间转年月日
-     *
-     * @param dateDate
-     * @return
-     */
-    public static String dateToString(Date dateDate) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = formatter.format(dateDate);
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
-            return null;
-        }
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd EEEE");
+        String dateString = formatter.format(dateDate);
+        return dateString;
     }
 
     /**
@@ -479,77 +449,73 @@ public class DateTimeUtils {
      * @return
      */
     public static String dateToStringWeek(Date dateDate) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd EEEE");
-            String dateString = formatter.format(dateDate);
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
+        if (dateDate == null) {
+            LogUtil.i("The dateDate is null");
             return null;
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd EEEE");
+        String dateString = formatter.format(dateDate);
+        return dateString;
     }
 
     /**
      * 时间转换
      *
-     * @param string
-     * @param pattern
+     * @param dateStr
+     * @param pattern 为空时，默认转换 年月日
      * @return
      */
-    public static String StringToStringTime(String string, String pattern) {
-        try {
-            pattern = TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern;
-            SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-            String dateString = formatter.format(StringToDate(string, pattern));
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
+    public static String StringToStringTime(String dateStr, String pattern) {
+        if (TextUtils.isEmpty(dateStr)) {
+            LogUtil.i("The dateParams is empty");
             return null;
         }
+        pattern = TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern;
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String dateString = formatter.format(StringToDate(dateStr, pattern));
+        return dateString;
     }
 
     /**
      * 时间转年月日
      *
-     * @param string
+     * @param dateStr
      * @return
      */
-    public static String StringToYearMD(String string) {
-        return StringToStringTime(string, "yyyy-MM-dd");
+    public static String StringToYearMD(String dateStr) {
+        return StringToStringTime(dateStr, "yyyy-MM-dd");
     }
 
     /**
      * 时间转月日
      *
-     * @param string
+     * @param dateStr
      * @return
      */
-    public static String StringToMonthDay(String string) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
-            String dateString = formatter.format(StringToDate(string));
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
+    public static String StringToMonthDay(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) {
+            LogUtil.i("The dateStr is empty");
             return null;
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
+        String dateString = formatter.format(StringToDate(dateStr));
+        return dateString;
     }
 
     /**
      * 时间转月日星期
      *
-     * @param string
+     * @param dateStr
      * @return
      */
-    public static String StringToMonthDayWeek(String string) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd EEEE");
-            String dateString = formatter.format(StringToDate(string));
-            return dateString;
-        } catch (Exception e) {
-            // TODO: handle exception
+    public static String StringToMonthDayWeek(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) {
+            LogUtil.i("The dateStr is empty");
             return null;
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd EEEE");
+        String dateString = formatter.format(StringToDate(dateStr));
+        return dateString;
     }
 
     /**
@@ -559,8 +525,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String StringToMDWeekDay(Date date) {
-        if (date == null)
+        if (date == null) {
+            LogUtil.i("The date is null");
             return null;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
         String dateString = formatter.format(date);
         return dateString + " " + getWeekOfDate(date);
@@ -573,8 +541,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String StringToMDWeekDay(Long milliseconds) {
-        if (milliseconds == null)
+        if (milliseconds == null) {
+            LogUtil.i("The milliseconds is null");
             return null;
+        }
         String dateString = formatDateToYMD(milliseconds, "MM-dd");
         return dateString + " " + getWeekOfDate(milliseconds);
     }
@@ -582,40 +552,42 @@ public class DateTimeUtils {
     /**
      * 时间转月日周几
      *
-     * @param string
+     * @param dateStr
      * @return
      */
-    public static String StringToMDWeekDay(String string) {
-        if (TextUtils.isEmpty(string))
-            return null;
-        return StringToMDWeekDay(StringToDate(string));
+    public static String StringToMDWeekDay(String dateStr) {
+        return StringToMDWeekDay(StringToDate(dateStr));
     }
 
     /**
      * 时间转年月日星期
      *
-     * @param string
+     * @param dateStr
      * @return
      */
-    public static String StringToYearMDWeek(String string) {
-        if (TextUtils.isEmpty(string))
+    public static String StringToYearMDWeek(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) {
+            LogUtil.i("The dateStr is empty");
             return null;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd EEEE");
-        String dateString = formatter.format(StringToDate(string));
+        String dateString = formatter.format(StringToDate(dateStr));
         return dateString;
     }
 
     /**
      * 时间转日周几
      *
-     * @param string
+     * @param dateStr
      * @return
      */
-    public static String StringToWeekDay(String string) {
-        if (TextUtils.isEmpty(string))
+    public static String StringToWeekDay(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) {
+            LogUtil.i("The dateStr is empty");
             return null;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
-        Date date = StringToDate(string);
+        Date date = StringToDate(dateStr);
         String dateString = formatter.format(date);
         return dateString + " " + getWeekOfDate(date);
     }
@@ -623,14 +595,16 @@ public class DateTimeUtils {
     /**
      * 时间转年月日星期
      *
-     * @param string
+     * @param dateStr
      * @return
      */
-    public static String StringToYearMDWeekDay(String string) {
-        if (TextUtils.isEmpty(string))
+    public static String StringToYearMDWeekDay(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) {
+            LogUtil.i("The dateStr is empty");
             return null;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = StringToDate(string);
+        Date date = StringToDate(dateStr);
         String dateString = formatter.format(date);
         return dateString + " " + getWeekOfDate(date);
     }
@@ -642,8 +616,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String dateToYMDWeek(Date date) {
-        if (date == null)
+        if (date == null) {
+            LogUtil.i("The date is null");
             return null;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(date);
         return dateString + " " + getWeekOfDate(date);
@@ -656,8 +632,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String dateToDayWeek(Date date) {
-        if (date == null)
+        if (date == null) {
+            LogUtil.i("The date is null");
             return null;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
         String dateString = formatter.format(date);
         return dateString + " " + getWeekOfDate(date);
@@ -666,13 +644,17 @@ public class DateTimeUtils {
     /**
      * 获取当前日期是周几<br>
      *
-     * @param dt
+     * @param date
      * @return 当前日期是星期几
      */
-    public static String getWeekOfDate(Date dt) {
+    public static String getWeekOfDate(Date date) {
+        if (date == null) {
+            LogUtil.i("The date is null");
+            return null;
+        }
         String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
         Calendar cal = Calendar.getInstance();
-        cal.setTime(dt);
+        cal.setTime(date);
         int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
         if (w < 0)
             w = 0;
@@ -686,6 +668,10 @@ public class DateTimeUtils {
      * @return 当前日期是星期几
      */
     public static String getWeekOfDate(Long milliseconds) {
+        if (milliseconds == null) {
+            LogUtil.i("The milliseconds is null");
+            return null;
+        }
         String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(milliseconds);
@@ -698,14 +684,16 @@ public class DateTimeUtils {
     /**
      * 秒转日期
      *
-     * @param timestr
+     * @param timeStr
      * @return
      */
-    public static String secondToDate1(String timestr) {
-        if (TextUtils.isEmpty(timestr))
+    public static String secondToDate1(String timeStr) {
+        if (TextUtils.isEmpty(timeStr)) {
+            LogUtil.i("The timeStr is empty");
             return null;
-        timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
-        long tm = Long.parseLong(timestr);
+        }
+        timeStr = timeStr.indexOf(".") == -1 ? timeStr : timeStr.substring(0, timeStr.indexOf("."));
+        long tm = Long.parseLong(timeStr);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String endTime = sdf.format(new Date(tm * 1000));
         return endTime;
@@ -714,14 +702,16 @@ public class DateTimeUtils {
     /**
      * 秒转时间（月分秒）
      *
-     * @param timestr
+     * @param timeStr
      * @return
      */
-    public static String secondToDate3(String timestr) {
-        if (TextUtils.isEmpty(timestr))
+    public static String secondToDate3(String timeStr) {
+        if (TextUtils.isEmpty(timeStr)) {
+            LogUtil.i("The timeStr is empty");
             return null;
-        timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
-        long tm = Long.parseLong(timestr);
+        }
+        timeStr = timeStr.indexOf(".") == -1 ? timeStr : timeStr.substring(0, timeStr.indexOf("."));
+        long tm = Long.parseLong(timeStr);
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd\u0020HH:mm");
         String endTime = sdf.format(new Date(tm * 1000));
         return endTime;
@@ -744,8 +734,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String Date2String(Date date, String pattern) {
-        if (date == null)
+        if (date == null) {
+            LogUtil.i("The date is null");
             return null;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern);
         String dateString = sdf.format(date);
         return dateString;
@@ -768,12 +760,14 @@ public class DateTimeUtils {
      * @return
      */
     public static Date StringToDate(String dateString, String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern);
+        if (TextUtils.isEmpty(dateString)) {
+            LogUtil.i("The dateString is empty");
+            return null;
+        }
         Date date = null;
         try {
-            date = sdf.parse(dateString);
+            date = new SimpleDateFormat(TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern).parse(dateString);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             LogUtil.e(e.getMessage(), e);
         }
         return date;
@@ -786,8 +780,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String TimeStamp2Date(Long unixTime) {
-        if (unixTime == null)
+        if (unixTime == null) {
+            LogUtil.i("The unixTime is null");
             return null;
+        }
         // 时间戳 以秒来计算
         // 得到当前的时间
         Long timestamp = unixTime * 1000;
@@ -802,8 +798,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String TimeStamp2Date(String unixTime) {
-        if (unixTime == null)
+        if (unixTime == null) {
+            LogUtil.i("The unixTime is null");
             return null;
+        }
         // 时间戳 以秒来计算
         // 得到当前的时间
         Long timestamp = Long.parseLong(unixTime) * 1000;
@@ -818,16 +816,18 @@ public class DateTimeUtils {
      * @return
      */
     public static String timeZoneChanged(String dateBaseTime) {
+        if (TextUtils.isEmpty(dateBaseTime)) {
+            LogUtil.i("The dateBaseTime is empty");
+            return null;
+        }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long originaltime = 0; // 原始的时间
         format.setTimeZone(TimeZone.getTimeZone("GMT+08")); // 得到东八区的地点的时间
         try {
-            Date date;
-            date = format.parse(dateBaseTime);
+            Date date = format.parse(dateBaseTime);
             originaltime = date.getTime();
             originaltime = originaltime + 1000 * 60 * 60 * 8;
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             LogUtil.e(e.getMessage(), e);
         }
         return format.format(new Date(originaltime));
@@ -872,20 +872,19 @@ public class DateTimeUtils {
     }
 
     /**
-     * 比较当前日期与banner保存的日期是否大于保存的日期
+     * 比较两个日期是否相等
      *
-     * @param currDate  当前日期
-     * @param savedDate 本地保存的日期
+     * @param fDate
+     * @param oDate
      * @return
      */
-    public static boolean compareCurrentDateAndSavedDate(String currDate, String savedDate) {
+    public static boolean equalsDate(String fDate, String oDate) {
+        if (TextUtils.isEmpty(fDate))
+            return TextUtils.isEmpty(oDate);
 
-        if (TextUtils.isEmpty(currDate) || TextUtils.isEmpty(savedDate))
-            return false;
-
-        if (compareYear(currDate, savedDate)) {
-            if (compareMonth(currDate, savedDate)) {
-                if (compareDayOfMonth(currDate, savedDate)) {
+        if (compareYear(fDate, oDate)) {
+            if (compareMonth(fDate, oDate)) {
+                if (compareDayOfMonth(fDate, oDate)) {
                     return true;
                 }
             }
@@ -894,20 +893,19 @@ public class DateTimeUtils {
         return false;
     }
 
-    private static boolean compareYear(String currDate, String savedDate) {
+    private static boolean compareYear(String fDate, String oDate) {
         boolean result = true;
 
-        if (TextUtils.isEmpty(currDate) || TextUtils.isEmpty(savedDate))
-            return result;
+        if (TextUtils.isEmpty(fDate))
+            return TextUtils.isEmpty(oDate);
 
         try {
-            if (Integer.parseInt(currDate.split("-")[0]) >= Integer.parseInt(savedDate.split("-")[0])) {
+            if (Integer.parseInt(fDate.split("-")[0]) >= Integer.parseInt(oDate.split("-")[0])) {
                 result = result & true;
             } else {
                 result = result & false;
             }
         } catch (Exception e) {
-            // TODO: handle exception
             LogUtil.e(e.getMessage(), e);
         }
         return result;
@@ -926,7 +924,6 @@ public class DateTimeUtils {
                 result = result & false;
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             LogUtil.e(e.getMessage(), e);
         }
         return result;
@@ -948,7 +945,6 @@ public class DateTimeUtils {
                 result = result & false;
             }
         } catch (Exception e) {
-            // TODO: handle exception
             LogUtil.e(e.getMessage(), e);
         }
         return result;
@@ -981,6 +977,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String calendarToDateStr(Calendar c, String pattern, Locale locale) {
+        if (c == null) {
+            LogUtil.i("The calendar is null");
+            return null;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern, locale);
         return simpleDateFormat.format(c.getTime());
     }
@@ -989,10 +989,11 @@ public class DateTimeUtils {
      * 获取指定日期的前一天
      *
      * @param date
+     * @param pattern yy-MM-dd
      * @return
      */
-    public static Date getSpecifiedDayBefore(Date date) {
-        return StringToDate(getSpecifiedDayBefore(Date2String(date)));
+    public static Date getSpecifiedDayBefore(Date date, String pattern) {
+        return StringToDate(getSpecifiedDayBefore(Date2String(date), pattern));
     }
 
     /**
@@ -1001,10 +1002,23 @@ public class DateTimeUtils {
      * @param specifiedDay
      * @return
      */
-    public static String getSpecifiedDayBefore(String specifiedDay) {// 可以用new
+    public static String getSpecifiedDayBefore(String specifiedDay) {
+        return getSpecifiedDayBefore(specifiedDay, "yy-MM-dd");
+    }
+
+    /**
+     * 获得指定日期的前一天
+     *
+     * @param specifiedDay
+     * @param pattern      yy-MM-dd
+     * @return
+     */
+    public static String getSpecifiedDayBefore(String specifiedDay, String pattern) {// 可以用new
         // Date().toLocalString()传递参数
-        if (TextUtils.isEmpty(specifiedDay))
+        if (TextUtils.isEmpty(specifiedDay)) {
+            LogUtil.i("The specifiedDay is empty");
             return null;
+        }
         Calendar c = Calendar.getInstance();
         Date date = null;
         try {
@@ -1025,9 +1039,10 @@ public class DateTimeUtils {
      * 获取指定日期的后一天
      *
      * @param date
+     * @param pattern yy-MM-dd
      * @return
      */
-    public static Date getSpecifiedDayAfter(Date date) {
+    public static Date getSpecifiedDayAfter(Date date, String pattern) {
         return StringToDate(getSpecifiedDayAfter(Date2String(date)));
     }
 
@@ -1035,10 +1050,11 @@ public class DateTimeUtils {
      * 获取指定日期的后一天
      *
      * @param date
+     * @param pattern yy-MM-dd
      * @return
      */
-    public static String getSpecifiedDayStringAfter(Date date) {
-        return getSpecifiedDayAfter(Date2String(date));
+    public static String getSpecifiedDayStringAfter(Date date, String pattern) {
+        return getSpecifiedDayAfter(Date2String(date), pattern);
     }
 
     /**
@@ -1048,15 +1064,30 @@ public class DateTimeUtils {
      * @return
      */
     public static String getSpecifiedDayAfter(String specifiedDay) {
+        return getSpecifiedDayAfter(specifiedDay, "yy-MM-dd");
+    }
+
+    /**
+     * 获得指定日期的后一天
+     *
+     * @param specifiedDay
+     * @param pattern      yy-MM-dd
+     * @return
+     */
+    public static String getSpecifiedDayAfter(String specifiedDay, String pattern) {
+        if (TextUtils.isEmpty(specifiedDay)) {
+            LogUtil.i("The specifiedDay is empty");
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         Date date = null;
         try {
-            date = new SimpleDateFormat("yy-MM-dd").parse(specifiedDay);
+            date = new SimpleDateFormat(pattern).parse(specifiedDay);
             c.setTime(date);
             int day = c.get(Calendar.DATE);
             c.set(Calendar.DATE, day + 1);
 
-            String dayAfter = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+            String dayAfter = new SimpleDateFormat(pattern).format(c.getTime());
             return dayAfter;
         } catch (ParseException e) {
             LogUtil.e(e.getMessage(), e);
@@ -1071,6 +1102,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String getSpecifiedMinHourAfter(String specifiedHour) {
+        if (TextUtils.isEmpty(specifiedHour)) {
+            LogUtil.i("The specifiedHour is empty");
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         Date date = null;
         try {
@@ -1094,6 +1129,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String getSpecifiedHourAfter(String specifiedHour) {
+        if (TextUtils.isEmpty(specifiedHour)) {
+            LogUtil.i("The specifiedHour is empty");
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         Date date = null;
         try {
@@ -1117,6 +1156,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String getSpecifiedHourBefore(String specifiedHour) {
+        if (TextUtils.isEmpty(specifiedHour)) {
+            LogUtil.i("The specifiedHour is empty");
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         Date date = null;
         try {
@@ -1141,6 +1184,10 @@ public class DateTimeUtils {
      * @return
      */
     public static String getStepHour(String specifiedHour, int stepSize) {
+        if (TextUtils.isEmpty(specifiedHour)) {
+            LogUtil.i("The specifiedHour is empty");
+            return null;
+        }
         Calendar c = Calendar.getInstance();
         Date date = null;
         try {
@@ -1181,7 +1228,7 @@ public class DateTimeUtils {
      * @return
      */
     public static long getIntervalSeconds(String fDate, String oDate) {
-        return getIntervalSeconds(fDate, oDate, "yyyy-MM-dd HH:mm");
+        return getIntervalSeconds(fDate, oDate, yyyy_MM_dd_HH_mm_ss);
     }
 
     /**
@@ -1192,11 +1239,15 @@ public class DateTimeUtils {
      * @return
      */
     public static long getIntervalSeconds(String fDate, String oDate, String pattern) {
+        if (TextUtils.isEmpty(fDate) || TextUtils.isEmpty(oDate)) {
+            LogUtil.i("maybe The fDate or oDate is empty");
+            return 0;
+        }
         try {
             SimpleDateFormat df = new SimpleDateFormat(pattern);
             Date begin = df.parse(fDate);
             Date end = df.parse(oDate);
-            long between = (end.getTime() - begin.getTime()) / 1000;// 除以1000是为了转换成秒
+            long between = (end.getTime() - begin.getTime()) / ONE_SECOND_MILIS;// 除以1000是为了转换成秒
             return between;
         } catch (Exception e) {
             LogUtil.e(e.getMessage(), e);
@@ -1213,7 +1264,7 @@ public class DateTimeUtils {
      */
     public static long getIntervalMinutes(String fDate, String oDate) {
         long seconds = getIntervalSeconds(fDate, oDate);
-        return seconds > 0 ? seconds % 3600 / 60 : 0;
+        return seconds > 0 ? seconds / ONE_MINUTE : 0;
     }
 
     /**
@@ -1225,7 +1276,7 @@ public class DateTimeUtils {
      */
     public static long getIntervalHours(String fDate, String oDate) {
         long seconds = getIntervalSeconds(fDate, oDate);
-        return seconds > 0 ? seconds % 86400 / 3600 : 0;
+        return seconds > 0 ? seconds / ONE_HOUR : 0;
     }
 
     /**
@@ -1237,7 +1288,7 @@ public class DateTimeUtils {
      */
     public static int getIntervalMinHour(String fHour, String oHour) {
         long seconds = getIntervalSeconds(fHour, oHour, HH_mm);
-        return (int) (seconds > 0 ? seconds % 86400 / 3600 : 0);
+        return (int) (seconds > 0 ? seconds / ONE_HOUR : 0);
     }
 
     /**
@@ -1249,7 +1300,7 @@ public class DateTimeUtils {
      */
     public static int getIntervalHour(String fHour, String oHour) {
         long seconds = getIntervalSeconds(fHour, oHour, HH_00);
-        return (int) (seconds > 0 ? seconds % 86400 / 3600 : 0);
+        return (int) (seconds > 0 ? seconds / ONE_HOUR : 0);
     }
 
     /**
@@ -1264,7 +1315,7 @@ public class DateTimeUtils {
             return -1;
         }
         long intervalMilli = oDate.getTime() - fDate.getTime();
-        return (int) (intervalMilli / ONE_DAY);
+        return (int) (intervalMilli / ONE_DAY_MILIS);
     }
 
     /**
@@ -1315,7 +1366,7 @@ public class DateTimeUtils {
         cal.set(Calendar.MILLISECOND, 0);
         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), 0, 0, 0);
         long time2 = cal.getTimeInMillis();
-        long between_days = (time2 - time1) / ONE_DAY;
+        long between_days = (time2 - time1) / ONE_DAY_MILIS;
 
         return Integer.parseInt(String.valueOf(between_days));
     }
@@ -1328,6 +1379,10 @@ public class DateTimeUtils {
      * @return long[] 返回值为：{天, 时, 分, 秒}
      */
     public static long[] getDistanceTimes(String str1, String str2) {
+        if (TextUtils.isEmpty(str1) || TextUtils.isEmpty(str2)) {
+            LogUtil.i("maybe The str1 or str2 is empty");
+            return null;
+        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date one;
         Date two;
@@ -1346,9 +1401,9 @@ public class DateTimeUtils {
             } else {
                 diff = time1 - time2;
             }
-            day = diff / ONE_DAY;
-            hour = (diff / ONE_HOUR - day * 24);
-            min = ((diff / ONE_MINUTE) - day * 1440 - hour * 60);
+            day = diff / ONE_DAY_MILIS;
+            hour = (diff / ONE_HOUR_MILIS - day * 24);
+            min = ((diff / ONE_MINUTE_MILIS) - day * 1440 - hour * 60);
             sec = (diff / 1000 - day * 86400 - hour * 3600 - min * 60);
         } catch (Exception e) {
             LogUtil.e(e.getMessage(), e);
@@ -1365,6 +1420,10 @@ public class DateTimeUtils {
      * @return long[] 返回值为：{天, 时, 分, 秒}
      */
     public static long[] getDistanceTime(String str1, String str2) {
+        if (TextUtils.isEmpty(str1) || TextUtils.isEmpty(str2)) {
+            LogUtil.i("maybe The str1 or str2 is empty");
+            return null;
+        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date one;
         Date two;
@@ -1382,9 +1441,9 @@ public class DateTimeUtils {
             } else {
                 diff = time1 - time2;
             }
-            day = diff / ONE_DAY;
-            hour = (diff / ONE_HOUR - day * 24);
-            min = ((diff / ONE_MINUTE) - day * 1440 - hour * 60);
+            day = diff / ONE_DAY_MILIS;
+            hour = (diff / ONE_HOUR_MILIS - day * 24);
+            min = ((diff / ONE_MINUTE_MILIS) - day * 1440 - hour * 60);
         } catch (Exception e) {
             LogUtil.e(e.getMessage(), e);
         }
@@ -1419,13 +1478,11 @@ public class DateTimeUtils {
      * @return String 返回值为：2天23小时5分钟
      */
     public static String formatMinutes(String minutes) {
-        if (TextUtils.isEmpty(minutes))
+        if (TextUtils.isEmpty(minutes)) {
+            LogUtil.i("The minutes is empty");
             return null;
-        try {
-            return formatMinutes(Long.parseLong(minutes));
-        } catch (Exception e) {
         }
-        return null;
+        return formatMinutes(Long.parseLong(minutes));
     }
 
     /**
@@ -1435,15 +1492,9 @@ public class DateTimeUtils {
      * @return String 返回值为：2天23小时5分钟
      */
     public static String formatMinutes(long minutes) {
-        long day = 0;
-        long hour = 0;
-        long min = 0;
-        try {
-            day = minutes / 1440;
-            hour = minutes / 60 - day * 24;
-            min = minutes - day * 1440 - hour * 60;
-        } catch (Exception e) {
-        }
+        long day = minutes / 1440;
+        long hour = minutes / 60 - day * 24;
+        long min = minutes - day * 1440 - hour * 60;
         if (day != 0 || hour != 0 || min != 0) {
             StringBuffer sb = new StringBuffer();
             if (day != 0) {
@@ -1620,7 +1671,7 @@ public class DateTimeUtils {
         calendar.setTime(date);
         int currenYear = calendar.get(Calendar.YEAR);
         calendar.set(Calendar.YEAR, currenYear + distance);
-        java.sql.Date newDate = new java.sql.Date(calendar.getTimeInMillis());
+        Date newDate = new Date(calendar.getTimeInMillis());
         return newDate;
     }
 
@@ -1755,9 +1806,7 @@ public class DateTimeUtils {
      * @return
      */
     public static String formatDateToWeekDay(Date date, String pattern) {
-        if (date == null)
-            return null;
-        int interDay = DateTimeUtils.getIntervalDay(today, date);
+        int interDay = DateTimeUtils.getIntervalDay(Calendar.getInstance().getTime(), date);
         String flag = interDay >= 0 && interDay <= 2 ? (interDay == 0 ? "今天" : interDay == 1 ? "明天" : "后天") : getWeekOfDate(date);
         return Date2String(date, pattern) + " " + flag;
     }
@@ -1849,7 +1898,6 @@ public class DateTimeUtils {
             calendar.setTimeInMillis(Toolkit.getLongValue(milliseconds));
             return calendarToDateStr(calendar, pattern).split(SPLIT);
         } catch (Exception e) {
-            // TODO: handle exception
             LogUtil.e(e.getMessage(), e);
             return null;
         }
@@ -1874,13 +1922,7 @@ public class DateTimeUtils {
      * @return [2015-March-17]
      */
     public static String[] formatDatesEnglish(Long milliseconds) {
-        try {
-            return formatDateEnglish(milliseconds).split(SPLIT);
-        } catch (Exception e) {
-            // TODO: handle exception
-            LogUtil.e(e.getMessage(), e);
-            return null;
-        }
+        return formatDateEnglish(milliseconds).split(SPLIT);
     }
 
     /**
@@ -1890,22 +1932,16 @@ public class DateTimeUtils {
      * @return
      */
     public static long formatStringToMillis(String dateString) {
-        try {
-            return StringToDate(dateString).getTime();
-        } catch (Exception e) {
-            // TODO: handle exception
-            LogUtil.e(e.getMessage(), e);
-            return 0;
-        }
+        return StringToDate(dateString).getTime();
     }
 
     /**
-     * 当前日期
+     * 当前日期，年月日
      *
      * @return
      */
     public static String getCurrentDateString() {
-        return dateToString(today);
+        return Date2String(Calendar.getInstance().getTime(), yyyy_MM_dd);
     }
 
     /**
@@ -1914,6 +1950,6 @@ public class DateTimeUtils {
      * @return
      */
     public static String getCurrentDateString(String pattern) {
-        return Date2String(today, pattern);
+        return Date2String(Calendar.getInstance().getTime(), pattern);
     }
 }

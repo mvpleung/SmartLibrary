@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.smart.library.R;
+import org.smart.library.control.AppConfig;
 import org.smart.library.control.AppManager;
 import org.smart.library.widget.FastWebView;
 import org.xutils.common.util.LogUtil;
@@ -40,7 +41,6 @@ import org.xutils.common.util.LogUtil;
  *
  * @author LiangZiChao
  *         created on 2014-9-5下午3:28:52
- *         In the com.xiaobai.xbtrip.activity
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class WebActivity extends Activity {
@@ -117,8 +117,8 @@ public class WebActivity extends Activity {
         // wv_banner.setInitialScale(10);
         if (TextUtils.isEmpty(url)) {
             url = "file:///android_asset/web_content.html";
-            // web_content.addJavascriptInterface(webContent, "contenthtml");
         }
+        mWebContent.addJavascriptInterface(this, AppConfig.APP_NAME);
         mWebContent.loadUrl(url); // 载入地址
     }
 
@@ -135,6 +135,10 @@ public class WebActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    @android.webkit.JavascriptInterface
+    public <T> void onEvent(T... params) {
     }
 
     private class MyWebViewClient extends WebViewClient {

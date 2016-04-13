@@ -21,7 +21,6 @@ import org.smart.library.R;
  * 
  * @author
  *         created on LiangZiChao Update By 2014-7-28上午12:16:47
- *         In the com.xiaobai.mobile.view
  */
 @SuppressLint("ClickableViewAccessibility")
 public class ClearEditText extends EditText implements OnFocusChangeListener, TextWatcher {

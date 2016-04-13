@@ -39,4 +39,4 @@ dependencies {
     compile 'org.simple:androideventbus:latest'
     compile 'com.google.zxing:core:3.2.1'
 }
-apply from: '../bintray.gradle'
+//apply from: '../bintray.gradle'

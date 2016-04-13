@@ -33,7 +33,6 @@ import java.util.List;
  * 这是个选项卡式的控件，会随着viewpager的滑动而滑动
  *
  * @author created on LiangZiChao Update By 2014-9-1下午4:20:12
- *         In the com.xiaobai.xbtrip.view.tabs
  */
 public class TitleIndicator extends LinearLayout implements View.OnClickListener, OnFocusChangeListener {
 

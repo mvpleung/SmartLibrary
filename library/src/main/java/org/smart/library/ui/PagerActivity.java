@@ -27,7 +27,6 @@ import java.util.ArrayList;
  * 
  * @author LiangZiChao
  *         created on 2015年6月19日
- *         In the net.gemeite.smartcommunity.ui
  */
 public class PagerActivity extends FragmentActivity implements View.OnClickListener {
 

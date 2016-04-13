@@ -8,7 +8,6 @@ import android.os.Parcelable;
  * 
  * @author LiangZiChao
  *         created on 2015年7月27日
- *         In the net.gemeite.smartcommunity.model
  */
 public class AppVersionBean implements Parcelable {
 

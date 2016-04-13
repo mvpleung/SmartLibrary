@@ -22,7 +22,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author LiangZiChao
  *         版本更新
  *         created on 2014-9-4下午1:54:56
- *         In the com.xiaobai.xbtrip.update
  */
 @SuppressLint({"HandlerLeak", "DefaultLocale"})
 public class UpdateVersion {

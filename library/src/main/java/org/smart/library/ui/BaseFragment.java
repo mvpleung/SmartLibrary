@@ -1,5 +1,6 @@
 package org.smart.library.ui;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import org.xutils.common.util.LogUtil;
@@ -45,5 +46,13 @@ public class BaseFragment extends Fragment implements Serializable {
 			LogUtil.e(e.getMessage(), e);
 			return null;
 		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// for fix a known issue in support library
+		// https://code.google.com/p/android/issues/detail?id=19917
+		outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+		super.onSaveInstanceState(outState);
 	}
 }

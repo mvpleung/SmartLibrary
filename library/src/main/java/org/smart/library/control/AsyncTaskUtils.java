@@ -11,7 +11,6 @@ import org.xutils.common.util.LogUtil;
  * 
  * @author LiangZiChao
  *         created on 2015年7月21日
- *         In the net.gemeite.smartcommunity.network
  */
 public abstract class AsyncTaskUtils<Result, Params> {
 

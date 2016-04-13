@@ -49,7 +49,6 @@ import java.util.List;
  * 
  * @author LiangZiChao
  *         created on 2015年7月9日
- *         In the net.gemeite.merchant.ui.photo
  */
 @SuppressLint("InflateParams")
 public class PhotoSelectorActivity extends Activity implements OnLocalListener, OnClickListener {

@@ -39,7 +39,6 @@ import java.util.Arrays;
  * @author LiangZiChao
  * @param <T>
  *         created on 2014-8-4下午1:46:50
- *         In the com.xiaobai.xbtrip.view
  */
 public class ChoiceDialog<T> extends Dialog {
 
