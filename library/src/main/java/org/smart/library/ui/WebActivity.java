@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,13 +30,14 @@ import android.widget.TextView;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.smart.library.R;
-import org.smart.library.control.AppConfig;
 import org.smart.library.control.AppManager;
+import org.smart.library.tools.SafeWebViewBridge.InjectedChromeClient;
 import org.smart.library.widget.FastWebView;
 import org.xutils.common.util.LogUtil;
 
 /**
- * web浏览器
+ * web浏览器，会以 “JsBridge” 作为JS桥接对象，用于Java和JS互通
+ * 注入类：请传递 injectedCls 参数，或者继承 WebActivity 重写 getJnjectedClz
  *
  * @author LiangZiChao
  *         created on 2014-9-5下午3:28:52
@@ -69,6 +69,10 @@ public class WebActivity extends Activity {
      * StatusBarColor
      */
     public final static String STAUSBAR_COLOR = "statusBarColor";
+    /**
+     * injectedCls
+     */
+    public final static String INJECTEDCLZ = "injectedCls";
 
     private View mTitleView;
     private TextView mTextTitle;
@@ -84,16 +88,6 @@ public class WebActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setTheme(android.R.style.Theme_Light_NoTitleBar);
         setContentView(R.layout.activity_web);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            SystemBarTintManager mTintManager = new SystemBarTintManager(this);
-            mTintManager.setStatusBarTintEnabled(true);
-            mTintManager.setNavigationBarTintEnabled(true);
-            int statusBarColor = getIntent().getIntExtra(STAUSBAR_COLOR, -1);
-            if (statusBarColor != -1)
-                mTintManager.setStatusBarTintColor(statusBarColor);
-            else
-                mTintManager.setStatusBarTintResource(getIntent().getIntExtra(STATUSBAR_RESOURCE, R.color.colorPrimaryDark));
-        }
         initUI();
         Intent intent = getIntent();
         mTitleView.setVisibility(intent.getBooleanExtra(WEB_TITLE_BAR, true) ? View.VISIBLE : View.GONE);
@@ -103,7 +97,7 @@ public class WebActivity extends Activity {
         url = intent.getStringExtra(WEB_URL);
         webContent = intent.getStringExtra(WEB_CONTENT);
         mWebContent.setWebViewClient(new MyWebViewClient());
-        mWebContent.setWebChromeClient(new MyChromeClient());
+        mWebContent.setWebChromeClient(new MyChromeClient("JsBridge", getJnjectedClz()));
         mWebContent.setDownloadListener(new MyWebViewDownLoadListener());
         WebSettings webSettings = mWebContent.getSettings();
         webSettings.setBlockNetworkImage(true);
@@ -114,15 +108,24 @@ public class WebActivity extends Activity {
         webSettings.setDomStorageEnabled(true);
         mWebContent.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         mWebContent.requestFocusFromTouch();
-        // wv_banner.setInitialScale(10);
+        // mWebContent.setInitialScale(10);
         if (TextUtils.isEmpty(url)) {
             url = "file:///android_asset/web_content.html";
         }
-        mWebContent.addJavascriptInterface(this, AppConfig.APP_NAME);
         mWebContent.loadUrl(url); // 载入地址
     }
 
     private void initUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            SystemBarTintManager mTintManager = new SystemBarTintManager(this);
+            mTintManager.setStatusBarTintEnabled(true);
+            mTintManager.setNavigationBarTintEnabled(true);
+            int statusBarColor = getIntent().getIntExtra(STAUSBAR_COLOR, -1);
+            if (statusBarColor != -1)
+                mTintManager.setStatusBarTintColor(statusBarColor);
+            else
+                mTintManager.setStatusBarTintResource(getIntent().getIntExtra(STATUSBAR_RESOURCE, R.color.colorPrimaryDark));
+        }
         mTitleView = findViewById(R.id.title_layout);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
         mWebContent = (FastWebView) findViewById(R.id.wv_banner);
@@ -137,8 +140,12 @@ public class WebActivity extends Activity {
         });
     }
 
-    @android.webkit.JavascriptInterface
-    public <T> void onEvent(T... params) {
+    public WebView getWebView() {
+        return mWebContent;
+    }
+
+    public Class getJnjectedClz() {
+        return (Class) getIntent().getSerializableExtra(INJECTEDCLZ);
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -182,10 +189,15 @@ public class WebActivity extends Activity {
         }
     }
 
-    private class MyChromeClient extends WebChromeClient {
+    private class MyChromeClient extends InjectedChromeClient {
+
+        public MyChromeClient(String injectedName, Class injectedCls) {
+            super(injectedName, injectedCls);
+        }
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
             LogUtil.i("Progress:" + newProgress);
             mProgressBar.setProgress(newProgress);
             mProgressBar.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);

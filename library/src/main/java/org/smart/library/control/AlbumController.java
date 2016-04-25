@@ -49,7 +49,6 @@ public class AlbumController {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			if (mOnLocalListener != null && msg.obj != null) {
 				switch (msg.what) {
 				case CURRENT:
@@ -67,11 +66,10 @@ public class AlbumController {
 
 	/** 获取最近照片列表 */
 	public void getCurrentPhotos() {
-		ThreadPoolUtils.execute(new Runnable() {
+		TaskExecutor.executeTask(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				List<PhotoModel> photos = new ArrayList<PhotoModel>();
 				Cursor cursor = resolver.query(Media.EXTERNAL_CONTENT_URI, new String[] { ImageColumns.DATA, ImageColumns.DATE_ADDED, ImageColumns.SIZE }, null, null, ImageColumns.DATE_ADDED);
 				if (cursor != null) {
@@ -94,11 +92,10 @@ public class AlbumController {
 
 	/** 获取所有相册列表 */
 	public void getAlbums() {
-		ThreadPoolUtils.execute(new Runnable() {
+		TaskExecutor.executeTask(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				List<AlbumModel> albums = new ArrayList<AlbumModel>();
 				Map<String, AlbumModel> map = new HashMap<String, AlbumModel>();
 				Cursor cursor = resolver.query(Media.EXTERNAL_CONTENT_URI, new String[] { ImageColumns.DATA, ImageColumns.BUCKET_DISPLAY_NAME, ImageColumns.SIZE }, null, null, null);
@@ -132,11 +129,10 @@ public class AlbumController {
 
 	/** 获取对应相册下的照片 */
 	public void getAlbum(final String name) {
-		ThreadPoolUtils.execute(new Runnable() {
+		TaskExecutor.executeTask(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				List<PhotoModel> photos = new ArrayList<PhotoModel>();
 				Cursor cursor = resolver.query(Media.EXTERNAL_CONTENT_URI, new String[] { ImageColumns.BUCKET_DISPLAY_NAME, ImageColumns.DATA, ImageColumns.DATE_ADDED, ImageColumns.SIZE }, "bucket_display_name = ?", new String[] { name }, ImageColumns.DATE_ADDED);
 				if (cursor != null) {

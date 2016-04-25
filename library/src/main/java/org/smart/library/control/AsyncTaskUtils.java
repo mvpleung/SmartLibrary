@@ -50,7 +50,7 @@ public abstract class AsyncTaskUtils<Result, Params> {
 	public void execute(Params mParams) {
 		onStart();
 		final Params params = mParams;
-		ThreadPoolUtils.execute(new Runnable() {
+		TaskExecutor.executeTask(new Runnable() {
 
 			@Override
 			public void run() {
