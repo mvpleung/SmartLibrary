@@ -7,10 +7,8 @@ import org.xutils.common.util.LogUtil;
 
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,16 +35,16 @@ public class JudgmentLegal {
     }
 
     /**
-     * 会员帐号 5-15 不能是纯数字 不能包含特殊符号除"_"
+     * 帐号名验证 5-15 不能是纯数字 不能包含特殊符号除"_"
      */
-    public static boolean memberNo(String str) {
+    public static boolean isMemberNo(String str) {
         Pattern parrert = Pattern.compile("\\w{5,15}");
         Matcher matcher = parrert.matcher(str);
         return !matcher.matches();
     }
 
     /**
-     * 判断字符串是否包含字符
+     * 判断字符串是否包含中文字符
      *
      * @param StrName 路径
      * @return
@@ -65,7 +63,7 @@ public class JudgmentLegal {
      * @param mString
      * @return
      */
-    public static String EncodeChinese(String mString) {
+    public static String encodeChinese(String mString) {
         if (TextUtils.isEmpty(mString))
             return mString;
         try {
@@ -80,47 +78,6 @@ public class JudgmentLegal {
         }
         return mString;
     }
-
-    // /**
-    // * 判断是否包含汉语名字
-    // *
-    // * @param StrName
-    // * 路径
-    // * @return
-    // */
-    // private boolean isChinseName(String StrName) {
-    // int index = StrName.lastIndexOf("/");
-    // String name = StrName.substring(index + 1, StrName.length());
-    // char[] charArray = name.toCharArray();
-    // for (int i = 0; i < charArray.length; i++) {
-    // if ((charArray[i] >= 0x4e00) && (charArray[i] <= 0x9fbb)) {
-    // return true;
-    // }
-    // }
-    // return false;
-    //
-    // }
-
-    //
-    // /**
-    // * 会员是否合法
-    // */
-    // public static boolean isMemberNo(String str) {
-    // boolean temp = true;
-    // // 纯数字
-    // if (!isNumeric(str)) {
-    // temp = false;
-    // } else if (isPassword(str)) {
-    // // 长度
-    // temp = isPassword(str);
-    // } else if (str.contains("_")) {
-    // // 特殊字符
-    // temp = true;
-    //
-    // }
-    // return temp;
-    //
-    // }
 
     /**
      * 判断是否钱币字符合法
@@ -200,9 +157,9 @@ public class JudgmentLegal {
     }
 
     /**
-     * 订单管理 订单号中间使用****
+     * 格式化订单号中间使用****
      */
-    public static String toOrderOrdIdStar(String str) {
+    public static String formartOrderIdStar(String str) {
         if (TextUtils.isEmpty(str))
             return str;
         String strPattern = "**";
@@ -223,7 +180,7 @@ public class JudgmentLegal {
      * @param str
      * @return
      */
-    public static String toPhoneNumberStar(String str) {
+    public static String formatPhoneNumberStar(String str) {
         if (TextUtils.isEmpty(str) || str.length() < 11)
             return str;
         String res = str.substring(0, 3) + "****" + str.substring(7, 11);
@@ -408,57 +365,17 @@ public class JudgmentLegal {
      * @return
      */
     public static boolean isPhoneNumberLegal(String str) {
-        boolean res;
-        // /**
-        // * 手机号码
-        // 移动：134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
-        // * 联通：130,131,132,152,155,156,185,186 电信：133,1349,153,180,189
-        // */
-        // String MOBILE = "^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
-        // /**
-        // * 中国移动：China Mobile
-        // * 134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
-        // */
-        // String CM = "^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
-        // /**
-        // * 中国联通：China Unicom 130,131,132,152,155,156,185,186
-        // */
-        // String CU = "^1(3[0-2]|5[256]|8[56])\\d{8}$";
-        // /**
-        // * 中国电信：China Telecom 133,1349,153,180,189
-        // */
-        // String CT = "^1((33|53|8[09])[0-9]|349)\\d{7}$";
-        // /**
-        // * 大陆地区固话及小灵通 区号：010,020,021,022,023,024,025,027,028,029 号码：七位或八位
-        // */
-        // String PHS = "^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
-        String MOBILE = "^1\\d{10}$";
-        // String MOBILE = "^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
-        Pattern pt = Pattern.compile(MOBILE);
-        if (pt.matcher(str).matches()) {
-            res = true;
-        } else {
-            res = false;
-        }
-        return res;
+        return Pattern.compile("^1\\d{10}$").matcher(str).matches();
     }
 
     /**
-     * 所有输入框均不能为空（特别提示除外）
+     * 是否是空值
      *
      * @param str
      * @return true是空值，false是非空值
      */
     public static boolean isNull(String str) {
-        boolean res;
-        if (str == null) {
-            res = true;
-        } else if ("".equals(str)) {
-            res = true;
-        } else {
-            res = false;
-        }
-        return res;
+        return str == null || str.length() == 0;
     }
 
     /**
@@ -512,22 +429,10 @@ public class JudgmentLegal {
      * 会员账号长度限制6-15位，不能为纯数字
      *
      * @param str
-     * @return 0是没问题，1是不符合账号长度限制5-15位，2是不符合不能为纯数字 3 特殊字符错误
+     * @return
      */
-    public static int isMemberAccount(String str) {
-        int res = 0;
-        Pattern parrert = Pattern.compile("\\w{6,15}");
-        Matcher matcher = parrert.matcher(str);
-        if (str.length() < 6 || str.length() > 15) {
-            res = 1;
-        } else if (isNumeric(str)) {
-            res = 2;
-        } else if (matcher.matches()) {
-            res = 0;
-        } else {
-            res = 3;
-        }
-        return res;
+    public static boolean isMemberAccount(String str) {
+        return str != null && !isNumeric(str) && Pattern.compile("\\w{6,15}").matcher(str).matches();
     }
 
     /**
@@ -536,49 +441,18 @@ public class JudgmentLegal {
      * @param str
      * @return true是密码合法，false是密码不合法
      */
-    public static boolean isPassword(String str) {
-        boolean res;
-
-        if (str.length() < 6 || str.length() > 20) {
-            res = false;
-        } else {
-            res = true;
-        }
-        return res;
-    }
-
-    /**
-     * 4. 手机号码长度限制11位，纯数字
-     *
-     * @param str
-     * @return 0是没问题，1是不符合账号长度限制11位，2是不符合纯数字
-     */
-    public static int isPhoneNumber(String str) {
-        int res = 0;
-
-        if (str.length() != 11) {
-            res = 1;
-        } else if (!isNumeric(str)) {
-            res = 2;
-        }
-        return res;
+    public static boolean isPasswordLimit(String str) {
+        return str.length() >= 6 && str.length() <= 20;
     }
 
     /**
      * 5. 验证码长度限制6位，纯数字
      *
-     * @param str
-     * @return 0是没问题，1是不符合验证码长度限制6位，2是不符合纯数字
+     * @param captcha
+     * @return
      */
-    public static int isCaptcha(String str) {
-        int res = 0;
-
-        if (str.length() != 6) {
-            res = 1;
-        } else if (!isNumeric(str)) {
-            res = 2;
-        }
-        return res;
+    public static boolean isCaptcha(String captcha) {
+        return captcha != null && captcha.length() == 6 && isNumeric(captcha);
     }
 
     /**
@@ -638,34 +512,6 @@ public class JudgmentLegal {
         return res;
     }
 
-    // 8. 金额输出格式化，以元为单位，两位小数（2.10、2,000.00）
-    // return null是str为空，最后返回格式化输出的手机号码
-    // public static String showMoneyOutput(String str) {
-    //
-    // StringBuffer s = new StringBuffer(str);
-    // int temp = str.indexOf(".");
-    //
-    // if (temp == -1) {
-    // s.append(".00");
-    // temp = str.length();
-    // } else if (str.length() - temp == 1) {
-    // s.append("00");
-    // } else if (str.length() - temp - 1 == 1) {
-    // s.append("0");
-    // } else if (str.length() - temp > 3) {
-    // s.delete(temp + 3, str.length());
-    // }
-    // Pattern pattern = Pattern.compile("\\d{1,3}(,{1}\\d{3})*(\\.\\d+)?");
-    // if (pattern.matcher(s.toString()).matches()) {
-    // return s.toString();
-    // }
-    // while (temp > 3) {
-    // temp -= 3;
-    // s.insert(temp, ",");
-    // }
-    // return s.toString();
-    // }
-
     /**
      * 金额输出格式化，以元为单位，纯整数，三位加逗号。
      *
@@ -707,11 +553,13 @@ public class JudgmentLegal {
     }
 
     /***
+     * 电话号码验证（包括手机号码和固话及小灵通）
      * 手机号码 移动：134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
      * 联通：130,131,132,152,155,156,185,186 电信：133,1349,153,180,189
+     * 大陆地区固话及小灵通 区号：010,020,021,022,023,024,025,027,028,029 号码：七位或八位
      */
 
-    public static boolean checkCellPhone(String phone) {
+    public static boolean checkCellPhone(String cellPhone) {
         /**
          * 中国移动：China Mobile
          **/
@@ -719,25 +567,29 @@ public class JudgmentLegal {
         /**
          * 中国联通：China Unicom
          **/
-        String CM = "^1(34[0-8]|(3[5-9]|5[017-9]|8[23678])\\d)\\d{7}$";
+        String CU = "^1(34[0-8]|(3[5-9]|5[017-9]|8[23678])\\d)\\d{7}$";
         /**
          * 中国电信：China Telecom
          **/
-        String CU = "^1(3[0-2]|5[256]|8[56])\\d{8}$";
-        Pattern patternMOBILE = Pattern.compile(MOBILE);
-        Matcher matcherMOBILE = patternMOBILE.matcher(phone);
+        String CT = "^1(3[0-2]|5[256]|8[56])\\d{8}$";
+        /**
+         * 大陆地区固话及小灵通 区号：010,020,021,022,023,024,025,027,028,029 号码：七位或八位
+         */
+        String PHS = "^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
 
-        Pattern patternCM = Pattern.compile(CM);
-        Matcher matcherCM = patternCM.matcher(phone);
+        Pattern patternMOBILE = Pattern.compile(MOBILE);
+        Matcher matcherMOBILE = patternMOBILE.matcher(cellPhone);
 
         Pattern patternCU = Pattern.compile(CU);
-        Matcher matcherCU = patternCU.matcher(phone);
+        Matcher matcherCU = patternCU.matcher(cellPhone);
 
-        if (matcherMOBILE.matches() || matcherCM.matches() || matcherCU.matches()) {
-            return true;
-        } else {
-            return false;
-        }
+        Pattern patternCT = Pattern.compile(CT);
+        Matcher matcherCT = patternCT.matcher(cellPhone);
+
+        Pattern patternPHS = Pattern.compile(CT);
+        Matcher matcherPHS = patternPHS.matcher(cellPhone);
+
+        return matcherMOBILE.matches() || matcherCU.matches() || matcherCT.matches() || matcherPHS.matches();
     }
 
     /**
@@ -760,130 +612,13 @@ public class JudgmentLegal {
      * @return boolean 返回检查结果
      */
     public static boolean isUrl(String pInput) {
-        if (pInput == null) {
+        if (isNull(pInput)) {
             return false;
         }
         String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
         Pattern p = Pattern.compile(regex);
         Matcher matcher = p.matcher(pInput);
         return matcher.matches();
-    }
-
-    /**
-     * 生成18位随机码
-     *
-     * @return
-     */
-    public static String getRandomUUID() {
-        // 1、创建时间戳
-        java.util.Date dateNow = new java.util.Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateNowStr = dateFormat.format(dateNow);
-        StringBuffer sb = new StringBuffer(dateNowStr);
-
-        // 2、创建随机对象
-        Random rd = new Random();
-
-        // 3、产生4位随机数
-        String n = "";
-        int rdGet; // 取得随机数
-
-        do {
-            int temp = rd.nextInt();
-            rdGet = temp != Integer.MIN_VALUE ? Math.abs(temp) % 10 : temp % 10 + 48; // 产生48到57的随机数(0-9的键位值)
-            // rdGet=Math.abs(rd.nextInt())%26+97; //产生97到122的随机数(a-z的键位值)
-            char num1 = (char) rdGet;
-            String dd = Character.toString(num1);
-            n += dd;
-        } while (n.length() < 4);// 假如长度小于4
-        sb.append(n);
-
-        // 4、返回唯一码
-        return sb.toString();
-    }
-
-    /**
-     * 验证身份证号码
-     *
-     * @param id
-     * @return
-     */
-    public static boolean veryfyCard(String id) {
-        id = id.toUpperCase();
-        int[] ary = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
-        char[] ch = {'1', '2', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
-        int sum = 0;
-        char data;
-        if (isNull(id))
-            return false;
-        switch (id.length()) {
-            case 17:
-                char[] ary1 = id.toCharArray();
-                for (int i = 0; i < ary1.length; i++) {
-                    sum += (ary1[i] - '0') * ary[i];
-                }
-                data = ch[sum % 11];
-                return id.equals(id + data);
-
-            case 18:
-                char[] ary2 = id.toCharArray();
-                for (int i = 0; i < ary2.length - 1; i++) {
-                    sum += (ary2[i] - '0') * ary[i];
-                }
-                data = ch[sum % 11];
-                char lastNum = id.charAt(17);
-                lastNum = lastNum == 'x' ? 'X' : lastNum;
-                return data == lastNum;
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * 创建身份证
-     *
-     * @param id
-     * @return
-     */
-    public static String createVerfyCard(String id) {
-        int[] ary = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
-        char[] ch = {'1', '2', 'X', '9', '8', '7', '6', '5', '4', '3', '2'};
-        int sum = 0;
-        char data;
-        int length = isNull(id) ? 0 : id.length();
-        switch (length) {
-            case 17:
-                char[] ary1 = id.toCharArray();
-                for (int i = 0; i < ary1.length; i++) {
-                    sum += (ary1[i] - '0') * ary[i];
-                }
-                data = ch[sum % 11];
-                return id + data;
-
-            case 18:
-                char[] ary2 = id.toCharArray();
-                for (int i = 0; i < ary2.length - 1; i++) {
-                    sum += (ary2[i] - '0') * ary[i];
-                }
-                data = ch[sum % 11];
-                char lastNum = id.charAt(17);
-                lastNum = lastNum == 'x' ? 'X' : lastNum;
-                if (data == lastNum) {
-                    return id;
-                }
-                char[] ary3 = new char[17];
-                for (int i = 0; i < id.length() - 1; i++) {
-                    ary3[i] = ary2[i];
-                }
-                return new String(ary3) + data;
-
-            default:
-                String str = "";
-                do {
-                    str = createVerfyCard(getRandomUUID());
-                } while (isNull(str));
-                return str;
-        }
     }
 
     /**
