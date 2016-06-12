@@ -10,7 +10,6 @@ import android.content.Intent;
 
 import org.smart.library.R;
 import org.smart.library.tools.UITools;
-import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,7 +48,7 @@ public class AppManager {
      */
     public void addActivity(Activity activity) {
         if (activityStack == null) {
-            activityStack = new Stack<>();
+            activityStack = new Stack<Activity>();
         }
         activityStack.push(activity);
     }
@@ -73,7 +72,7 @@ public class AppManager {
      */
     public Activity getCurrentActivity() {
         if (activityStack == null)
-            activityStack = new Stack<>();
+            activityStack = new Stack<Activity>();
         if (!activityStack.isEmpty())
             return activityStack.peek();
         else
@@ -118,7 +117,7 @@ public class AppManager {
                 if (!mActivity.isFinishing())
                     mActivity.finish();
                 if (activities == null)
-                    activities = new ArrayList<>();
+                    activities = new ArrayList<Activity>();
                 activities.add(mActivity);
             }
         }
@@ -142,7 +141,7 @@ public class AppManager {
                 if (!mActivity.isFinishing())
                     mActivity.finish();
                 if (activities == null)
-                    activities = new ArrayList<>();
+                    activities = new ArrayList<Activity>();
                 activities.add(mActivity);
             }
         }
@@ -248,7 +247,7 @@ public class AppManager {
                 activityMgr.restartPackage(context.getPackageName());
             }
         } catch (Exception e) {
-            LogUtil.e("AppExit Exception : \n" + e.getMessage(), e);
+            L.e("AppExit Exception : \n" + e.getMessage(), e);
         } finally {
             if (activityStack != null) {
                 activityStack.clear();

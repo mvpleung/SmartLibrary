@@ -35,7 +35,7 @@ import org.smart.library.tools.ImageUtils;
 import org.smart.library.tools.JudgmentLegal;
 import org.smart.library.tools.UITools;
 import org.smart.library.widget.PagerSlidingTabStrip;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,7 +108,7 @@ public class PageMenuActivity extends FragmentActivity implements OnPageChangeLi
 			mTintManager.setNavigationBarTintEnabled(true);
 			mTintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
 		}
-		findViewById(R.id.tv_title_back).setOnClickListener(this);
+		findViewById(R.id.im_title_back).setOnClickListener(this);
 		mToolBarTitle = (TextView) findViewById(R.id.tv_title);
 		mToolBarTitle.setText(getIntent().getCharSequenceExtra(TITLE));
 		if (showPagerTabTrip) {
@@ -131,7 +131,7 @@ public class PageMenuActivity extends FragmentActivity implements OnPageChangeLi
 		} catch (NoSuchFieldException e) {
 			// Ignore since this field won't exist in most versions of Android
 		} catch (IllegalAccessException e) {
-			LogUtil.w("Could not access FLAG_NEEDS_MENU_KEY in addLegacyOverflowButton()", e);
+			L.w("Could not access FLAG_NEEDS_MENU_KEY in addLegacyOverflowButton()", e);
 		}
 		Class<?>[] classes = getFragmentClass();
 		if (classes == null && mIntent.hasExtra(FRAGMENT_CLASSES)) {
@@ -146,7 +146,7 @@ public class PageMenuActivity extends FragmentActivity implements OnPageChangeLi
 					mFragments.add(i, createFragment(classes[i]));
 				}
 			} catch (Exception e) {
-				LogUtil.e(e.getMessage(), e);
+				L.e(e.getMessage(), e);
 			}
 		} else {
 			mFragments = getFragments();
@@ -218,7 +218,7 @@ public class PageMenuActivity extends FragmentActivity implements OnPageChangeLi
 		try {
 			getCurrentFragment().onActivityResult(requestCode, resultCode, data);
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		}
 	}
 
@@ -261,7 +261,7 @@ public class PageMenuActivity extends FragmentActivity implements OnPageChangeLi
 		try {
 			return getCurrentFragment().equals(baseFragment);
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return false;
 		}
 	}
@@ -491,7 +491,7 @@ public class PageMenuActivity extends FragmentActivity implements OnPageChangeLi
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		if (id == R.id.tv_title_back) {
+		if (id == R.id.im_title_back) {
 			finish();
 		} else if (id == R.id.tv_title) {
 			if (showDownMenu)

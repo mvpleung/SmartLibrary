@@ -58,23 +58,23 @@ import java.util.Locale;
 /**
  * A widget that enables the user to select a number form a predefined range.
  * There are two flavors of this widget and which one is presented to the user
- * depends on the current theme.
+ * depends on the mCurrent theme.
  * <ul>
  * <li>
- * If the current theme is derived from {@link android.R.style#Theme} the widget
- * presents the current value as an editable input field with an increment
+ * If the mCurrent theme is derived from {@link android.R.style#Theme} the widget
+ * presents the mCurrent value as an editable input field with an increment
  * button above and a decrement button below. Long pressing the buttons allows
- * for a quick change of the current value. Tapping on the input field allows to
+ * for a quick change of the mCurrent value. Tapping on the input field allows to
  * type in a desired value.</li>
  * <li>
- * If the current theme is derived from {@link android.R.style#Theme_Holo} or
- * {@link android.R.style#Theme_Holo_Light} the widget presents the current
+ * If the mCurrent theme is derived from {@link android.R.style#Theme_Holo} or
+ * {@link android.R.style#Theme_Holo_Light} the widget presents the mCurrent
  * value as an editable input field with a lesser value above and a greater
  * value below. Tapping on the lesser or greater value selects it by animating
- * the number axis up or down to make the chosen value current. Flinging up or
- * down allows for multiple increments or decrements of the current value. Long
+ * the number axis up or down to make the chosen value mCurrent. Flinging up or
+ * down allows for multiple increments or decrements of the mCurrent value. Long
  * pressing on the lesser and greater values also allows for a quick change of
- * the current value. Tapping on the current value allows to type in a desired
+ * the mCurrent value. Tapping on the mCurrent value allows to type in a desired
  * value.</li>
  * </ul>
  * <p>
@@ -178,7 +178,7 @@ public class NumberPicker extends LinearLayout {
 	private final ImageButton mDecrementButton;
 
 	/**
-	 * The text for showing the current value.
+	 * The text for showing the mCurrent value.
 	 */
 	private final EditText mInputText;
 
@@ -243,7 +243,7 @@ public class NumberPicker extends LinearLayout {
 	private int mValue;
 
 	/**
-	 * Listener to be notified upon current value change.
+	 * Listener to be notified upon mCurrent value change.
 	 */
 	private OnValueChangeListener mOnValueChangeListener;
 
@@ -253,7 +253,7 @@ public class NumberPicker extends LinearLayout {
 	private OnScrollListener mOnScrollListener;
 
 	/**
-	 * Formatter for for displaying the current value.
+	 * Formatter for for displaying the mCurrent value.
 	 */
 	private Formatter mFormatter;
 
@@ -293,7 +293,7 @@ public class NumberPicker extends LinearLayout {
 	private int mInitialScrollOffset = Integer.MIN_VALUE;
 
 	/**
-	 * The current offset of the scroll selector.
+	 * The mCurrent offset of the scroll selector.
 	 */
 	private int mCurrentScrollOffset;
 
@@ -318,13 +318,13 @@ public class NumberPicker extends LinearLayout {
 	private SetSelectionCommand mSetSelectionCommand;
 
 	/**
-	 * Handle to the reusable command for changing the current value from long
+	 * Handle to the reusable command for changing the mCurrent value from long
 	 * press by one.
 	 */
 	private ChangeCurrentByOneFromLongPressCommand mChangeCurrentByOneFromLongPressCommand;
 
 	/**
-	 * Command for beginning an edit of the current value via IME on long press.
+	 * Command for beginning an edit of the mCurrent value via IME on long press.
 	 */
 	private BeginSoftInputOnLongPressCommand mBeginSoftInputOnLongPressCommand;
 
@@ -389,7 +389,7 @@ public class NumberPicker extends LinearLayout {
 	private final int mSelectionDividerHeight;
 
 	/**
-	 * The current scroll state of the number picker.
+	 * The mCurrent scroll state of the number picker.
 	 */
 	private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 
@@ -442,12 +442,12 @@ public class NumberPicker extends LinearLayout {
 	private OnInputTextValueChangedListener onInputTextValueChangedListener;
 
 	/**
-	 * Interface to listen for changes of the current value.
+	 * Interface to listen for changes of the mCurrent value.
 	 */
 	public interface OnValueChangeListener {
 
 		/**
-		 * Called upon a change of the current value.
+		 * Called upon a change of the mCurrent value.
 		 * 
 		 * @param picker
 		 *            The NumberPicker associated with this listener.
@@ -487,7 +487,7 @@ public class NumberPicker extends LinearLayout {
 		 * @param view
 		 *            The view whose scroll state is being reported.
 		 * @param scrollState
-		 *            The current scroll state. One of
+		 *            The mCurrent scroll state. One of
 		 *            {@link #SCROLL_STATE_IDLE},
 		 *            {@link #SCROLL_STATE_TOUCH_SCROLL} or
 		 *            {@link #SCROLL_STATE_IDLE}.
@@ -496,12 +496,12 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Interface used to format current value into a string for presentation.
+	 * Interface used to format mCurrent value into a string for presentation.
 	 */
 	public interface Formatter {
 
 		/**
-		 * Formats a string representation of the current value.
+		 * Formats a string representation of the mCurrent value.
 		 * 
 		 * @param value
 		 *            The currently selected value.
@@ -1023,7 +1023,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Sets the listener to be notified on change of the current value.
+	 * Sets the listener to be notified on change of the mCurrent value.
 	 * 
 	 * @param onValueChangedListener
 	 *            The listener.
@@ -1043,7 +1043,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Set the formatter to be used for formatting the current value.
+	 * Set the formatter to be used for formatting the mCurrent value.
 	 * <p>
 	 * Note: If you have provided alternative values for the values this
 	 * formatter is never invoked.
@@ -1064,30 +1064,30 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Set the current value for the number picker.
+	 * Set the mCurrent value for the number picker.
 	 * <p>
 	 * If the argument is less than the {@link NumberPicker#getMinValue()} and
 	 * {@link NumberPicker#getWrapSelectorWheel()} is <code>false</code> the
-	 * current value is set to the {@link NumberPicker#getMinValue()} value.
+	 * mCurrent value is set to the {@link NumberPicker#getMinValue()} value.
 	 * </p>
 	 * <p>
 	 * If the argument is less than the {@link NumberPicker#getMinValue()} and
 	 * {@link NumberPicker#getWrapSelectorWheel()} is <code>true</code> the
-	 * current value is set to the {@link NumberPicker#getMaxValue()} value.
+	 * mCurrent value is set to the {@link NumberPicker#getMaxValue()} value.
 	 * </p>
 	 * <p>
 	 * If the argument is less than the {@link NumberPicker#getMaxValue()} and
 	 * {@link NumberPicker#getWrapSelectorWheel()} is <code>false</code> the
-	 * current value is set to the {@link NumberPicker#getMaxValue()} value.
+	 * mCurrent value is set to the {@link NumberPicker#getMaxValue()} value.
 	 * </p>
 	 * <p>
 	 * If the argument is less than the {@link NumberPicker#getMaxValue()} and
 	 * {@link NumberPicker#getWrapSelectorWheel()} is <code>true</code> the
-	 * current value is set to the {@link NumberPicker#getMinValue()} value.
+	 * mCurrent value is set to the {@link NumberPicker#getMinValue()} value.
 	 * </p>
 	 * 
 	 * @param value
-	 *            The current value.
+	 *            The mCurrent value.
 	 * @see #setWrapSelectorWheel(boolean)
 	 * @see #setMinValue(int)
 	 * @see #setMaxValue(int)
@@ -1472,7 +1472,7 @@ public class NumberPicker extends LinearLayout {
 	 * @param measuredSize
 	 *            The currently measured size.
 	 * @param measureSpec
-	 *            The current measure spec.
+	 *            The mCurrent measure spec.
 	 * @return The resolved size and state.
 	 */
 	private int resolveSizeAndStateRespectingMinSize(int minSize, int measuredSize, int measureSpec) {
@@ -1503,12 +1503,12 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Sets the current value of this NumberPicker.
+	 * Sets the mCurrent value of this NumberPicker.
 	 * 
-	 * @param current
+	 * @param mCurrent
 	 *            The new value of the NumberPicker.
 	 * @param notifyChange
-	 *            Whether to notify if the current value changed.
+	 *            Whether to notify if the mCurrent value changed.
 	 */
 	private void setValueInternal(int current, boolean notifyChange) {
 		if (mValue == current) {
@@ -1533,8 +1533,8 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Changes the current value by one which is increment or decrement based on
-	 * the passes argument. decrement the current value.
+	 * Changes the mCurrent value by one which is increment or decrement based on
+	 * the passes argument. decrement the mCurrent value.
 	 * 
 	 * @param increment
 	 *            True to increment, false to decrement.
@@ -1711,7 +1711,7 @@ public class NumberPicker extends LinearLayout {
 
 	/**
 	 * Updates the view of this NumberPicker. If displayValues were specified in
-	 * the string corresponding to the index specified by the current value will
+	 * the string corresponding to the index specified by the mCurrent value will
 	 * be returned. Otherwise, the formatter specified in {@link #setFormatter}
 	 * will be used to format the number.
 	 * 
@@ -1719,8 +1719,8 @@ public class NumberPicker extends LinearLayout {
 	 */
 	private boolean updateInputTextView() {
 		/*
-		 * If we don't have displayed values then use the current number else
-		 * find the correct value in the displayed values for the current
+		 * If we don't have displayed values then use the mCurrent number else
+		 * find the correct value in the displayed values for the mCurrent
 		 * number.
 		 */
 		String text = (mDisplayedValues == null) ? formatNumber(mValue) : mDisplayedValues[mValue - mMinValue];
@@ -1745,7 +1745,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Posts a command for changing the current value by one.
+	 * Posts a command for changing the mCurrent value by one.
 	 * 
 	 * @param increment
 	 *            Whether to increment or decrement the value.
@@ -1761,7 +1761,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Removes the command for changing the current value by one.
+	 * Removes the command for changing the mCurrent value by one.
 	 */
 	private void removeChangeCurrentByOneFromLongPress() {
 		if (mChangeCurrentByOneFromLongPressCommand != null) {
@@ -1770,7 +1770,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Posts a command for beginning an edit of the current value via IME on
+	 * Posts a command for beginning an edit of the mCurrent value via IME on
 	 * long press.
 	 */
 	private void postBeginSoftInputOnLongPressCommand() {
@@ -1783,7 +1783,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Removes the command for beginning an edit of the current value via IME.
+	 * Removes the command for beginning an edit of the mCurrent value via IME.
 	 */
 	private void removeBeginSoftInputCommand() {
 		if (mBeginSoftInputOnLongPressCommand != null) {
@@ -2030,7 +2030,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Command for changing the current value from a long press by one.
+	 * Command for changing the mCurrent value from a long press by one.
 	 */
 	class ChangeCurrentByOneFromLongPressCommand implements Runnable {
 		private boolean mIncrement;

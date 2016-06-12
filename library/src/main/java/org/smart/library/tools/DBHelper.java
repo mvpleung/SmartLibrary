@@ -14,7 +14,7 @@ import org.smart.library.control.AppConfig.Config;
 import org.smart.library.control.Version;
 import org.smart.library.model.Configuration;
 import org.xutils.DbManager;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 import org.xutils.db.sqlite.SqlInfo;
 import org.xutils.ex.DbException;
 import org.xutils.x;
@@ -67,7 +67,7 @@ public class DBHelper {
             if (dbHelper.globalDbMg == null)
                 dbHelper.globalDbMg = dbHelper.createDbManager(AppConfig.APP_NAME);
         } catch (DbException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return dbHelper.globalDbMg;
     }
@@ -89,8 +89,8 @@ public class DBHelper {
             String dbName = sparseArray.get(dbResource) + ".db";
             mDbPath = TextUtils.isEmpty(dbPath) ? mPackagePath : dbPath;
             mDbFullPath = (mDbPath.endsWith("/") ? mDbPath : (mDbPath + File.separator)) + dbName;
-            LogUtil.i("packagename:" + mPackageName);
-            LogUtil.i("mDbPath:" + mDbPath);
+            L.i("packagename:" + mPackageName);
+            L.i("mDbPath:" + mDbPath);
 
             // 拷贝数据库
             if (!isExists()) {
@@ -102,10 +102,10 @@ public class DBHelper {
                 if (needUpdate())
                     updateDataBase(dbResource, dbName);
                 else
-                    LogUtil.i("database is New");
+                    L.i("database is New");
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
     }
 
@@ -119,7 +119,7 @@ public class DBHelper {
                 .setDbUpgradeListener(new DbManager.DbUpgradeListener() {
                     @Override
                     public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
-                        LogUtil.i("DataBase Upgrade VersionCode:" + oldVersion + "--->" + newVersion);
+                        L.i("DataBase Upgrade VersionCode:" + oldVersion + "--->" + newVersion);
                     }
                 }).setAllowTransaction(true));
         return db;
@@ -163,7 +163,7 @@ public class DBHelper {
      * 升级DB
      */
     private void updateDataBase(int dbResource, String dbName) {
-        LogUtil.i("updating database...");
+        L.i("updating database...");
         String tempName = "temp_" + dbName;
         boolean isMegraData = false, isDelete = false;
         try {
@@ -196,7 +196,7 @@ public class DBHelper {
                 FileTools.deleteFile(mDbPath + tempName);
                 FileTools.deleteFile(mDbPath + tempName + "-journal");
             }
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
     }
 

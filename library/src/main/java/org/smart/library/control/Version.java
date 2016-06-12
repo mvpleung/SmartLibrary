@@ -5,8 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.text.TextUtils;
 
-import org.xutils.common.util.LogUtil;
-
 /**
  * 获取版本信息
  *
@@ -63,7 +61,7 @@ public class Version {
             VERSION_NAME = info.versionName;
             VERSION_CODE = info.versionCode;
         } catch (NameNotFoundException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
     }
 
@@ -74,7 +72,7 @@ public class Version {
      */
     public static String getAndroidVersionInfo() {
         String model = android.os.Build.MODEL;
-        LogUtil.i("Model:" + model);
+        L.i("Model:" + model);
         if (!TextUtils.isEmpty(model)) {
             int index = model.indexOf("-");
             if (index > 0) {

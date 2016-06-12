@@ -39,9 +39,10 @@ import org.smart.library.R;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+
 /**
  * 选项卡
- * 
+ *
  * @author LiangZiChao created on 2014-8-28下午3:19:45
  */
 @SuppressLint("Recycle")
@@ -52,13 +53,15 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 	/** 默认选项卡数量 */
 	private final static int DEFAULT_SWITCH_COUNT = 2;
 
+	private final static int EX = 5;// 余量
+
 	private ColorStateList mTextColor;
 
 	private int mParentWidth, mParentHeight;
 
 	private int mRadioStyle;
 
-	private float cornerRadius;
+	private float cornerRadius, textSize;
 
 	private int checkedColor, unCheckedColor, strokeColor, strokeWidth;
 
@@ -68,8 +71,6 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	// 是否测量完毕
 	private boolean isMeasure;
-
-	private boolean isStyleChanged, isMeasureChanged;
 
 	private SparseArray<RadioButton> mRadioArrays;
 	private SparseArray<Drawable> mButtonDrawables;
@@ -103,13 +104,14 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 		setUnCheckedColor(a.getColor(R.styleable.switchButton_sw_unCheckedColor, Color.WHITE));
 		setStrokeColor(a.getColor(R.styleable.switchButton_sw_strokeColor, Color.GREEN));
 		setStrokeWidth((int) a.getDimension(R.styleable.switchButton_sw_strokeWidth, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, getResources().getDisplayMetrics())));
+		setTextSize(a.getDimension(R.styleable.switchButton_android_textSize, 0f));
 		a.recycle();
 		setOnCheckedChangeListener(this);
 	}
 
 	/**
 	 * 初始化UI
-	 * 
+	 *
 	 * @param context
 	 */
 	@SuppressWarnings("deprecation")
@@ -118,38 +120,23 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 		if (mTexts != null && mTexts.length != switchCount) {
 			throw new IllegalArgumentException("The textArray's length must equal to the switchCount");
 		}
-		LayoutParams mParams = null;
 		if (mParentWidth == 0)
 			return;
+		ColorDrawable colorDrawable = new ColorDrawable();
+		LayoutParams mParams = new LayoutParams(mParentWidth / (switchCount > 2 ? switchCount : (switchCount + 1)), mParentHeight, 1);
 		for (int i = 0; i < switchCount; i++) {
 			if (mRadioArrays == null)
 				mRadioArrays = new SparseArray<RadioButton>();
-			RadioButton mRadioButton = mRadioArrays.get(i);
-			boolean isExists = !isStyleChanged && mRadioButton != null;
-			if (mParams == null) {
-				mParams = (isExists && !isMeasureChanged) ? (LayoutParams) mRadioButton.getLayoutParams() : new LayoutParams(mParentWidth / switchCount, mParentHeight, 1);
-			}
-			if (!isExists) {
-				mRadioButton = new RadioButton(getContext(), null, mRadioStyle > 0 ? mRadioStyle : android.R.attr.radioButtonStyle);
-				if (mRadioStyle == 0) {
-					mRadioButton.setGravity(Gravity.CENTER);
-					mRadioButton.setEllipsize(TruncateAt.END);
-				}
-			}
+			RadioButton mRadioButton = mRadioArrays.get(i, createRadioView());
 			mRadioButton.setLayoutParams(mParams);
-			Drawable mButtonDrawable = mButtonDrawables != null ? mButtonDrawables.get(i) : null;
-			mRadioButton.setButtonDrawable(mButtonDrawable != null ? mButtonDrawable : new ColorDrawable());
-			mRadioButton.setButtonDrawable(new ColorDrawable());
+			mRadioButton.setButtonDrawable(mButtonDrawables != null ? mButtonDrawables.get(i, colorDrawable) : colorDrawable);
 			if (Build.VERSION.SDK_INT >= 16) {
 				mRadioButton.setBackground(getStateDrawable(i));
 			} else {
 				mRadioButton.setBackgroundDrawable(getStateDrawable(i));
 			}
-			if (mTextColor != null)
-				mRadioButton.setTextColor(mTextColor);
-			if (mTexts != null)
-				mRadioButton.setText(mTexts[i]);
-			if (!isExists) {
+			mRadioButton.setText(mTexts[i]);
+			if (mRadioButton.getId() < 0) {
 				int id = getViewId();
 				if (mSparseIds == null)
 					mSparseIds = new SparseIntArray();
@@ -162,8 +149,6 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 			addView(mRadioButton, i);
 			mRadioArrays.put(i, mRadioButton);
 		}
-		isStyleChanged = false;
-		isMeasureChanged = false;
 	}
 
 	private Drawable getStateDrawable(int i) {
@@ -187,6 +172,19 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 			mStateDrawables.put(i, mStateListDrawable);
 		}
 		return mStateListDrawable;
+	}
+
+	private RadioButton createRadioView() {
+		RadioButton mRadioButton = new RadioButton(getContext(), null, mRadioStyle > 0 ? mRadioStyle : android.R.attr.radioButtonStyle);
+		if (mRadioStyle == 0) {
+			mRadioButton.setGravity(Gravity.CENTER);
+			mRadioButton.setEllipsize(TruncateAt.END);
+		}
+		if (mTextColor != null)
+			mRadioButton.setTextColor(mTextColor);
+		if (textSize > 0)
+			mRadioButton.setTextSize(textSize);
+		return mRadioButton;
 	}
 
 	@Deprecated
@@ -215,7 +213,7 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		mParentWidth = widthMeasureSpec;
+		mParentWidth = widthMeasureSpec - EX;
 		mParentHeight = mParentHeight == 0 ? heightMeasureSpec : mParentHeight;
 	}
 
@@ -227,7 +225,7 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	/**
 	 * 设置当前选中项
-	 * 
+	 *
 	 * @param selectedPosition
 	 */
 	public void setCurrentPosition(int selectedPosition) {
@@ -238,7 +236,7 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	/**
 	 * 设置选中项
-	 * 
+	 *
 	 * @param selectedPosition
 	 */
 	public void setCheckedPosition(int selectedPosition) {
@@ -254,7 +252,6 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 	}
 
 	public void setSwitchStyle(int mSwitchStyle) {
-		isStyleChanged = true;
 		this.mRadioStyle = mSwitchStyle;
 	}
 
@@ -268,12 +265,10 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	public void setParentWidth(int mParentWidth) {
 		this.mParentWidth = mParentWidth;
-		isMeasureChanged = true;
 	}
 
 	public void setParentHeight(int mParentHeight) {
 		this.mParentHeight = mParentHeight;
-		isMeasureChanged = true;
 	}
 
 	public void setSwitchCount(int switchCount) {
@@ -300,6 +295,10 @@ public class SwitchButton extends RadioGroup implements OnCheckedChangeListener 
 
 	public void setStrokeWidth(int strokeWidth) {
 		this.strokeWidth = strokeWidth;
+	}
+
+	public void setTextSize(float textSize) {
+		this.textSize = textSize;
 	}
 
 	public void setSwitchButton(int position, int mDrawableResId) {

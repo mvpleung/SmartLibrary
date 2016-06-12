@@ -8,13 +8,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView.ScaleType;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
-import org.smart.library.tools.GlideHelper;
+import org.smart.library.tools.ImageLoader;
 import org.smart.library.widget.EcoGallery;
 import org.smart.library.widget.ZoomImageView;
 
@@ -30,7 +28,6 @@ import java.util.List;
 public class ZoomImageAdapter extends BaseAdapter {
     private Context context;
     private List<String> imgUrls;
-    private RequestManager mRequestManager;
 
     public ZoomImageAdapter(Context context, List<String> imgUrls) {
         init(context, imgUrls);
@@ -45,7 +42,6 @@ public class ZoomImageAdapter extends BaseAdapter {
     private void init(Context context, List<String> imgUrls) {
         this.context = context;
         this.imgUrls = imgUrls == null ? new ArrayList<String>() : imgUrls;
-        this.mRequestManager = Glide.with(context);
     }
 
     @Override
@@ -76,7 +72,7 @@ public class ZoomImageAdapter extends BaseAdapter {
         } else {
             view = (ZoomImageView) convertView;
         }
-        GlideHelper.load(mRequestManager, convertImgUrl(imgUrls.get(position)), new GlideDrawableImageViewTarget(view) {
+        ImageLoader.load(convertImgUrl(imgUrls.get(position)), new GlideDrawableImageViewTarget(view) {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
                 super.onResourceReady(resource, animation);

@@ -8,7 +8,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import org.smart.library.R;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.util.ArrayList;
 
@@ -112,7 +112,7 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
 				((RadioButton) radioGroup.getChildAt(currentTab)).setChecked(true);
 			} else
 				radioGroup.check(mCurrentCheckedId);
-			LogUtil.i("currentTab : " + currentTab);
+			L.i("currentTab : " + currentTab);
 		}
 
 	}
@@ -125,6 +125,7 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
 	public void setCurrentTab(int index) {
 
 		getCurrentFragment().onPause(); // 暂停当前tab
+		getCurrentFragment().setUserVisibleHint(false);
 		// getCurrentFragment().onStop(); // 暂停当前tab
 
 		preTab = currentTab;
@@ -134,6 +135,7 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
 		if (fragment.isAdded()) {
 			// fragment.onStart(); // 启动目标tab的onStart()
 			fragment.onResume(); // 启动目标tab的onResume()
+			fragment.setUserVisibleHint(true);
 		}
 	}
 

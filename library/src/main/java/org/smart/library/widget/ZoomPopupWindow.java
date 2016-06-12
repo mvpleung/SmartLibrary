@@ -143,7 +143,7 @@ public class ZoomPopupWindow implements OnClickListener {
     }
 
     /**
-     * Set current Position
+     * Set mCurrent Position
      *
      * @param position
      */

@@ -18,7 +18,7 @@ package org.smart.library.widget.wheel;
 
 /**
  * Wheel changed listener interface.
- * The currentItemChanged() method is called whenever current wheel positions is changed:
+ * The currentItemChanged() method is called whenever mCurrent wheel positions is changed:
  * <ul>
  * <li> New Wheel position is set</li>
  * <li> Wheel view is scrolled</li>
@@ -26,11 +26,11 @@ package org.smart.library.widget.wheel;
  */
 public interface OnWheelChangedListener {
     /**
-     * Callback method to be invoked when current item changed
+     * Callback method to be invoked when mCurrent item changed
      *
      * @param wheel    the wheel view whose state has changed
-     * @param oldValue the old value of current item
-     * @param newValue the new value of current item
+     * @param oldValue the old value of mCurrent item
+     * @param newValue the new value of mCurrent item
      */
     void onChanged(WheelView wheel, int oldValue, int newValue);
 }

@@ -11,9 +11,7 @@ import java.util.ArrayList;
 /**
  * Fragment操作类
  * 
- * @author LiangZiChao
- *         created on 2015年7月16日
- *         In the org.smart.library.tools
+ * @author LiangZiChao created on 2015年7月16日 In the org.smart.library.tools
  */
 public class FragmentProxy {
 
@@ -97,6 +95,7 @@ public class FragmentProxy {
 		if (isChangedEnable) {
 			preTab = currentTab;
 			getCurrentFragment().onPause(); // 暂停当前tab
+			getCurrentFragment().setUserVisibleHint(false);
 			// getCurrentFragment().onStop(); // 暂停当前tab
 
 			showTab(index); // 显示目标tab
@@ -104,6 +103,7 @@ public class FragmentProxy {
 			if (fragment.isAdded()) {
 				// fragment.onStart(); // 启动目标tab的onStart()
 				fragment.onResume(); // 启动目标tab的onResume()
+				fragment.setUserVisibleHint(true);
 			}
 			// 如果设置了切换tab额外功能功能接口
 			if (null != onRgsExtraChangedListener)

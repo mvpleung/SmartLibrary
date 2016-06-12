@@ -148,7 +148,7 @@ public abstract class EcoGalleryAdapterView<T extends Adapter> extends ViewGroup
 	private View mEmptyView;
 
 	/**
-	 * The number of items in the current adapter.
+	 * The number of items in the mCurrent adapter.
 	 */
 	int mItemCount;
 
@@ -159,7 +159,7 @@ public abstract class EcoGalleryAdapterView<T extends Adapter> extends ViewGroup
 
 	/**
 	 * Represents an invalid position. All valid positions are in the range 0 to
-	 * 1 less than the number of items in the current adapter.
+	 * 1 less than the number of items in the mCurrent adapter.
 	 */
 	public static final int INVALID_POSITION = -1;
 
@@ -664,7 +664,7 @@ public abstract class EcoGalleryAdapterView<T extends Adapter> extends ViewGroup
 	}
 
 	/**
-	 * When the current adapter is empty, the AdapterView can display a special
+	 * When the mCurrent adapter is empty, the AdapterView can display a special
 	 * view call the empty view. The empty view is used to provide feedback to
 	 * the user that no data is available in this AdapterView.
 	 * 
@@ -828,7 +828,7 @@ public abstract class EcoGalleryAdapterView<T extends Adapter> extends ViewGroup
 			mDataChanged = true;
 
 			if (EcoGalleryAdapterView.this.getAdapter().hasStableIds()) {
-				// Remember the current state for the case where our hosting
+				// Remember the mCurrent state for the case where our hosting
 				// activity is being
 				// stopped and later restarted
 				mInstanceState = EcoGalleryAdapterView.this.onSaveInstanceState();
@@ -913,7 +913,7 @@ public abstract class EcoGalleryAdapterView<T extends Adapter> extends ViewGroup
 		boolean populated = false;
 		// This is an exceptional case which occurs when a window gets the
 		// focus and sends a focus event via its focused child to announce
-		// current focus/selection. AdapterView fires selection but not focus
+		// mCurrent focus/selection. AdapterView fires selection but not focus
 		// events so we change the event type here.
 		if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
 			event.setEventType(AccessibilityEvent.TYPE_VIEW_SELECTED);
@@ -1120,7 +1120,7 @@ public abstract class EcoGalleryAdapterView<T extends Adapter> extends ViewGroup
 	 * Utility to keep mSelectedPosition and mSelectedRowId in sync
 	 * 
 	 * @param position
-	 *            Our current position
+	 *            Our mCurrent position
 	 */
 	void setSelectedPositionInt(int position) {
 		mSelectedPosition = position;

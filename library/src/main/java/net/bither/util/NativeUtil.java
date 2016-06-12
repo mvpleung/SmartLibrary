@@ -22,7 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import org.smart.library.tools.ImageUtils;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 /**
  * JNI调用压缩
@@ -40,7 +40,7 @@ public class NativeUtil {
     }
 
     public static void compressBitmap(Bitmap bit, int quality, String fileName, boolean optimize) throws Throwable {
-        LogUtil.d("native:compress of native");
+        L.d("native:compress of native");
 
         if (bit != null) {
             if (bit.getConfig() != Config.ARGB_8888) {
@@ -59,7 +59,7 @@ public class NativeUtil {
             if (bit != null)
                 bit.recycle();
         } else {
-            LogUtil.e("native:bit may be empty");
+            L.e("native:bit may be empty");
         }
     }
 

@@ -8,10 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-
-import org.smart.library.tools.GlideHelper;
+import org.smart.library.tools.ImageLoader;
 import org.smart.library.widget.EcoGallery;
 
 import java.util.ArrayList;
@@ -28,7 +25,6 @@ public class GalleryImageAdapter extends BaseAdapter {
     private Context context;
     private List<String> imgUrls;
     private EcoGallery.LayoutParams mParams;
-    private RequestManager mRequestManager;
 
     public GalleryImageAdapter(Context context, List<String> imgUrls) {
         init(context, imgUrls);
@@ -43,7 +39,6 @@ public class GalleryImageAdapter extends BaseAdapter {
     private void init(Context context, List<String> imgUrls) {
         this.context = context;
         this.imgUrls = imgUrls;
-        this.mRequestManager = Glide.with(context);
     }
 
     @Override
@@ -73,7 +68,7 @@ public class GalleryImageAdapter extends BaseAdapter {
         } else {
             view = (ImageView) convertView;
         }
-        GlideHelper.load(mRequestManager, convertImgUrl(imgUrls.get(position)), view);
+        ImageLoader.load(convertImgUrl(imgUrls.get(position)), view);
         return convertView;
     }
 

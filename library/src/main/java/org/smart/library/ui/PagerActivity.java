@@ -18,7 +18,7 @@ import org.smart.library.R;
 import org.smart.library.adapter.FragmentViewPagerAdapter;
 import org.smart.library.control.AppManager;
 import org.smart.library.widget.PagerSlidingTabStrip;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.util.ArrayList;
 
@@ -68,7 +68,7 @@ public class PagerActivity extends FragmentActivity implements View.OnClickListe
 			mTintManager.setNavigationBarTintEnabled(true);
 			mTintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
 		}
-		findViewById(R.id.tv_title_back).setOnClickListener(this);
+		findViewById(R.id.im_title_back).setOnClickListener(this);
 		mToolBarTitle = (TextView) findViewById(R.id.tv_title);
 	}
 
@@ -84,7 +84,7 @@ public class PagerActivity extends FragmentActivity implements View.OnClickListe
 			// 设置viewpager内部页面间距的drawable
 			// mPager.setPageMarginDrawable(R.color.page_viewer_margin_color);
 			// mPager.setOffscreenPageLimit(mTabs.size());
-			LogUtil.i("OffscreenPageLimit:" + mViewPagerCompat.getOffscreenPageLimit());
+			L.i("OffscreenPageLimit:" + mViewPagerCompat.getOffscreenPageLimit());
 			// mViewPagerCompat.clearAnimation();
 			// mViewPagerCompat.setOnPageChangeListener(this);
 			if (mFragments.size() > 0) {
@@ -152,7 +152,7 @@ public class PagerActivity extends FragmentActivity implements View.OnClickListe
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		if (id == R.id.tv_title_back) {
+		if (id == R.id.im_title_back) {
 			finish();
 		}
 	}
@@ -172,7 +172,7 @@ public class PagerActivity extends FragmentActivity implements View.OnClickListe
 		try {
 			getCurrentFragment().onActivityResult(requestCode, resultCode, data);
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		}
 	}
 }

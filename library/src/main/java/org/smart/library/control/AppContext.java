@@ -9,7 +9,6 @@ import android.util.DisplayMetrics;
 
 import org.smart.library.tools.FileTools;
 import org.smart.library.tools.PxUtil;
-import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.List;
@@ -74,16 +73,16 @@ public class AppContext extends Application {
             for (RunningAppProcessInfo appProcess : appProcesses) {
                 if (appProcess.processName.equals(context.getPackageName())) {
                     if (appProcess.importance == RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                        LogUtil.i(String.format("Background App:%s", appProcess.processName));
+                        L.i(String.format("Background App:%s", appProcess.processName));
                         return true;
                     } else {
-                        LogUtil.i(String.format("Foreground App:%s", appProcess.processName));
+                        L.i(String.format("Foreground App:%s", appProcess.processName));
                         return false;
                     }
                 }
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return false;
     }

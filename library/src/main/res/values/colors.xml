@@ -5,7 +5,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <!-- app -->
-    <color name="background_tab_pressed">#eeeeee</color>
+    <color name="alpha_transparent">#88000000</color>
     <color name="statusbar_textcolor">#ffffff</color>
     <color name="body_yellow">#efd57a</color>
     <color name="body_gray_light">#F0F0F0</color>

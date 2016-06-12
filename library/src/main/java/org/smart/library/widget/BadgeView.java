@@ -301,7 +301,7 @@ public class BadgeView extends TextView {
 	}
 
 	/**
-	 * Increment the numeric badge label. If the current badge label cannot be
+	 * Increment the numeric badge label. If the mCurrent badge label cannot be
 	 * converted to an integer value, its label will be set to "0".
 	 * 
 	 * @param offset
@@ -325,7 +325,7 @@ public class BadgeView extends TextView {
 	}
 
 	/**
-	 * Decrement the numeric badge label. If the current badge label cannot be
+	 * Decrement the numeric badge label. If the mCurrent badge label cannot be
 	 * converted to an integer value, its label will be set to "0".
 	 * 
 	 * @param offset

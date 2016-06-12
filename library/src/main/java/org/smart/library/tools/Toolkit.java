@@ -8,7 +8,7 @@ import android.provider.MediaStore.Images.ImageColumns;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -67,7 +67,7 @@ public class Toolkit {
                     in.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         }
     }
@@ -131,7 +131,7 @@ public class Toolkit {
             }
             return results;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -192,7 +192,7 @@ public class Toolkit {
             ddf1.setMaximumFractionDigits(2);
             return Float.parseFloat(ddf1.format(price));
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return 0;
         }
     }
@@ -209,7 +209,7 @@ public class Toolkit {
             ddf1.setMaximumFractionDigits(digits);
             return Float.parseFloat(ddf1.format(price));
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return 0;
         }
     }
@@ -245,7 +245,7 @@ public class Toolkit {
             return num.floatValue();
         } catch (ParseException e) {
             // TODO Auto-generated catch block
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return 0;
         }
     }
@@ -463,7 +463,7 @@ public class Toolkit {
             }
             return integers;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -487,7 +487,7 @@ public class Toolkit {
             }
             return sparseArray;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -513,7 +513,7 @@ public class Toolkit {
             }
             return images;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -628,7 +628,7 @@ public class Toolkit {
             }
             return path;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }

@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import org.smart.library.tools.UITools;
-import org.xutils.common.util.LogUtil;
 
 /**
  * 异步任务
@@ -58,9 +57,9 @@ public abstract class AsyncTaskUtils<Result, Params> {
 				try {
 					msg.what = SUCCESS;
 					msg.obj = doInBackground(params);
-					LogUtil.i("Response:" + msg.obj);
+					L.i("Response:" + msg.obj);
 				} catch (Exception e) {
-					LogUtil.e(e.getMessage(), e);
+					L.e(e.getMessage(), e);
 					msg.what = FAIL;
 					if (e instanceof AppException) {
 						msg.obj = (AppException) e;
@@ -90,7 +89,7 @@ public abstract class AsyncTaskUtils<Result, Params> {
 				try {
 					mAsync.onSuccess(msg.obj);
 				} catch (Exception e) {
-					LogUtil.e(e.getMessage(), e);
+					L.e(e.getMessage(), e);
 					mAsync.onFail(AppException.convertException(e));
 				}
 				break;

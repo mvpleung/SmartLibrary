@@ -3,7 +3,7 @@ package org.smart.library.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.io.Serializable;
 
@@ -43,7 +43,7 @@ public class BaseFragment extends Fragment implements Serializable {
 		try {
 			return cls.newInstance();
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return null;
 		}
 	}

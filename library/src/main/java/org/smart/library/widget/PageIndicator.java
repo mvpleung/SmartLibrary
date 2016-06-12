@@ -20,12 +20,12 @@ package org.smart.library.widget;
 
 /**
  * A PageIndicator is responsible to show an visual indicator on the total views
- * number and the current visible view.
+ * number and the mCurrent visible view.
  */
 public interface PageIndicator {
 
     /**
-     * <p>Set the current page of both the ViewPager and indicator.</p>
+     * <p>Set the mCurrent page of both the ViewPager and indicator.</p>
      *
      * <p>This <strong>must</strong> be used if you need to set the page before
      * the views are drawn on screen (e.g., default start page).</p>

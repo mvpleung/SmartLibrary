@@ -177,7 +177,7 @@ public class Scroller  {
     }
     
     /**
-     * Returns the current X offset in the scroll. 
+     * Returns the mCurrent X offset in the scroll. 
      * 
      * @return The new X offset as an absolute distance from the origin.
      */
@@ -186,7 +186,7 @@ public class Scroller  {
     }
     
     /**
-     * Returns the current Y offset in the scroll. 
+     * Returns the mCurrent Y offset in the scroll. 
      * 
      * @return The new Y offset as an absolute distance from the origin.
      */
@@ -195,7 +195,7 @@ public class Scroller  {
     }
     
     /**
-     * Returns the current velocity.
+     * Returns the mCurrent velocity.
      *
      * @return The original velocity less the deceleration. Result may be
      * negative.

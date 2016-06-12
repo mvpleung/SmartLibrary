@@ -32,11 +32,11 @@ android {
 }
 
 dependencies {
-    provided files('libs/android-support-v4.jar')
     compile 'org.xutils:xutils:3.3.34'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'org.simple:androideventbus:latest'
     compile 'com.google.zxing:core:3.2.1'
+    compile 'com.android.support:support-v4:22.1.1'
 }
-//apply from: '../bintray.gradle'
+apply from: '../bintray.gradle'

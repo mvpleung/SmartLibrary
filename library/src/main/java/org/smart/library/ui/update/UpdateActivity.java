@@ -1,5 +1,26 @@
 package org.smart.library.ui.update;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+
+import org.smart.library.R;
+import org.smart.library.control.AppConfig;
+import org.smart.library.control.AppContext;
+import org.smart.library.control.AppException;
+import org.smart.library.control.AppManager;
+import org.smart.library.control.L;
+import org.smart.library.listener.DownloadCallback;
+import org.smart.library.model.AppVersionBean;
+import org.smart.library.tools.NetworkProber;
+import org.smart.library.tools.UITools;
+import org.smart.library.widget.ConfirmDialog;
+import org.xutils.x;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,7 +32,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
@@ -24,27 +44,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.smart.library.R;
-import org.smart.library.control.AppConfig;
-import org.smart.library.control.AppContext;
-import org.smart.library.control.AppException;
-import org.smart.library.control.AppManager;
-import org.smart.library.listener.DownloadCallback;
-import org.smart.library.model.AppVersionBean;
-import org.smart.library.tools.NetworkProber;
-import org.smart.library.tools.UITools;
-import org.smart.library.widget.ConfirmDialog;
-import org.xutils.common.Callback;
-import org.xutils.common.util.LogUtil;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DecimalFormat;
 
 /**
  * APP更新界面
@@ -80,7 +79,7 @@ public class UpdateActivity extends Activity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		LogUtil.i("UpdateActivity.this");
+		L.i("UpdateActivity.this");
 		this.context = UpdateActivity.this;
 		AppManager.getAppManager().addActivity(this);
 		appVersionBean = getIntent().getParcelableExtra(VERSION_BEAN);
@@ -231,13 +230,13 @@ public class UpdateActivity extends Activity {
 			sb.append(context.getFilesDir().getPath());
 		}
 		if (TextUtils.isEmpty(downloadUrl)) {
-			LogUtil.e("downloadUrl may not be Null !");
+			L.e("downloadUrl may not be Null !");
 			onFail(new Exception());
 			return;
 		}
 		sb.append(downloadUrl.substring(downloadUrl.lastIndexOf("/") + 1, downloadUrl.lastIndexOf(".")));
 		sb.append(".apk");
-		LogUtil.i("DownLoad_APK:" + sb);
+		L.i("DownLoad_APK:" + sb);
 		// 显示文件大小格式：2个小数点显示
 		final DecimalFormat df = new DecimalFormat("0.00");
 		final String downloading = getString(R.string.downloading_tip);
@@ -250,17 +249,18 @@ public class UpdateActivity extends Activity {
 		params.setSaveFilePath(sb.toString());
 		params.setCancelFast(true);
 		params.setMaxRetryCount(3);
-		Callback.Cancelable cancelable = x.http().get(params, new DownloadCallback(){
+		cancelable = x.http().get(params, new DownloadCallback(){
 			@Override
 			public void onSuccess(File result) {
 				try {
 					installAPK(result);
 				} catch (Exception e) {
-					LogUtil.e(e.getMessage(), e);
+					L.e(e.getMessage(), e);
 					UITools.showToastShortDuration(context, R.string.error_download_install_fail);
 				}
 			}
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onLoading(long total, long current, boolean isDownloading) {
 				super.onLoading(total, current, isDownloading);
@@ -279,7 +279,7 @@ public class UpdateActivity extends Activity {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				LogUtil.e(ex.getMessage(), ex);
+				L.e(ex.getMessage(), ex);
 				onFail(ex);
 			}
 		});
@@ -305,7 +305,7 @@ public class UpdateActivity extends Activity {
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		} // 等待三秒
 		UITools.showToastShortDuration(context, getString(isBackground ? R.string.download_complete_byNotify : R.string.download_complete_install));
 		// 安装
@@ -380,7 +380,7 @@ public class UpdateActivity extends Activity {
 			byte[] data = baos.toByteArray();
 			result = new String(data);
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		} finally {
 			try {
 				if (errIs != null) {
@@ -390,7 +390,7 @@ public class UpdateActivity extends Activity {
 					inIs.close();
 				}
 			} catch (IOException e) {
-				LogUtil.e(e.getMessage(), e);
+				L.e(e.getMessage(), e);
 			}
 			if (process != null) {
 				process.destroy();

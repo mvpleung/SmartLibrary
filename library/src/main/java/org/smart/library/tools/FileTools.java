@@ -12,7 +12,7 @@ import com.google.gson.stream.JsonReader;
 
 import org.smart.library.control.AppConfig;
 import org.smart.library.control.AppManager;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -146,16 +146,16 @@ public class FileTools {
 
                 for (String fnx : files) {
                     String filename = PathCombine(path, fnx);
-                    LogUtil.i("deleting... " + filename);
+                    L.i("deleting... " + filename);
                     File file = new File(filename);
                     if (file.exists())
                         result = file.delete();
                     else
-                        LogUtil.i("%s doesn't exists." + filename);
+                        L.i("%s doesn't exists." + filename);
                 }
             }
         } catch (Exception ex) {
-            LogUtil.e(ex.getMessage(), ex);
+            L.e(ex.getMessage(), ex);
         }
         return result;
     }
@@ -189,7 +189,7 @@ public class FileTools {
             if (file.exists())
                 result = file.delete();
             else
-                LogUtil.i("%s doesn't exists." + path);
+                L.i("%s doesn't exists." + path);
         }
         return result;
     }
@@ -425,7 +425,7 @@ public class FileTools {
             if (FileExists(f))
                 return f;
         } catch (Exception ex) {
-            LogUtil.e(ex.getMessage(), ex);
+            L.e(ex.getMessage(), ex);
         }
 
         return "";
@@ -462,7 +462,7 @@ public class FileTools {
      * @param path
      */
     public static <T> T ReadFromJsonFile(String path, Type type) {
-        LogUtil.i("cachePath:" + path);
+        L.i("cachePath:" + path);
         JsonReader reader;
         try {
             reader = new JsonReader(new FileReader(path));
@@ -475,7 +475,7 @@ public class FileTools {
         try {
             t = (T) new Gson().fromJson(reader, type);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
 
@@ -514,7 +514,7 @@ public class FileTools {
         try {
             inStream = new FileInputStream(file);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return inStream;
     }
@@ -543,7 +543,7 @@ public class FileTools {
      * @param path
      */
     public static void SaveByte(byte[] buffer, String path) {
-        LogUtil.i("cachePath:" + path);
+        L.i("cachePath:" + path);
         if (buffer != null) {
             FileOutputStream fos = null;
             try {
@@ -553,13 +553,13 @@ public class FileTools {
                 fos.close();
                 // Log("Write " + fn);
             } catch (Exception e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             } finally {
                 try {
                     if (fos != null)
                         fos.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
         }
@@ -621,7 +621,7 @@ public class FileTools {
             return PathCombine(path, fn);
 
         if (DirectoryCreateDirectory(PathCombine(path, ".nomedia"))) {
-            LogUtil.i("Create path" + path);
+            L.i("Create path" + path);
             return PathCombine(path, fn);
         } else {
             return "";
@@ -643,13 +643,13 @@ public class FileTools {
             fos.flush();
             fos.close();
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             try {
                 if (fos != null)
                     fos.close();
             } catch (IOException e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         }
 
@@ -673,7 +673,7 @@ public class FileTools {
             oos.writeObject(obj);// 写入
             fos.close(); // 关闭输出流
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
 
         // 保存在sd卡
@@ -692,7 +692,7 @@ public class FileTools {
                 fos.close(); // 关闭输出流
             } catch (Exception e) {
                 // TODO Auto-generated catch block
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             } finally {
                 try {
                     if (fos != null)
@@ -700,7 +700,7 @@ public class FileTools {
                     if (oos != null)
                         oos.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
         }
@@ -722,7 +722,7 @@ public class FileTools {
             obj = ois.readObject();
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             try {
                 if (fis != null)
@@ -730,7 +730,7 @@ public class FileTools {
                 if (ois != null)
                     ois.close();
             } catch (IOException e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         }
         return obj;
@@ -754,7 +754,7 @@ public class FileTools {
             out = fo.getChannel();// 得到对应的文件通道
             in.transferTo(0, in.size(), out);// 连接两个通道，并且从in通道读取，然后写入out通道
         } catch (IOException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             try {
                 if (fi != null)
@@ -766,7 +766,7 @@ public class FileTools {
                 if (out != null)
                     out.close();
             } catch (IOException e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         }
     }
@@ -829,12 +829,12 @@ public class FileTools {
             }
             fos.close();
             is.close();
-            LogUtil.i(fileName + " Write To SdCard Success");
+            L.i(fileName + " Write To SdCard Success");
             result = true;
         } catch (Exception e) {
             deleteFile(savePath);
-            LogUtil.i(fileName + " Write To SdCard Fail");
-            LogUtil.e(e.getMessage(), e);
+            L.i(fileName + " Write To SdCard Fail");
+            L.e(e.getMessage(), e);
         }
         return result;
     }
@@ -860,7 +860,7 @@ public class FileTools {
             BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
             data.compress(Bitmap.CompressFormat.JPEG, 80, bos);// 把数据写入文件
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             try {
                 if (data != null)
@@ -870,7 +870,7 @@ public class FileTools {
                     fileOutputStream.close();
                 }
             } catch (IOException e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         }
     }
@@ -900,7 +900,7 @@ public class FileTools {
 
             newBM.compress(Bitmap.CompressFormat.JPEG, 60, bos);// 把数据写入文件
         } catch (FileNotFoundException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             try {
                 if (fileOutputStream != null) {
@@ -908,7 +908,7 @@ public class FileTools {
                     fileOutputStream.close();
                 }
             } catch (IOException e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         }
     }

@@ -3,7 +3,7 @@
     style="@style/layout_widthMatch_heightMatch_fillWindow"
     android:orientation="vertical" >
 
-    <include layout="@layout/activity_toolbar" />
+    <include layout="@layout/include_toolbar" />
 
     <org.smart.library.widget.PagerSlidingTabStrip
         android:id="@+id/pager_tabs"

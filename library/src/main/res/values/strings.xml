@@ -14,6 +14,7 @@
     <string name="app_handle_fail">操作失败，请重试</string>
     <string name="app_setting">设置</string>
     <string name="app_ok_en">OK</string>
+    <string name="app_sure">确定</string>
     <string name="app_complete">完成</string>
 
     <!-- appUpdate -->
@@ -73,8 +74,10 @@
     <string name="photo_select">选择照片</string>
     <string name="photo_album_ar">最近照片</string>
     <string name="photo_preview">预览</string>
+    <string name="photo_limit_select_format">确定(%1$d/%2$d)</string>
     <string name="photo_limit_tips">最多选择%s张图片</string>
     <string name="photo_preview_count_format">预览(%s)</string>
+    <string name="photo_preview_empty">请确认您要预览的照片</string>
 
     <!-- numberpicker -->
     <string name="np_number_picker_increment_scroll_mode"><xliff:g example="3" id="value">%s</xliff:g> tap and hold.</string>

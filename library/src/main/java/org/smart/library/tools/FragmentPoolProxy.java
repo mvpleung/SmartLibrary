@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import org.smart.library.R;
 import org.smart.library.ui.BaseFragment;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +15,7 @@ import java.util.Set;
 /**
  * Fragment操作类
  * 
- * @author LiangZiChao
- *         created on 2015年7月16日
- *         In the org.smart.library.tools
+ * @author LiangZiChao created on 2015年7月16日 In the org.smart.library.tools
  */
 public class FragmentPoolProxy {
 
@@ -91,6 +89,7 @@ public class FragmentPoolProxy {
 			mPreFragmentClass = mCurrentFragmentClass;
 			mPreFragment = mCurrentFragment;
 			getCurrentFragment().onPause(); // 暂停当前tab
+			getCurrentFragment().setUserVisibleHint(false);
 			// getCurrentFragment().onStop(); // 停止当前tab
 
 			showTab(mFragmentClass); // 显示目标tab
@@ -98,6 +97,7 @@ public class FragmentPoolProxy {
 			if (fragment.isAdded()) {
 				// fragment.onStart(); // 启动目标tab的onStart()
 				fragment.onResume(); // 启动目标tab的onResume()
+				fragment.setUserVisibleHint(true);
 			}
 			// 如果设置了切换tab额外功能功能接口
 			if (null != onRgsExtraChangedListener)
@@ -112,7 +112,7 @@ public class FragmentPoolProxy {
 				fragment = (BaseFragment) mFragmentClass.newInstance();
 				mFragmentMap.put(mFragmentClass, fragment);
 			} catch (Exception e) {
-				LogUtil.e(e.getMessage(), e);
+				L.e(e.getMessage(), e);
 			}
 		}
 		return fragment;
@@ -155,11 +155,11 @@ public class FragmentPoolProxy {
 		return ft;
 	}
 
-	public int getEnterAnimation(){
+	public int getEnterAnimation() {
 		return R.anim.push_fade_in;
 	}
 
-	public int getExitAnimation(){
+	public int getExitAnimation() {
 		return R.anim.push_fade_out;
 	}
 

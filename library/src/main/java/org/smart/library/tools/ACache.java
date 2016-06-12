@@ -25,7 +25,7 @@ import android.graphics.drawable.Drawable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -56,7 +56,7 @@ public class ACache {
     public static final int TIME_DAY = TIME_HOUR * 24;
     private static final int MAX_SIZE = 1000 * 1000 * 50; // 50 mb
     private static final int MAX_COUNT = Integer.MAX_VALUE; // 不限制存放数据的数量
-    private static Map<String, ACache> mInstanceMap = new HashMap<>();
+    private static Map<String, ACache> mInstanceMap = new HashMap<String, ACache>();
     private ACacheManager mCache;
 
     public static ACache get(Context ctx) {
@@ -115,14 +115,14 @@ public class ACache {
             out = new BufferedWriter(new FileWriter(file), 1024);
             out.write(value);
         } catch (IOException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             if (out != null) {
                 try {
                     out.flush();
                     out.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
             mCache.put(file);
@@ -166,14 +166,14 @@ public class ACache {
                 return null;
             }
         } catch (IOException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
             if (removeFile)
@@ -218,7 +218,7 @@ public class ACache {
             JSONObject obj = new JSONObject(JSONString);
             return obj;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -259,7 +259,7 @@ public class ACache {
         try {
             return new JSONArray(JSONString);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -281,14 +281,14 @@ public class ACache {
             out = new FileOutputStream(file);
             out.write(value);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             if (out != null) {
                 try {
                     out.flush();
                     out.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
             mCache.put(file);
@@ -329,14 +329,14 @@ public class ACache {
                 return null;
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         } finally {
             if (RAFile != null) {
                 try {
                     RAFile.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
             if (removeFile)
@@ -379,13 +379,13 @@ public class ACache {
                 put(key, data);
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         } finally {
             try {
                 if (oos != null)
                     oos.close();
             } catch (IOException e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         }
     }
@@ -406,20 +406,20 @@ public class ACache {
                 ois = new ObjectInputStream(bais);
                 return ois.readObject();
             } catch (Exception e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
                 return null;
             } finally {
                 try {
                     if (bais != null)
                         bais.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
                 try {
                     if (ois != null)
                         ois.close();
                 } catch (IOException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
         }

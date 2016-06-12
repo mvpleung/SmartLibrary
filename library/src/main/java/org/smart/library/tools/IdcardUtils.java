@@ -1,4 +1,4 @@
-package com.xiaobai.xbtrip.utils;
+package org.smart.library.tools;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

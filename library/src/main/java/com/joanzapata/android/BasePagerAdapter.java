@@ -27,8 +27,7 @@ import java.util.List;
 /**
  * ViewPagerAdapter
  * 
- * @author LiangZiChao
- *         created on 2015年9月2日
+ * @author LiangZiChao created on 2015年9月2日
  */
 public abstract class BasePagerAdapter<T, H extends BaseAdapterHelper> extends PagerAdapter {
 
@@ -115,7 +114,7 @@ public abstract class BasePagerAdapter<T, H extends BaseAdapterHelper> extends P
 	private void put(int position, View view) {
 		if (mViews == null)
 			mViews = new SparseArray<View>();
-		if (mViews.indexOfValue(view) != -1) {
+		if (mViews.indexOfValue(view) == -1) {
 			mViews.put(position, view);
 		}
 	}
@@ -246,13 +245,11 @@ public abstract class BasePagerAdapter<T, H extends BaseAdapterHelper> extends P
 	 *            the correct data, this method can create a new view.
 	 *            Heterogeneous lists can specify their number of view types, so
 	 *            that this View is always of the right type (see
-	 *            {getViewTypeCount} and {getItemViewType(int)}
-	 *            ).
+	 *            {getViewTypeCount} and {getItemViewType(int)} ).
 	 * @param parent
 	 *            The parent that this view will eventually be attached to
 	 * @return An instance of BaseAdapterHelper
 	 */
-	@SuppressWarnings("JavadocReference")
 	protected abstract H getAdapterHelper(int position, View convertView, ViewGroup parent);
 
 }

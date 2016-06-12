@@ -9,7 +9,7 @@ import android.util.Base64;
 import org.smart.library.control.AppConfig;
 import org.smart.library.control.AppConfig.AppSharedName;
 import org.smart.library.control.Version;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -625,12 +625,12 @@ public class RecordPreferences {
                         }
                     }
                 } catch (Exception e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
                 return JudgmentLegal.isSetFull(mSetList) ? new ArrayList<String>(mSetList) : null;
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return new ArrayList<String>();
     }

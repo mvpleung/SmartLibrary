@@ -16,7 +16,7 @@ import android.widget.SpinnerAdapter;
 
 import org.smart.library.R;
 import org.smart.library.widget.EcoGallery.EcoGalleryMode;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 /**
  * 重构GalleryAbsSpinner
@@ -240,7 +240,7 @@ public abstract class EcoGalleryAbsSpinner extends EcoGalleryAdapterView<Spinner
 			mHeightMeasureSpec = heightMeasureSpec;
 			mWidthMeasureSpec = widthMeasureSpec;
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		}
 	}
 
@@ -480,10 +480,10 @@ public abstract class EcoGalleryAbsSpinner extends EcoGalleryAdapterView<Spinner
 				return null;
 			View result = mScrapHeap.get(position);
 			// if (result != null) {
-			// LogUtil.i(" HIT");
+			// L.i(" HIT");
 			// mScrapHeap.delete(position);
 			// } else {
-			// LogUtil.i(" MISS");
+			// L.i(" MISS");
 			// }
 			return result;
 		}

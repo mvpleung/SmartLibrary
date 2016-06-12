@@ -3,7 +3,7 @@ package org.smart.library.tools;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -91,7 +91,7 @@ public class DateTimeUtils {
 
     private static String fixDateString(String paramString) {
         if (TextUtils.isEmpty(paramString)) {
-            LogUtil.i("paramString is null");
+            L.i("paramString is null");
             return paramString;
         }
         String[] arrayOfString = paramString.split("[年月日]");
@@ -109,7 +109,7 @@ public class DateTimeUtils {
         Calendar localCalendar1 = Calendar.getInstance();
         localCalendar1.setLenient(false);
         if (paramT == null) {
-            LogUtil.i("The paramT is null");
+            L.i("The paramT is null");
             return null;
         }
         if ((paramT instanceof Calendar)) {
@@ -151,7 +151,7 @@ public class DateTimeUtils {
                 Calendar localCalendar = getCalendar(paramT);
                 return localCalendar;
             } catch (Exception e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         return (Calendar) paramCalendar.clone();
     }
@@ -166,7 +166,7 @@ public class DateTimeUtils {
             localCalendar.setTimeInMillis(localDate.getTime());
             return localCalendar;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
 
@@ -197,7 +197,7 @@ public class DateTimeUtils {
 
     public static Calendar getDateAdd(Calendar paramCalendar, int paramInt) {
         if (paramCalendar == null) {
-            LogUtil.i("The paramCalendar is null");
+            L.i("The paramCalendar is null");
             return null;
         }
         Calendar localCalendar = (Calendar) paramCalendar.clone();
@@ -332,7 +332,7 @@ public class DateTimeUtils {
      */
     public static String secondToDate(String timestr) {
         if (TextUtils.isEmpty(timestr)) {
-            LogUtil.i("The timestr is empty");
+            L.i("The timestr is empty");
             return null;
         }
         timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
@@ -350,7 +350,7 @@ public class DateTimeUtils {
      */
     public static String endDate(String timestr) {
         if (TextUtils.isEmpty(timestr)) {
-            LogUtil.i("The timestr is empty");
+            L.i("The timestr is empty");
             return null;
         }
         timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
@@ -368,7 +368,7 @@ public class DateTimeUtils {
      */
     public static String convertToTime(String timestr) {
         if (TextUtils.isEmpty(timestr)) {
-            LogUtil.i("The timestr is empty");
+            L.i("The timestr is empty");
             return null;
         }
         timestr = timestr.indexOf(".") == -1 ? timestr : timestr.substring(0, timestr.indexOf("."));
@@ -389,7 +389,7 @@ public class DateTimeUtils {
         try {
             return sdf.parse(timestr);
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -402,7 +402,7 @@ public class DateTimeUtils {
      */
     public static String dateToStrLong(Date dateDate) {
         if (dateDate == null) {
-            LogUtil.i("The dateDate is null");
+            L.i("The dateDate is null");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
@@ -418,7 +418,7 @@ public class DateTimeUtils {
      */
     public static String dateToStrYear(Date dateDate) {
         if (dateDate == null) {
-            LogUtil.i("The dateDate is null");
+            L.i("The dateDate is null");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yy");
@@ -434,7 +434,7 @@ public class DateTimeUtils {
      */
     public static String dateToStrLongWeek(Date dateDate) {
         if (dateDate == null) {
-            LogUtil.i("The dateDate is null");
+            L.i("The dateDate is null");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd EEEE");
@@ -450,7 +450,7 @@ public class DateTimeUtils {
      */
     public static String dateToStringWeek(Date dateDate) {
         if (dateDate == null) {
-            LogUtil.i("The dateDate is null");
+            L.i("The dateDate is null");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd EEEE");
@@ -467,7 +467,7 @@ public class DateTimeUtils {
      */
     public static String StringToStringTime(String dateStr, String pattern) {
         if (TextUtils.isEmpty(dateStr)) {
-            LogUtil.i("The dateParams is empty");
+            L.i("The dateParams is empty");
             return null;
         }
         pattern = TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern;
@@ -494,7 +494,7 @@ public class DateTimeUtils {
      */
     public static String StringToMonthDay(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) {
-            LogUtil.i("The dateStr is empty");
+            L.i("The dateStr is empty");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
@@ -510,7 +510,7 @@ public class DateTimeUtils {
      */
     public static String StringToMonthDayWeek(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) {
-            LogUtil.i("The dateStr is empty");
+            L.i("The dateStr is empty");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd EEEE");
@@ -526,7 +526,7 @@ public class DateTimeUtils {
      */
     public static String StringToMDWeekDay(Date date) {
         if (date == null) {
-            LogUtil.i("The date is null");
+            L.i("The date is null");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
@@ -542,7 +542,7 @@ public class DateTimeUtils {
      */
     public static String StringToMDWeekDay(Long milliseconds) {
         if (milliseconds == null) {
-            LogUtil.i("The milliseconds is null");
+            L.i("The milliseconds is null");
             return null;
         }
         String dateString = formatDateToYMD(milliseconds, "MM-dd");
@@ -567,7 +567,7 @@ public class DateTimeUtils {
      */
     public static String StringToYearMDWeek(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) {
-            LogUtil.i("The dateStr is empty");
+            L.i("The dateStr is empty");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd EEEE");
@@ -583,7 +583,7 @@ public class DateTimeUtils {
      */
     public static String StringToWeekDay(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) {
-            LogUtil.i("The dateStr is empty");
+            L.i("The dateStr is empty");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
@@ -600,7 +600,7 @@ public class DateTimeUtils {
      */
     public static String StringToYearMDWeekDay(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) {
-            LogUtil.i("The dateStr is empty");
+            L.i("The dateStr is empty");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -617,7 +617,7 @@ public class DateTimeUtils {
      */
     public static String dateToYMDWeek(Date date) {
         if (date == null) {
-            LogUtil.i("The date is null");
+            L.i("The date is null");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -633,7 +633,7 @@ public class DateTimeUtils {
      */
     public static String dateToDayWeek(Date date) {
         if (date == null) {
-            LogUtil.i("The date is null");
+            L.i("The date is null");
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
@@ -649,7 +649,7 @@ public class DateTimeUtils {
      */
     public static String getWeekOfDate(Date date) {
         if (date == null) {
-            LogUtil.i("The date is null");
+            L.i("The date is null");
             return null;
         }
         String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
@@ -669,7 +669,7 @@ public class DateTimeUtils {
      */
     public static String getWeekOfDate(Long milliseconds) {
         if (milliseconds == null) {
-            LogUtil.i("The milliseconds is null");
+            L.i("The milliseconds is null");
             return null;
         }
         String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
@@ -689,7 +689,7 @@ public class DateTimeUtils {
      */
     public static String secondToDate1(String timeStr) {
         if (TextUtils.isEmpty(timeStr)) {
-            LogUtil.i("The timeStr is empty");
+            L.i("The timeStr is empty");
             return null;
         }
         timeStr = timeStr.indexOf(".") == -1 ? timeStr : timeStr.substring(0, timeStr.indexOf("."));
@@ -707,7 +707,7 @@ public class DateTimeUtils {
      */
     public static String secondToDate3(String timeStr) {
         if (TextUtils.isEmpty(timeStr)) {
-            LogUtil.i("The timeStr is empty");
+            L.i("The timeStr is empty");
             return null;
         }
         timeStr = timeStr.indexOf(".") == -1 ? timeStr : timeStr.substring(0, timeStr.indexOf("."));
@@ -735,7 +735,7 @@ public class DateTimeUtils {
      */
     public static String Date2String(Date date, String pattern) {
         if (date == null) {
-            LogUtil.i("The date is null");
+            L.i("The date is null");
             return null;
         }
         SimpleDateFormat sdf = new SimpleDateFormat(TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern);
@@ -761,14 +761,14 @@ public class DateTimeUtils {
      */
     public static Date StringToDate(String dateString, String pattern) {
         if (TextUtils.isEmpty(dateString)) {
-            LogUtil.i("The dateString is empty");
+            L.i("The dateString is empty");
             return null;
         }
         Date date = null;
         try {
             date = new SimpleDateFormat(TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern).parse(dateString);
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return date;
     }
@@ -781,7 +781,7 @@ public class DateTimeUtils {
      */
     public static String TimeStamp2Date(Long unixTime) {
         if (unixTime == null) {
-            LogUtil.i("The unixTime is null");
+            L.i("The unixTime is null");
             return null;
         }
         // 时间戳 以秒来计算
@@ -799,7 +799,7 @@ public class DateTimeUtils {
      */
     public static String TimeStamp2Date(String unixTime) {
         if (unixTime == null) {
-            LogUtil.i("The unixTime is null");
+            L.i("The unixTime is null");
             return null;
         }
         // 时间戳 以秒来计算
@@ -817,7 +817,7 @@ public class DateTimeUtils {
      */
     public static String timeZoneChanged(String dateBaseTime) {
         if (TextUtils.isEmpty(dateBaseTime)) {
-            LogUtil.i("The dateBaseTime is empty");
+            L.i("The dateBaseTime is empty");
             return null;
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -828,7 +828,7 @@ public class DateTimeUtils {
             originaltime = date.getTime();
             originaltime = originaltime + 1000 * 60 * 60 * 8;
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return format.format(new Date(originaltime));
     }
@@ -906,7 +906,7 @@ public class DateTimeUtils {
                 result = result & false;
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return result;
 
@@ -924,7 +924,7 @@ public class DateTimeUtils {
                 result = result & false;
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return result;
     }
@@ -945,7 +945,7 @@ public class DateTimeUtils {
                 result = result & false;
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return result;
     }
@@ -978,7 +978,7 @@ public class DateTimeUtils {
      */
     public static String calendarToDateStr(Calendar c, String pattern, Locale locale) {
         if (c == null) {
-            LogUtil.i("The calendar is null");
+            L.i("The calendar is null");
             return null;
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TextUtils.isEmpty(pattern) ? yyyy_MM_dd : pattern, locale);
@@ -1016,7 +1016,7 @@ public class DateTimeUtils {
     public static String getSpecifiedDayBefore(String specifiedDay, String pattern) {// 可以用new
         // Date().toLocalString()传递参数
         if (TextUtils.isEmpty(specifiedDay)) {
-            LogUtil.i("The specifiedDay is empty");
+            L.i("The specifiedDay is empty");
             return null;
         }
         Calendar c = Calendar.getInstance();
@@ -1030,7 +1030,7 @@ public class DateTimeUtils {
             String dayBefore = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
             return dayBefore;
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return null;
     }
@@ -1076,7 +1076,7 @@ public class DateTimeUtils {
      */
     public static String getSpecifiedDayAfter(String specifiedDay, String pattern) {
         if (TextUtils.isEmpty(specifiedDay)) {
-            LogUtil.i("The specifiedDay is empty");
+            L.i("The specifiedDay is empty");
             return null;
         }
         Calendar c = Calendar.getInstance();
@@ -1090,7 +1090,7 @@ public class DateTimeUtils {
             String dayAfter = new SimpleDateFormat(pattern).format(c.getTime());
             return dayAfter;
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return null;
     }
@@ -1103,7 +1103,7 @@ public class DateTimeUtils {
      */
     public static String getSpecifiedMinHourAfter(String specifiedHour) {
         if (TextUtils.isEmpty(specifiedHour)) {
-            LogUtil.i("The specifiedHour is empty");
+            L.i("The specifiedHour is empty");
             return null;
         }
         Calendar c = Calendar.getInstance();
@@ -1117,7 +1117,7 @@ public class DateTimeUtils {
             String dayAfter = new SimpleDateFormat(HH_mm).format(c.getTime());
             return dayAfter;
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return null;
     }
@@ -1130,7 +1130,7 @@ public class DateTimeUtils {
      */
     public static String getSpecifiedHourAfter(String specifiedHour) {
         if (TextUtils.isEmpty(specifiedHour)) {
-            LogUtil.i("The specifiedHour is empty");
+            L.i("The specifiedHour is empty");
             return null;
         }
         Calendar c = Calendar.getInstance();
@@ -1144,7 +1144,7 @@ public class DateTimeUtils {
             String dayAfter = new SimpleDateFormat(HH_00).format(c.getTime());
             return dayAfter;
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return null;
     }
@@ -1157,7 +1157,7 @@ public class DateTimeUtils {
      */
     public static String getSpecifiedHourBefore(String specifiedHour) {
         if (TextUtils.isEmpty(specifiedHour)) {
-            LogUtil.i("The specifiedHour is empty");
+            L.i("The specifiedHour is empty");
             return null;
         }
         Calendar c = Calendar.getInstance();
@@ -1171,7 +1171,7 @@ public class DateTimeUtils {
             String dayAfter = new SimpleDateFormat(HH_mm).format(c.getTime());
             return dayAfter;
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return null;
     }
@@ -1185,7 +1185,7 @@ public class DateTimeUtils {
      */
     public static String getStepHour(String specifiedHour, int stepSize) {
         if (TextUtils.isEmpty(specifiedHour)) {
-            LogUtil.i("The specifiedHour is empty");
+            L.i("The specifiedHour is empty");
             return null;
         }
         Calendar c = Calendar.getInstance();
@@ -1201,7 +1201,7 @@ public class DateTimeUtils {
             String dayAfter = new SimpleDateFormat(HH_00).format(c.getTime());
             return dayAfter;
         } catch (ParseException e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return null;
     }
@@ -1240,7 +1240,7 @@ public class DateTimeUtils {
      */
     public static long getIntervalSeconds(String fDate, String oDate, String pattern) {
         if (TextUtils.isEmpty(fDate) || TextUtils.isEmpty(oDate)) {
-            LogUtil.i("maybe The fDate or oDate is empty");
+            L.i("maybe The fDate or oDate is empty");
             return 0;
         }
         try {
@@ -1250,7 +1250,7 @@ public class DateTimeUtils {
             long between = (end.getTime() - begin.getTime()) / ONE_SECOND_MILIS;// 除以1000是为了转换成秒
             return between;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return 0;
         }
     }
@@ -1380,7 +1380,7 @@ public class DateTimeUtils {
      */
     public static long[] getDistanceTimes(String str1, String str2) {
         if (TextUtils.isEmpty(str1) || TextUtils.isEmpty(str2)) {
-            LogUtil.i("maybe The str1 or str2 is empty");
+            L.i("maybe The str1 or str2 is empty");
             return null;
         }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1406,7 +1406,7 @@ public class DateTimeUtils {
             min = ((diff / ONE_MINUTE_MILIS) - day * 1440 - hour * 60);
             sec = (diff / 1000 - day * 86400 - hour * 3600 - min * 60);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         long[] times = {day, hour, min, sec};
         return times;
@@ -1421,7 +1421,7 @@ public class DateTimeUtils {
      */
     public static long[] getDistanceTime(String str1, String str2) {
         if (TextUtils.isEmpty(str1) || TextUtils.isEmpty(str2)) {
-            LogUtil.i("maybe The str1 or str2 is empty");
+            L.i("maybe The str1 or str2 is empty");
             return null;
         }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -1445,7 +1445,7 @@ public class DateTimeUtils {
             hour = (diff / ONE_HOUR_MILIS - day * 24);
             min = ((diff / ONE_MINUTE_MILIS) - day * 1440 - hour * 60);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         long[] times = {day, hour, min};
         return times;
@@ -1479,7 +1479,7 @@ public class DateTimeUtils {
      */
     public static String formatMinutes(String minutes) {
         if (TextUtils.isEmpty(minutes)) {
-            LogUtil.i("The minutes is empty");
+            L.i("The minutes is empty");
             return null;
         }
         return formatMinutes(Long.parseLong(minutes));
@@ -1898,7 +1898,7 @@ public class DateTimeUtils {
             calendar.setTimeInMillis(Toolkit.getLongValue(milliseconds));
             return calendarToDateStr(calendar, pattern).split(SPLIT);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }

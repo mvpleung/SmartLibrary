@@ -1,11 +1,24 @@
 package org.smart.library.tools;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Hashtable;
+
+import net.bither.util.NativeUtil;
+
+import org.smart.library.control.L;
+
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -28,22 +41,10 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import net.bither.util.NativeUtil;
-
-import org.xutils.common.util.LogUtil;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Hashtable;
-
 /**
  * 图片处理工具类
  * 
- * @author LiangZiChao
- *         created on 2014-7-30上午11:31:55
+ * @author LiangZiChao created on 2014-7-30上午11:31:55
  */
 @SuppressWarnings("deprecation")
 public class ImageUtils {
@@ -354,7 +355,7 @@ public class ImageUtils {
 			// bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 			return bitmap;
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -412,7 +413,7 @@ public class ImageUtils {
 			bitmap.setPixels(pixels, 0, qrWidth, 0, 0, qrWidth, qrHeight);
 			return bitmap;
 		} catch (WriterException e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -456,6 +457,37 @@ public class ImageUtils {
 	}
 
 	/**
+	 * 灰度处理
+	 * 
+	 * @param original
+	 * @return
+	 */
+	public static Bitmap toGrayscale(Bitmap original) {
+		int height = original.getHeight();
+		int width = original.getWidth();
+
+		Bitmap grayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		Canvas c = new Canvas(grayscale);
+		Paint paint = new Paint();
+		ColorMatrix cm = new ColorMatrix();
+		cm.setSaturation(0); // <-- important line here
+		ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+		paint.setColorFilter(f);
+		c.drawBitmap(original, 0, 0, paint);
+		return grayscale;
+	}
+
+	/**
+	 * 灰度处理
+	 * 
+	 * @param original
+	 * @return
+	 */
+	public static Drawable toGrayscale(Drawable original) {
+		return bitmap2Drawable(toGrayscale(drawable2Bitmap(original)));
+	}
+
+	/**
 	 * 压缩图片到制定路径
 	 */
 	public static void compress(String srcPath, String fPath) {
@@ -472,7 +504,7 @@ public class ImageUtils {
 			NativeUtil.compressBitmap(srcPath, fPath, true);
 			return fPath;
 		} catch (Throwable e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -507,7 +539,7 @@ public class ImageUtils {
 				}
 			} catch (Exception ex) {
 				// 建议如果出现了内存不足异常，最好return 原始的bitmap对象。.
-				LogUtil.e(ex.getMessage(), ex);
+				L.e(ex.getMessage(), ex);
 			}
 		}
 		return b;
@@ -533,7 +565,7 @@ public class ImageUtils {
 				break;
 			}
 		} catch (IOException e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		}
 		return degree;
 	}
@@ -561,7 +593,7 @@ public class ImageUtils {
 			bs = new BufferedInputStream(fs);
 			return BitmapFactory.decodeStream(bs, null, options);
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		} finally {
 			try {
 				if (bs != null)
@@ -612,7 +644,7 @@ public class ImageUtils {
 			bs = new BufferedInputStream(fs);
 			return compressImage(BitmapFactory.decodeStream(bs, null, options));// 压缩好比例大小后再进行质量压缩
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		} finally {
 			try {
 				if (bs != null)
@@ -674,7 +706,7 @@ public class ImageUtils {
 			}
 			return bitmap;
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -837,7 +869,7 @@ public class ImageUtils {
 			Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
 			return bitmap;
 		} catch (Throwable e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 		} finally {
 			try {
 				if (isBm != null)

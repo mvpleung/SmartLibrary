@@ -36,10 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-
-import org.smart.library.tools.GlideHelper;
+import org.smart.library.tools.ImageLoader;
 
 /**
  * Allows an abstraction of the ViewHolder pattern.<br>
@@ -65,8 +62,6 @@ public class BaseAdapterHelper {
     private int layoutResId;
 
     private View convertView;
-
-    private RequestManager mRequestManager;
 
     /**
      * Package private field to retain the associated user object and detect a
@@ -97,7 +92,7 @@ public class BaseAdapterHelper {
     /**
      * This method is the only entry point to get a BaseAdapterHelper.
      *
-     * @param context     The current context.
+     * @param context     The mCurrent context.
      * @param convertView The convertView arg passed to the getView() method.
      * @param parent      The parent arg passed to the getView() method.
      * @return A BaseAdapterHelper instance.
@@ -268,28 +263,9 @@ public class BaseAdapterHelper {
      */
     public BaseAdapterHelper setImageUrl(int viewId, String imageUrl) {
         ImageView view = retrieveView(viewId);
-        if (mRequestManager == null)
-            mRequestManager = Glide.with(context);
-        GlideHelper.load(mRequestManager,imageUrl,view);
+        ImageLoader.load(imageUrl,view);
         return this;
     }
-
-    /**
-     * Will download an image from a URL and put it in an ImageView.<br>
-     *
-     * @param viewId
-     *            The view id.
-     * @param requestBuilder
-     *            The Picasso request builder. (e.g.
-     *            Picasso.with(context).load(imageUrl))
-     * @return The BaseAdapterHelper for chaining.
-     */
-    // public BaseAdapterHelper setImageBuilder(int viewId, RequestCreator
-    // requestBuilder) {
-    // ImageView view = retrieveView(viewId);
-    // requestBuilder.into(view);
-    // return this;
-    // }
 
     /**
      * Add an action to set the image of an image view. Can be called multiple

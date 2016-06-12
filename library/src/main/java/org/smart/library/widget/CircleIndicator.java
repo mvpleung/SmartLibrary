@@ -40,7 +40,7 @@ import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
 
 /**
- * Draws circles (one for each view). The current view position is filled and
+ * Draws circles (one for each view). The mCurrent view position is filled and
  * others are only stroked.
  */
 @SuppressLint("ClickableViewAccessibility")
@@ -262,7 +262,7 @@ public class CircleIndicator extends View {
 			}
 		}
 
-		// Draw the filled circle according to the current scroll
+		// Draw the filled circle according to the mCurrent scroll
 		float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
 		if (!mSnap) {
 			cx += mPageOffset * threeRadius;

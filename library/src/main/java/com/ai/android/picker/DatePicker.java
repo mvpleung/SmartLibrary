@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import com.ai.android.picker.NumberPicker.OnValueChangeListener;
 
 import org.smart.library.R;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.util.Calendar;
 
@@ -82,7 +82,7 @@ public class DatePicker extends FrameLayout {
 	}
 
 	private void updateDate() {
-		LogUtil.i("Month: " + mCalendar.get(Calendar.MONTH) + " Max: " + mCalendar.getActualMaximum(Calendar.DATE));
+		L.i("Month: " + mCalendar.get(Calendar.MONTH) + " Max: " + mCalendar.getActualMaximum(Calendar.DATE));
 		mDayPicker.setMinValue(mCalendar.getActualMinimum(Calendar.DATE));
 		mDayPicker.setMaxValue(mCalendar.getActualMaximum(Calendar.DATE));
 		mDayPicker.setValue(mCalendar.get(Calendar.DATE));

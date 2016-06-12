@@ -323,16 +323,16 @@ public class WheelView extends View {
 	}
 
 	/**
-	 * Gets current value
+	 * Gets mCurrent value
 	 * 
-	 * @return the current value
+	 * @return the mCurrent value
 	 */
 	public int getCurrentItem() {
 		return currentItem;
 	}
 
 	/**
-	 * Sets the current item. Does nothing when index is wrong.
+	 * Sets the mCurrent item. Does nothing when index is wrong.
 	 * 
 	 * @param index
 	 *            the item index
@@ -370,7 +370,7 @@ public class WheelView extends View {
 	}
 
 	/**
-	 * Sets the current item w/o animation. Does nothing when index is wrong.
+	 * Sets the mCurrent item w/o animation. Does nothing when index is wrong.
 	 * 
 	 * @param index
 	 *            the item index
@@ -500,7 +500,7 @@ public class WheelView extends View {
 	}
 
 	/**
-	 * Builds text depending on current value
+	 * Builds text depending on mCurrent value
 	 * 
 	 * @param useCurrentValue
 	 * @return the text
@@ -754,7 +754,7 @@ public class WheelView extends View {
 			canvas.restore();
 		}
 
-		// draw current value
+		// draw mCurrent value
 		if (valueLayout != null) {
 			canvas.save();
 			canvas.translate(0, bounds.top + scrollingOffset);
@@ -788,7 +788,7 @@ public class WheelView extends View {
 	}
 
 	/**
-	 * Draws rect for current value
+	 * Draws rect for mCurrent value
 	 * 
 	 * @param canvas
 	 *            the canvas for drawing

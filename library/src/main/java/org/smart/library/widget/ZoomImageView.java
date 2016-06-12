@@ -18,7 +18,7 @@ import android.widget.ImageView;
  */
 public class ZoomImageView extends ImageView {
     // This is the base transformation which is used to show the image
-    // initially. The current computation for this shows the image in
+    // initially. The mCurrent computation for this shows the image in
     // it's entirety, letterboxing as needed. One could choose to
     // show the image as cropped instead.
     //
@@ -40,7 +40,7 @@ public class ZoomImageView extends ImageView {
     // Temporary buffer used for getting the values out of a matrix.
     private final float[] mMatrixValues = new float[9];
 
-    // The current bitmap being displayed.
+    // The mCurrent bitmap being displayed.
     protected Bitmap image = null;
 
     protected Handler mHandler = new Handler();

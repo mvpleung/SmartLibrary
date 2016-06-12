@@ -414,13 +414,13 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         // draw indicator line
         rectPaint.setColor(indicatorColor);
 
-        // default: line below current tab
+        // default: line below mCurrent tab
         View currentTab = tabsContainer.getChildAt(currentPosition);
         float lineLeft = currentTab.getLeft();
         float lineRight = currentTab.getRight();
 
         // if there is an offset, start interpolating left and right coordinates
-        // between current and next tab
+        // between mCurrent and next tab
         if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
 
             View nextTab = tabsContainer.getChildAt(currentPosition + 1);

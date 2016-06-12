@@ -11,7 +11,6 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 import org.smart.library.R;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xutils.common.util.LogUtil;
 
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -181,7 +180,7 @@ public class AppException extends Exception implements UncaughtExceptionHandler 
 
         }
         if (throwable != null)
-            LogUtil.e(throwable.getMessage(), throwable);
+            L.e(throwable.getMessage(), throwable);
         return exType;
     }
 
@@ -230,14 +229,14 @@ public class AppException extends Exception implements UncaughtExceptionHandler 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         if (ex != null)
-            LogUtil.e(ex.getMessage(), ex);
+            L.e(ex.getMessage(), ex);
         if (!handleException(ex) && mDefaultHandler != null) {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
             AppManager.getAppManager().AppExit();
         }
@@ -252,7 +251,7 @@ public class AppException extends Exception implements UncaughtExceptionHandler 
      */
     private boolean handleException(Throwable ex) {
         if (ex == null) {
-            LogUtil.e("handleException  ex == null");
+            L.e("handleException  ex == null");
             return false;
         }
         // final String message = ex.getMessage();

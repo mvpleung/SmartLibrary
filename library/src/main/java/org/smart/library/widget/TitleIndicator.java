@@ -1,5 +1,12 @@
 package org.smart.library.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.smart.library.R;
+import org.smart.library.control.L;
+import org.smart.library.tools.ImageUtils;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -20,14 +27,6 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.smart.library.R;
-import org.smart.library.model.TabInfo;
-import org.smart.library.tools.ImageUtils;
-import org.xutils.common.util.LogUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 这是个选项卡式的控件，会随着viewpager的滑动而滑动
@@ -93,8 +92,7 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
 
     private Context mContext;
 
-    private final int BSSEEID = 0xffff00;
-    ;
+    private final int BSSEEID = 0xffff00;;
 
     private boolean mChangeOnClick = true;
 
@@ -111,7 +109,7 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
     private int bound;
 
     private SparseBooleanArray matrixSparse; // 存储图片方向
-    private SparseArray<CustomTextView> textViewSparseArray;
+    private SparseArray<TextView> textViewSparseArray;
     private SparseArray<Drawable> drawableSparseArray;
 
     private Resources resource;
@@ -155,6 +153,7 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
         resource = getResources();
         bound = (int) a.getDimension(R.styleable.TitleIndicator_tid_compundBound, resource.getDimension(R.dimen.icon_arrow_width));
         initDraw(mFlagLineHeight, flagColor);
+        initializConfig(a.getInteger(R.styleable.TitleIndicator_tid_selectedIndex, mSelectedTab));
         a.recycle();
     }
 
@@ -224,11 +223,10 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
         invalidate();
     }
 
-    public void init(int startPos, ViewPager mViewPager) {
-        removeAllViews();
-        this.mViewPager = mViewPager;
+    private void initializConfig(int startPos) {
         if (mTexts != null && mTexts.length > 0) {
             this.mTotal = mTexts.length;
+            mSelectedTab = startPos <= mTotal ? startPos : 0;
             Drawable matrixFocusDrawable = focusDrawable != null ? ImageUtils.rotate(focusDrawable, 180) : null;
             Drawable matrixUnFocusDrawable = focusDrawable != null ? ImageUtils.rotate(unfocusDrawable, 180) : null;
             for (int i = 0; i < mTotal; i++) {
@@ -238,44 +236,37 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
                 tabInfo.matrixFocus = matrixFocusDrawable;
                 tabInfo.matrixUnFocus = matrixUnFocusDrawable;
                 if (this.mTabs == null)
-                    this.mTabs = new ArrayList<>();
+                    this.mTabs = new ArrayList<TabInfo>();
                 this.mTabs.add(tabInfo);
                 add(i, tabInfo);
             }
-            if (startPos <= mTotal) {
-                mSelectedTab = startPos;
-            }
-            if (startPos >= 0 && startPos <= mTotal)
-                setCurrentTab(startPos);
-            invalidate();
+            setCurrentTab(mSelectedTab);
         }
     }
 
     // 初始化选项卡
     public void init(int startPos, List<TabInfo> tabs, ViewPager mViewPager) {
-        removeAllViews();
         this.mViewPager = mViewPager;
         this.mTabs = tabs;
         this.mTotal = tabs.size();
-        if (startPos <= mTotal) {
-            mSelectedTab = startPos;
-        }
+        mSelectedTab = startPos <= mTotal ? startPos : 0;
         for (int i = 0; i < mTotal; i++) {
             add(i, tabs.get(i));
         }
-        if (startPos >= 0 && startPos <= mTotal)
-            setCurrentTab(startPos);
-        invalidate();
+        setCurrentTab(mSelectedTab);
     }
 
-    public void updateChildTips(int postion, boolean showTips) {
-        View child = getChildAt(postion);
-        final ImageView tips = (ImageView) child.findViewById(R.id.tab_title_tips);
-        if (showTips) {
-            tips.setVisibility(View.VISIBLE);
-        } else {
-            tips.setVisibility(View.GONE);
-        }
+    public void addTextTab(int index, String title, int iconResId) {
+        if (this.mTabs == null)
+            this.mTabs = new ArrayList<TabInfo>();
+        TabInfo tabInfo = new TabInfo(index, title);
+        tabInfo.focus = getBoundDrawable(iconResId);
+        tabInfo.matrixFocus = ImageUtils.rotate(tabInfo.focus, 180);
+        tabInfo.unFocus = ImageUtils.toGrayscale(tabInfo.focus.mutate());
+        tabInfo.matrixUnFocus = ImageUtils.rotate(tabInfo.unFocus.mutate(), 180);
+        mTabs.add(index, tabInfo);
+        this.mTotal = mTabs.size();
+        add(index, tabInfo);
     }
 
     protected void add(int index, TabInfo tabInfo) {
@@ -285,11 +276,11 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
         } else {
             tabIndicator = mInflater.inflate(R.layout.title_flow_indicator_v2, this, false);
         }
-        final CustomTextView tv = (CustomTextView) tabIndicator.findViewById(R.id.tab_title);
+        final TextView tv = (TextView) tabIndicator.findViewById(R.id.tab_title);
         final ImageView tips = (ImageView) tabIndicator.findViewById(R.id.tab_title_tips);
 
         if (textViewSparseArray == null)
-            textViewSparseArray = new SparseArray<CustomTextView>(mTotal);
+            textViewSparseArray = new SparseArray<TextView>(mTotal);
         textViewSparseArray.put(index, tv);
         if (matrixSparse == null)
             matrixSparse = new SparseBooleanArray(mTotal);
@@ -302,29 +293,21 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSizeNormal);
         }
         tv.setText(tabInfo.name);
-        boolean flag = mSelectedTab == index ? (tabInfo.focusIcon > 0 || tabInfo.focus != null) : (tabInfo.unFocusIcon > 0 || tabInfo.unFocus != null);
-        flag = !flag ? tabInfo.selectorIcon > 0 : flag;
+        boolean flag = mSelectedTab == index ? tabInfo.focus != null : tabInfo.unFocus != null;
+        flag = !flag ? tabInfo.selectorDrawable != null : flag;
         if (flag) {
             Drawable drawable = null;
             if (drawableSparseArray == null)
                 drawableSparseArray = new SparseArray<Drawable>(mTotal);
             if (mSelectedTab == index) {
-                if (tabInfo.focusIcon > 0) {
-                    drawable = getBoundDrawable(tabInfo.focusIcon);
-                } else if (tabInfo.focus != null) {
+                if (tabInfo.focus != null) {
                     drawable = getBoundDrawable(tabInfo.id, FOCUS, tabInfo.focus);
-                } else if (tabInfo.selectorIcon > 0)
-                    drawable = getBoundDrawable(tabInfo.selectorIcon);
-                else if (tabInfo.selectorDrawable != null)
+                } else if (tabInfo.selectorDrawable != null)
                     drawable = getBounds(tabInfo.selectorDrawable);
                 tabIndicator.setSelected(true);
             } else {
-                if (tabInfo.unFocusIcon > 0)
-                    drawable = getBoundDrawable(tabInfo.unFocusIcon);
-                else if (tabInfo.unFocus != null)
+                if (tabInfo.unFocus != null)
                     drawable = getBoundDrawable(tabInfo.id, UNFOCUS, tabInfo.unFocus);
-                else if (tabInfo.selectorIcon > 0)
-                    drawable = getBoundDrawable(tabInfo.selectorIcon);
                 else if (tabInfo.selectorDrawable != null)
                     drawable = getBounds(tabInfo.selectorDrawable);
             }
@@ -343,11 +326,21 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
         addView(tabIndicator);
     }
 
+    public void updateChildTips(int postion, boolean showTips) {
+        View child = getChildAt(postion);
+        final ImageView tips = (ImageView) child.findViewById(R.id.tab_title_tips);
+        if (showTips) {
+            tips.setVisibility(View.VISIBLE);
+        } else {
+            tips.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * @param tv
      * @param drawable
      */
-    private void setCompoundDrawable(CustomTextView tv, Drawable drawable) {
+    private void setCompoundDrawable(TextView tv, Drawable drawable) {
         if (drawable == null)
             return;
         switch (compoundOrientation) {
@@ -393,8 +386,7 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
             }
             return drawable;
         } catch (Exception e) {
-            // TODO: handle exception
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -402,7 +394,8 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
     /**
      * 通过标识ID获取图片
      *
-     * @param _drawableId 标识ID
+     * @param _drawableId
+     *            标识ID
      */
     private Drawable getBoundDrawable(int index, int _drawableId, Drawable drawable) {
         try {
@@ -418,8 +411,7 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
             }
             return drawable;
         } catch (Exception e) {
-            // TODO: handle exception
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
             return null;
         }
     }
@@ -446,35 +438,25 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
         if (textViewSparseArray != null && textViewSparseArray.size() == mTotal) {
             if (mSelectedTab != position)
                 for (int i = 0; i < mTotal; i++) {
-                    CustomTextView boundTextView = textViewSparseArray.get(i);
+                    TextView boundTextView = textViewSparseArray.get(i);
                     TabInfo tabInfo = mTabs.get(i);
-                    boolean matrix = i == mSelectedTab ? !matrixSparse.get(i) : matrixSparse.get(i);
-                    if (i != position && (tabInfo.unFocusIcon > 0 || tabInfo.unFocus != null)) {
+                    if (i != position && tabInfo.unFocus != null) {
+                        boolean matrix = !matrixSparse.get(i);
                         Drawable drawable = null;
-                        if (matrix && (tabInfo.matrixUnFocusIcon > 0 || tabInfo.matrixUnFocus != null)) {// 反转
-                            if (tabInfo.matrixUnFocusIcon > 0)
-                                drawable = getBoundDrawable(tabInfo.matrixUnFocusIcon);
-                            else if (tabInfo.matrixUnFocus != null)
-                                drawable = getBoundDrawable(tabInfo.id, MATRIXUNFOCUS, tabInfo.matrixUnFocus);
-                        } else if (tabInfo.unFocusIcon > 0)
-                            drawable = getBoundDrawable(tabInfo.unFocusIcon);
-                        else if (tabInfo.unFocus != null)
+                        if (matrix && tabInfo.matrixUnFocus != null) {// 反转
+                            drawable = getBoundDrawable(tabInfo.id, MATRIXUNFOCUS, tabInfo.matrixUnFocus);
+                        } else if (tabInfo.unFocus != null)
                             drawable = getBoundDrawable(tabInfo.id, UNFOCUS, tabInfo.unFocus);
                         setCompoundDrawable(boundTextView, drawable);
                     }
                 }
             boolean matrix = matrixSparse.get(position);
-            CustomTextView boundTextView = textViewSparseArray.get(position);
+            TextView boundTextView = textViewSparseArray.get(position);
             TabInfo tabInfo = mTabs.get(position);
             Drawable drawable = null;
-            if (matrix && (tabInfo.matrixFocusIcon > 0 || tabInfo.matrixFocus != null)) {
-                if (tabInfo.matrixFocusIcon > 0)
-                    drawable = getBoundDrawable(tabInfo.matrixFocusIcon);
-                else if (tabInfo.matrixFocus != null)
-                    drawable = getBoundDrawable(tabInfo.id, MATRIXFOCUS, tabInfo.matrixFocus);
-            } else if (tabInfo.focusIcon > 0)
-                drawable = getBoundDrawable(tabInfo.focusIcon);
-            else if (tabInfo.focus != null)
+            if (matrix && tabInfo.matrixFocus != null) {
+                drawable = getBoundDrawable(tabInfo.id, MATRIXFOCUS, tabInfo.matrixFocus);
+            } else if (tabInfo.focus != null)
                 drawable = getBoundDrawable(tabInfo.id, FOCUS, tabInfo.focus);
             setCompoundDrawable(boundTextView, drawable);
             matrixSparse.put(position, !matrix);
@@ -547,5 +529,55 @@ public class TitleIndicator extends LinearLayout implements View.OnClickListener
 
     public interface OnStatuChangeListener {
         public void onChange(View view, int position, boolean matrix);
+    }
+
+    /**
+     * 单个选项卡类，每个选项卡包含名字，图标以及提示（可选，默认不显示）
+     *
+     * @author created on LiangZiChao Update By 2014-7-27下午11:21:11
+     */
+    public class TabInfo {
+
+        /**
+         * 下标
+         */
+        public int id;
+
+        public Drawable selectorDrawable;
+
+        /**
+         * 获取焦点时的图片
+         */
+        public Drawable focus;
+
+        /**
+         * 失去焦点时的图片
+         */
+        public Drawable unFocus;
+
+        /**
+         * 反转图片（获取焦点时）
+         */
+        public Drawable matrixFocus;
+
+        /**
+         * 反转图片（失去焦点）
+         */
+        public Drawable matrixUnFocus;
+
+        /**
+         * 页卡名称
+         */
+        public String name = null;
+
+        /**
+         * 是否显示角标
+         */
+        public boolean hasTips = false;
+
+        public TabInfo(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
     }
 }

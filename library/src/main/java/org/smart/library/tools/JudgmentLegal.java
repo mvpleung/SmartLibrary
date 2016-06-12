@@ -3,7 +3,7 @@ package org.smart.library.tools;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
@@ -74,7 +74,7 @@ public class JudgmentLegal {
                 mString = mString.replace(mMatcher, URLEncoder.encode(mMatcher, "utf-8"));
             }
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         return mString;
     }
@@ -586,7 +586,7 @@ public class JudgmentLegal {
         Pattern patternCT = Pattern.compile(CT);
         Matcher matcherCT = patternCT.matcher(cellPhone);
 
-        Pattern patternPHS = Pattern.compile(CT);
+        Pattern patternPHS = Pattern.compile(PHS);
         Matcher matcherPHS = patternPHS.matcher(cellPhone);
 
         return matcherMOBILE.matches() || matcherCU.matches() || matcherCT.matches() || matcherPHS.matches();

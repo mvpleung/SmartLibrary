@@ -28,7 +28,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 
 import org.smart.library.R;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 /**
  * A FlowIndicator which draws circles (one for each view). <br>
@@ -177,7 +177,7 @@ public class ViewFlowCircleIndicator extends View implements ViewFlowIndicator, 
         }
         float cx = 0;
         if (flowWidth != 0) {
-            // Draw the filled circle according to the current scroll
+            // Draw the filled circle according to the mCurrent scroll
             cx = (currentScroll * circleSeparation) / flowWidth;
         }
         // The flow width has been upadated yet. Draw the default position
@@ -339,7 +339,7 @@ public class ViewFlowCircleIndicator extends View implements ViewFlowIndicator, 
                 timer = new FadeTimer();
                 timer.execute();
             } else {
-                // Reset the current tiemr to 0
+                // Reset the mCurrent tiemr to 0
                 timer.resetTimer();
             }
         }
@@ -350,7 +350,7 @@ public class ViewFlowCircleIndicator extends View implements ViewFlowIndicator, 
      * reached
      */
     private class FadeTimer extends AsyncTask<Void, Void, Void> {
-        // The current count
+        // The mCurrent count
         private int timer = 0;
         // If we are inside the timing loop
         private boolean _run = true;
@@ -374,7 +374,7 @@ public class ViewFlowCircleIndicator extends View implements ViewFlowIndicator, 
                         _run = false;
                     }
                 } catch (InterruptedException e) {
-                    LogUtil.e(e.getMessage(), e);
+                    L.e(e.getMessage(), e);
                 }
             }
             return null;

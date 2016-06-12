@@ -39,7 +39,7 @@ import android.view.View;
 
 import org.smart.library.R;
 import org.smart.library.tools.ImageUtils;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 /**
  * 
@@ -356,7 +356,7 @@ public class SlideSwitch extends View {
 	public boolean onTouchEvent(MotionEvent event) {
 		if (slideable == false)
 			return super.onTouchEvent(event);
-		LogUtil.i("onTouchEvent");
+		L.i("onTouchEvent");
 		getParent().requestDisallowInterceptTouchEvent(true);
 		int action = MotionEventCompat.getActionMasked(event);
 		switch (action) {
@@ -431,7 +431,7 @@ public class SlideSwitch extends View {
 						try {
 							Thread.sleep(3);
 						} catch (InterruptedException e) {
-							LogUtil.e(e.getMessage(), e);
+							L.e(e.getMessage(), e);
 						}
 					}
 					alpha = 255;
@@ -450,7 +450,7 @@ public class SlideSwitch extends View {
 						try {
 							Thread.sleep(3);
 						} catch (InterruptedException e) {
-							LogUtil.e(e.getMessage(), e);
+							L.e(e.getMessage(), e);
 						}
 					}
 					alpha = 0;

@@ -17,7 +17,7 @@ package org.smart.library.tools;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.security.MessageDigest;
 
@@ -83,7 +83,7 @@ public class MD5 {
             messageDigest.reset();
             messageDigest.update(bytes);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
 
         if (messageDigest == null)

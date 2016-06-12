@@ -3,7 +3,7 @@ package org.smart.library.tools;
 import android.annotation.SuppressLint;
 import android.util.Base64;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.security.Key;
 
@@ -76,11 +76,11 @@ public class AESUtils {
 		SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
 		deskey = keyfactory.generateSecret(spec);
 		Cipher cipher = Cipher.getInstance("desede" + "/ECB/PKCS5Padding");
-		LogUtil.i("decode init before");
+		L.i("decode init before");
 		cipher.init(Cipher.DECRYPT_MODE, deskey);
-		LogUtil.i("decode init after");
+		L.i("decode init after");
 		byte[] bOut = cipher.doFinal(data);
-		LogUtil.i("decode doFinal after");
+		L.i("decode doFinal after");
 		return bOut;
 
 	}
@@ -101,11 +101,11 @@ public class AESUtils {
 		SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
 		deskey = keyfactory.generateSecret(spec);
 		Cipher cipher = Cipher.getInstance("desede" + "/ECB/PKCS5Padding");
-		LogUtil.i("decode init before");
+		L.i("decode init before");
 		cipher.init(Cipher.DECRYPT_MODE, deskey);
-		LogUtil.i("decode init after");
+		L.i("decode init after");
 		byte[] bOut = cipher.doFinal(data);
-		LogUtil.i("decode doFinal after");
+		L.i("decode doFinal after");
 		return bOut;
 
 	}
@@ -161,7 +161,7 @@ public class AESUtils {
 		try {
 			return new String(Base64.encode(AESUtils.des3EncodeECB(mData.getBytes("UTF-8")), Base64.DEFAULT), "UTF-8");
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -176,7 +176,7 @@ public class AESUtils {
 		try {
 			return new String(AESUtils.ees3DecodeECB(Base64.decode(mEncode.getBytes("UTF-8"), Base64.DEFAULT)), "UTF-8");
 		} catch (Exception e) {
-			LogUtil.e(e.getMessage(), e);
+			L.e(e.getMessage(), e);
 			return null;
 		}
 	}

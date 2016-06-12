@@ -21,13 +21,13 @@ import org.smart.library.widget.ViewFlow.ViewSwitchListener;
  * An interface which defines the contract between a ViewFlow and a
  * FlowIndicator.<br>
  * A FlowIndicator is responsible to show an visual indicator on the total views
- * number and the current visible view.<br>
+ * number and the mCurrent visible view.<br>
  * 
  */
 public interface ViewFlowIndicator extends ViewSwitchListener {
 
 	/**
-	 * Set the current ViewFlow. This method is called by the ViewFlow when the
+	 * Set the mCurrent ViewFlow. This method is called by the ViewFlow when the
 	 * FlowIndicator is attached to it.
 	 * 
 	 * @param view
@@ -36,7 +36,7 @@ public interface ViewFlowIndicator extends ViewSwitchListener {
 
 	/**
 	 * The scroll position has been changed. A FlowIndicator may implement this
-	 * method to reflect the current position
+	 * method to reflect the mCurrent position
 	 * 
 	 * @param h
 	 * @param v

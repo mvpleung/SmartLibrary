@@ -13,13 +13,14 @@ import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import org.smart.library.control.L;
+
 
 public class InjectedChromeClient extends WebChromeClient {
-    private final String TAG = "InjectedChromeClient";
     private JsCallJava mJsCallJava;
     private boolean mIsInjectedJS;
 
-    public InjectedChromeClient(String injectedName, Class injectedCls) {
+    public InjectedChromeClient(String injectedName, Class<?> injectedCls) {
         mJsCallJava = new JsCallJava(injectedName, injectedCls);
     }
 
@@ -46,7 +47,7 @@ public class InjectedChromeClient extends WebChromeClient {
         } else if (!mIsInjectedJS) {
             view.loadUrl(mJsCallJava.getPreloadInterfaceJS());
             mIsInjectedJS = true;
-            L.d(TAG, " inject js interface completely on progress " + newProgress);
+            L.d("InjectedChromeClient", " inject js interface completely on progress " + newProgress);
 
         }
         super.onProgressChanged(view, newProgress);

@@ -10,7 +10,10 @@ package org.smart.library.tools.SafeWebViewBridge;
 
 import android.webkit.WebView;
 
+import org.smart.library.control.L;
+
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 /**
  * 解决一处JSON串回调异常
@@ -52,7 +55,7 @@ public class JsCallback {
                 sb.append("\"");
             }
         }
-        String execJs = String.format(CALLBACK_JS_FORMAT, mInjectedName, mIndex, mIsPermanent, sb.toString());
+        String execJs = String.format(Locale.getDefault(), CALLBACK_JS_FORMAT, mInjectedName, mIndex, mIsPermanent, sb.toString());
         L.d("JsCallBack", execJs);
         mWebViewRef.get().loadUrl(execJs);
         mCouldGoOn = mIsPermanent > 0;
@@ -63,7 +66,12 @@ public class JsCallback {
     }
 
     public static class JsCallbackException extends Exception {
-        public JsCallbackException(String msg) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 20444128561440876L;
+
+		public JsCallbackException(String msg) {
             super(msg);
         }
     }

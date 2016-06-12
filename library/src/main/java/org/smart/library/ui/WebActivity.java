@@ -33,7 +33,7 @@ import org.smart.library.R;
 import org.smart.library.control.AppManager;
 import org.smart.library.tools.SafeWebViewBridge.InjectedChromeClient;
 import org.smart.library.widget.FastWebView;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 /**
  * web浏览器，会以 “JsBridge” 作为JS桥接对象，用于Java和JS互通
@@ -130,7 +130,7 @@ public class WebActivity extends Activity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
         mWebContent = (FastWebView) findViewById(R.id.wv_banner);
         mTextTitle = (TextView) findViewById(R.id.tv_title);
-        findViewById(R.id.tv_title_back).setOnClickListener(new OnClickListener() {
+        findViewById(R.id.im_title_back).setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -144,8 +144,8 @@ public class WebActivity extends Activity {
         return mWebContent;
     }
 
-    public Class getJnjectedClz() {
-        return (Class) getIntent().getSerializableExtra(INJECTEDCLZ);
+    public Class<?> getJnjectedClz() {
+        return (Class<?>) getIntent().getSerializableExtra(INJECTEDCLZ);
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -191,14 +191,14 @@ public class WebActivity extends Activity {
 
     private class MyChromeClient extends InjectedChromeClient {
 
-        public MyChromeClient(String injectedName, Class injectedCls) {
+        public MyChromeClient(String injectedName, Class<?> injectedCls) {
             super(injectedName, injectedCls);
         }
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            LogUtil.i("Progress:" + newProgress);
+            L.i("Progress:" + newProgress);
             mProgressBar.setProgress(newProgress);
             mProgressBar.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
         }
@@ -209,11 +209,11 @@ public class WebActivity extends Activity {
 
         @Override
         public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-            LogUtil.i("url=" + url);
-            LogUtil.i("userAgent=" + userAgent);
-            LogUtil.i("contentDisposition=" + contentDisposition);
-            LogUtil.i("mimetype=" + mimetype);
-            LogUtil.i("contentLength=" + contentLength);
+            L.i("url=" + url);
+            L.i("userAgent=" + userAgent);
+            L.i("contentDisposition=" + contentDisposition);
+            L.i("mimetype=" + mimetype);
+            L.i("contentLength=" + contentLength);
             Uri uri = Uri.parse(url);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);

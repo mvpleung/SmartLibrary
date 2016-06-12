@@ -11,7 +11,7 @@ import org.smart.library.model.AppVersionBean;
 import org.smart.library.tools.JudgmentLegal;
 import org.smart.library.tools.UITools;
 import org.xutils.common.Callback;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -112,7 +112,7 @@ public class UpdateVersion {
                 mParams = mParseListener.getRequestParams();
             if (mParams == null || TextUtils.isEmpty(mParams.getUri()))
                 throw new NullPointerException("URL CANNOT be null !");
-            LogUtil.i("RequestParams:" + mParams.toString());
+            L.i("RequestParams:" + mParams.toString());
             if (!silently)
                 UITools.showDialogLoading(context);
             x.http().request(mParams.getMethod(), mParams, new Callback.CommonCallback<String>() {
@@ -120,7 +120,7 @@ public class UpdateVersion {
                 @Override
                 public void onSuccess(String result) {
                     if (!TextUtils.isEmpty(result)) {
-                        LogUtil.i("Result:" + result);
+                        L.i("Result:" + result);
                         if (mParseListener != null)
                             try {
                                 mVersionBean = mParseListener.parseVersion(result);
@@ -135,7 +135,7 @@ public class UpdateVersion {
                                 } else if (mUpdateListener != null)
                                     mUpdateListener.onUpdate(mVersionBean, false);
                             } catch (Exception e) {
-                                LogUtil.e(e.getMessage(), e);
+                                L.e(e.getMessage(), e);
                                 if (!silently)
                                     UITools.showToastShortDuration(context, R.string.error_version_getNew_fail);
                             }
@@ -146,7 +146,7 @@ public class UpdateVersion {
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    LogUtil.e(ex.getMessage(), ex);
+                    L.e(ex.getMessage(), ex);
                     if (!silently)
                         UITools.showToastShortDuration(context, AppException.convertException(ex.getCause()).getMessage(context.getString(R.string.error_version_getNew_fail)));
                 }

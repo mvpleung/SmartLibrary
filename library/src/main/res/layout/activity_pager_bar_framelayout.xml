@@ -3,7 +3,7 @@
     style="@style/layout_widthMatch_heightMatch_fillWindow"
     android:orientation="vertical" >
 
-    <include layout="@layout/activity_toolbar" />
+    <include layout="@layout/include_toolbar" />
 
     <include layout="@layout/view_tab_trip" />
 

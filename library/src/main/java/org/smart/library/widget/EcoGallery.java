@@ -21,7 +21,7 @@ import android.view.animation.Transformation;
 import android.widget.Scroller;
 
 import org.smart.library.R;
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.lang.reflect.Field;
 
@@ -233,7 +233,7 @@ public class EcoGallery extends EcoGalleryAbsSpinner implements GestureDetector.
             FLAG_USE_CHILD_DRAWING_ORDER = childDrawingOrder.getInt(this);
             FLAG_SUPPORT_STATIC_TRANSFORMATIONS = supportStaticTrans.getInt(this);
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
         try {
             // set new group flags
@@ -249,7 +249,7 @@ public class EcoGallery extends EcoGalleryAbsSpinner implements GestureDetector.
             // working!
             mBroken = false;
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
     }
 
@@ -663,7 +663,7 @@ public class EcoGallery extends EcoGalleryAbsSpinner implements GestureDetector.
 
         int galleryCenter = getCenterOfGallery();
 
-        // Common case where the current selected position is correct
+        // Common case where the mCurrent selected position is correct
         if (selView.getLeft() <= galleryCenter && selView.getRight() >= galleryCenter) {
             return;
         }
@@ -1018,7 +1018,7 @@ public class EcoGallery extends EcoGalleryAbsSpinner implements GestureDetector.
 
                 onKeyDown(kEvent, null);
             } catch (Exception e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
             return true;
         }
@@ -1527,7 +1527,7 @@ public class EcoGallery extends EcoGalleryAbsSpinner implements GestureDetector.
     }
 
     /**
-     * Gallery extends LayoutParams to provide a place to hold current
+     * Gallery extends LayoutParams to provide a place to hold mCurrent
      * Transformation information along with previous position/transformation
      * info.
      */

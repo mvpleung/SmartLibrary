@@ -1,72 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/layout_widthMatch_heightMatch_fillWindow"
-    android:background="@android:color/black"
     android:orientation="vertical" >
 
-    <include layout="@layout/activity_toolbar" />
+    <include layout="@layout/include_toolbar" />
 
-    <GridView
-        android:id="@+id/gv_photos_ar"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:clipToPadding="true"
-        android:horizontalSpacing="@dimen/sticky_item_horizontalSpacing"
-        android:listSelector="@null"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/sticky_item_verticalSpacing" />
+        android:background="#191919" >
 
-    <RelativeLayout
-        android:id="@+id/layout_toolbar_ar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/collection_photo_toolbar_height"
-        android:background="@color/colorPrimary" >
+        <RelativeLayout
+            android:id="@+id/layout_bottom_ar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/collection_photo_toolbar_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary" >
 
-        <TextView
-            android:id="@+id/tv_album_ar"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_album_ar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/text_indicator_selector"
+                android:gravity="center"
+                android:paddingLeft="@dimen/small_padding"
+                android:paddingRight="@dimen/small_padding"
+                android:text="@string/photo_album_ar"
+                android:textColor="@color/darker_gray_textcolor_selector"
+                android:textSize="@dimen/font_size_32" />
+
+            <TextView
+                android:id="@+id/tv_line_ar"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="@dimen/padding_5"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:layout_toLeftOf="@+id/tv_preview_ar"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tv_preview_ar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:enabled="false"
+                android:padding="@dimen/dimen_10"
+                android:text="@string/photo_preview"
+                android:textColor="@color/darker_gray_textcolor_selector"
+                android:textSize="@dimen/font_size_32" />
+        </RelativeLayout>
+
+        <GridView
+            android:id="@+id/gv_photos_ar"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="@string/photo_album_ar"
-            android:textColor="@color/darker_gray_textcolor_selector"
-            android:textSize="13sp" />
+            android:layout_above="@id/layout_bottom_ar"
+            android:cacheColorHint="@android:color/transparent"
+            android:clipToPadding="true"
+            android:horizontalSpacing="@dimen/sticky_item_horizontalSpacing"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/sticky_item_verticalSpacing" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="-3dp"
-            android:layout_marginLeft="-3dp"
-            android:layout_toRightOf="@+id/tv_album_ar"
-            android:background="@drawable/ic_spinner_white"
-            android:contentDescription="@string/photo_album_ar"
-            android:scaleType="centerInside" />
-
-        <TextView
-            android:id="@+id/tv_line_ar"
-            android:layout_width="1dp"
+        <ViewStub
+            android:id="@+id/floder_stub"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/tv_preview_ar"
-            android:background="@android:color/black" />
-
-        <TextView
-            android:id="@+id/tv_preview_ar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:enabled="false"
-            android:padding="10dp"
-            android:text="@string/photo_preview"
-            android:textColor="@color/darker_gray_textcolor_selector" />
+            android:layout_above="@id/layout_bottom_ar"
+            android:layout="@layout/viewstub_list_dir" />
     </RelativeLayout>
 
 </LinearLayout>

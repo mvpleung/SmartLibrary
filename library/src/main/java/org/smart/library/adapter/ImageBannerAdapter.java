@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-
 import org.smart.library.R;
-import org.smart.library.tools.GlideHelper;
+import org.smart.library.tools.ImageLoader;
 import org.smart.library.tools.JudgmentLegal;
 
 import java.util.List;
@@ -29,8 +26,6 @@ public class ImageBannerAdapter extends BaseAdapter {
 	private int[] resIds;
 	private int count;
 
-	private RequestManager mRequestManager;
-
 	public ImageBannerAdapter(Context context, List<String> imgBannerList) {
 		init(context, imgBannerList, null);
 	}
@@ -46,7 +41,6 @@ public class ImageBannerAdapter extends BaseAdapter {
 		if (this.imgBannerList != null || resIds != null) {
 			count = imgBannerList != null ? imgBannerList.size() : resIds != null ? resIds.length : 0;
 		}
-		this.mRequestManager = Glide.with(context);
 	}
 
 	public void setResIds(int[] resIds) {
@@ -79,7 +73,7 @@ public class ImageBannerAdapter extends BaseAdapter {
 		}
 		ImageView imageView = (ImageView) arg1;
 		if (JudgmentLegal.isListFull(imgBannerList)) {
-			GlideHelper.load(mRequestManager,imgBannerList.get(arg0),imageView);
+			ImageLoader.load(imgBannerList.get(arg0),imageView);
 		} else if (resIds != null && resIds.length > 0)
 			imageView.setImageResource(resIds[arg0 % count]);
 		return arg1;

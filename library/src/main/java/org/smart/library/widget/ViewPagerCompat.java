@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.lang.reflect.Field;
 
@@ -226,7 +226,7 @@ public class ViewPagerCompat extends ViewPager {
 				mField.set(this, limit);
 			} catch (Exception e) {
 				// TODO: handle exception
-				LogUtil.e(e.getMessage(), e);
+				L.e(e.getMessage(), e);
 			}
 		} else
 			super.setOffscreenPageLimit(limit);

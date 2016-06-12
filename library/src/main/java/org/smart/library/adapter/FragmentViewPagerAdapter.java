@@ -142,10 +142,13 @@ public class FragmentViewPagerAdapter extends PagerAdapter implements ViewPager.
 	@Override
 	public void onPageSelected(int i) {
 		fragments.get(currentPageIndex).onPause(); // 调用切换前Fargment的onPause()
+		fragments.get(currentPageIndex).setUserVisibleHint(false);
 		// fragments.get(currentPageIndex).onStop(); // 调用切换前Fargment的onStop()
-		if (fragments.get(i).isAdded()) {
+		Fragment fragment = fragments.get(i);
+		if (fragment.isAdded()) {
 			// fragments.get(i).onStart(); // 调用切换后Fargment的onStart()
-			fragments.get(i).onResume(); // 调用切换后Fargment的onResume()
+			fragment.onResume(); // 调用切换后Fargment的onResume()
+			fragment.setUserVisibleHint(true);
 		}
 		currentPageIndex = i;
 

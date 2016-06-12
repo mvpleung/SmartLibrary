@@ -36,7 +36,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout.LayoutParams;
 
-import org.xutils.common.util.LogUtil;
+import org.smart.library.control.L;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -72,7 +72,7 @@ public class SystemBarTintManager {
             String mFlymeVersion = (String) getStringMethod.invoke(sysClass, "ro.build.display.id");
             sIsFlyme = TextUtils.isEmpty(mFlymeVersion) ? false : mFlymeVersion.startsWith("Flyme");
         } catch (Exception e) {
-            LogUtil.e(e.getMessage(), e);
+            L.e(e.getMessage(), e);
         }
     }
 
@@ -173,7 +173,7 @@ public class SystemBarTintManager {
                 Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
                 extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
             } catch (Exception e) {
-                LogUtil.e(e.getMessage(), e);
+                L.e(e.getMessage(), e);
             }
         } else if (sIsFlyme) {
             try {
@@ -196,7 +196,7 @@ public class SystemBarTintManager {
                 window.setAttributes(lp);
                 result = true;
             } catch (Exception e) {
-                LogUtil.e(e.getMessage() + "setStatusBarDarkIcon: failed", e);
+                L.e(e.getMessage() + "setStatusBarDarkIcon: failed", e);
             }
         }
         return result;
@@ -353,7 +353,7 @@ public class SystemBarTintManager {
     /**
      * Get the system bar configuration.
      *
-     * @return The system bar configuration for the current device
+     * @return The system bar configuration for the mCurrent device
      * configuration.
      */
     public SystemBarConfig getConfig() {
@@ -427,7 +427,7 @@ public class SystemBarTintManager {
 
     /**
      * Class which describes system bar sizing and other characteristics for the
-     * current device configuration.
+     * mCurrent device configuration.
      */
     public static class SystemBarConfig {
 
@@ -525,7 +525,7 @@ public class SystemBarTintManager {
 
         /**
          * Should a navigation bar appear at the bottom of the screen in the
-         * current device configuration? A navigation bar may appear on the
+         * mCurrent device configuration? A navigation bar may appear on the
          * right side of the screen in certain configurations.
          *
          * @return True if navigation should appear at the bottom of the screen,
